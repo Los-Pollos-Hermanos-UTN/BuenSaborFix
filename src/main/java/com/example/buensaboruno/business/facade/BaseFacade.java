@@ -10,9 +10,9 @@ public interface BaseFacade <D extends BaseDTO, ID extends Serializable> {
 
     public D findById(ID id) throws Exception;
 
-    public D save(D entity) throws Exception;
+    public D save(D request) throws Exception;
 
-    public D update(ID id, D entity) throws Exception;
+    public D update(ID id, D request) throws Exception;
 
     public boolean delete(ID id) throws Exception;
 }

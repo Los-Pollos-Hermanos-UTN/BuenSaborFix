@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ArticuloInsumoDTO extends BaseDTO{
+public class ArticuloInsumoDTO extends ArticuloDTO{
 
     private Double precioCompra;
     private Integer stockActual;

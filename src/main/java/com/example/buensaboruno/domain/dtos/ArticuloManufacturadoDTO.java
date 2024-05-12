@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ArticuloManufacturadoDTO extends BaseDTO{
+public class ArticuloManufacturadoDTO extends ArticuloDTO{
 
     private String descripcion;
     private Integer tiempoEstimadoMinutos;
