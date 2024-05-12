@@ -1,7 +1,6 @@
-package com.example.buensaboruno.business.services.impl;
+package com.example.buensaboruno.business.services.base;
 
 import com.example.buensaboruno.domain.entities.Base;
-import com.example.buensaboruno.business.services.BaseService;
 import com.example.buensaboruno.repositories.BaseRepository;
 import jakarta.transaction.Transactional;
 

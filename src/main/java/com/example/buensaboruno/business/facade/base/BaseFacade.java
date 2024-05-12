@@ -1,4 +1,4 @@
-package com.example.buensaboruno.business.facade;
+package com.example.buensaboruno.business.facade.base;
 
 import com.example.buensaboruno.domain.dtos.BaseDTO;
 

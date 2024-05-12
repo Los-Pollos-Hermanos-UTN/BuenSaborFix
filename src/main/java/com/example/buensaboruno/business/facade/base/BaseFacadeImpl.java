@@ -1,16 +1,13 @@
-package com.example.buensaboruno.business.facade.impl;
+package com.example.buensaboruno.business.facade.base;
 
-import com.example.buensaboruno.business.facade.BaseFacade;
 import com.example.buensaboruno.business.mapper.BaseMapper;
-import com.example.buensaboruno.business.services.BaseService;
+import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.domain.dtos.BaseDTO;
 import com.example.buensaboruno.domain.entities.Base;
-import com.example.buensaboruno.repositories.BaseRepository;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public abstract class BaseFacadeImpl<E extends Base,D extends BaseDTO,ID extends Serializable> implements BaseFacade<D,ID> {

@@ -1,6 +1,7 @@
 package com.example.buensaboruno.business.services.impl;
 
 import com.example.buensaboruno.business.services.SucursalService;
+import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.repositories.BaseRepository;
 import com.example.buensaboruno.repositories.SucursalRepository;

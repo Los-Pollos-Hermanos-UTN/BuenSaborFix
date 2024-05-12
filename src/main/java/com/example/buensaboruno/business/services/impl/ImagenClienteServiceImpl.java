@@ -1,6 +1,7 @@
 package com.example.buensaboruno.business.services.impl;
 
 import com.example.buensaboruno.business.services.ImagenClienteService;
+import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.entities.ImagenCliente;
 import com.example.buensaboruno.repositories.BaseRepository;
 import com.example.buensaboruno.repositories.ImagenClienteRepository;

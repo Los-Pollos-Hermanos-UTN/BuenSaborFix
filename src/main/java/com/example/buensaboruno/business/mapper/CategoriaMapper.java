@@ -4,9 +4,11 @@ package com.example.buensaboruno.business.mapper;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
 import com.example.buensaboruno.domain.entities.Articulo;
 import com.example.buensaboruno.domain.entities.Categoria;
+import org.mapstruct.Mapper;
 
 import java.util.List;
 
+@Mapper(componentModel = "spring")
 public interface CategoriaMapper extends BaseMapper<Categoria, CategoriaDTO>{
     CategoriaDTO toDTO(Articulo source);
     Categoria toEntity(CategoriaDTO source);

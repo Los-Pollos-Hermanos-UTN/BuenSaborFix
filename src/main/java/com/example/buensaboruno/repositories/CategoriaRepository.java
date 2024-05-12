@@ -10,3 +10,5 @@ public interface CategoriaRepository extends BaseRepository<Articulo,Long>{
     @Query("SELECT c FROM Articulo c LEFT JOIN FETCH c.sucursales WHERE c.id = :id")
     Articulo findWithSucursalesById(@Param("id") Long id);
 }
+
+

@@ -1,6 +1,7 @@
 package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.entities.Articulo;
+import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

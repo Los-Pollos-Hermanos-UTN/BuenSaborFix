@@ -1,4 +1,4 @@
-package com.example.buensaboruno.business.services;
+package com.example.buensaboruno.business.services.base;
 
 import com.example.buensaboruno.domain.entities.Base;
 

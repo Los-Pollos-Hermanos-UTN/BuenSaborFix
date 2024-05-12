@@ -1,6 +1,7 @@
 package com.example.buensaboruno.business.services.impl;
 
 import com.example.buensaboruno.business.services.DomicilioService;
+import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.entities.Domicilio;
 import com.example.buensaboruno.repositories.BaseRepository;
 import com.example.buensaboruno.repositories.DomicilioRepository;
