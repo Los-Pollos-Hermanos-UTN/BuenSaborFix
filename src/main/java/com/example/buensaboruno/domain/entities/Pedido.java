@@ -3,6 +3,7 @@ package com.example.buensaboruno.domain.entities;
 import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.FormaPago;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,6 +41,7 @@ public class Pedido extends Base{
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonBackReference
     private Cliente cliente;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -52,5 +54,6 @@ public class Pedido extends Base{
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
+    @JsonBackReference
     private Empleado empleado;
 }

@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -41,10 +42,12 @@ public class Cliente extends Base{
             inverseJoinColumns = @JoinColumn(name = "domicilio_id"))
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
+    @JsonManagedReference
     protected Set<Domicilio> domicilios = new HashSet<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
+    @JsonManagedReference
     private Set<Pedido> pedidos = new HashSet<>();
 }

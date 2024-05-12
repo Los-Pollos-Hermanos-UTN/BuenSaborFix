@@ -17,8 +17,6 @@ import java.util.Set;
 public class Categoria extends Base{
     private String denominacion;
 
-
-
     @ManyToMany(mappedBy = "categorias")
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default

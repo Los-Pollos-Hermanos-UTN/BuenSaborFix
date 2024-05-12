@@ -51,6 +51,7 @@ public class Sucursal extends  Base{
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
+    @JsonManagedReference
     private Set<Categoria> categorias = new HashSet<>();
 
 
@@ -58,6 +59,7 @@ public class Sucursal extends  Base{
 
     @OneToMany(mappedBy = "sucursal",cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonManagedReference
     private Set<Empleado> empleados = new HashSet<>();
 
     @ManyToOne
