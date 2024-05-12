@@ -39,7 +39,7 @@ public class Categoria extends Base{
     @JoinColumn(name = "categoria_id")
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
-    private Set<Articulo> subCategorias = new HashSet<>();
+    private Set<Categoria> subCategorias = new HashSet<>();
 
 
 }

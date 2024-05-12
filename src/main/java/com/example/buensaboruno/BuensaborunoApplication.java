@@ -2,7 +2,7 @@ package com.example.buensaboruno;
 
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.domain.enums.*;
-import com.example.buensaboruno.enums.*;
+import com.example.buensaboruno.domain.enums.*;
 import com.example.buensaboruno.repositories.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -81,7 +81,7 @@ public class BuensaborunoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BuensaborunoApplication.class, args);
-		logger.info("Estoy activo en el main Alberto");
+		logger.info("Estoy activo en el main");
 	}
 
 	@Bean
@@ -173,24 +173,24 @@ public class BuensaborunoApplication {
 			empresaRepository.save(empresaCarlos);
 
 			// Crear Categorías de productos y subCategorías de los mismos
-			Articulo categoriaBebidas = Articulo.builder().denominacion("Bebidas").
+			Categoria categoriaBebidas = Categoria.builder().denominacion("Bebidas").
 					build();
 			categoriaRepository.save(categoriaBebidas);
 
-			Articulo categoriaGaseosas = Articulo.builder().denominacion("Gaseosas").
+			Categoria categoriaGaseosas = Categoria.builder().denominacion("Gaseosas").
 					build();
 			categoriaRepository.save(categoriaGaseosas);
 
-			Articulo categoriaTragos = Articulo.builder().denominacion("Tragos").
+			Categoria categoriaTragos = Categoria.builder().denominacion("Tragos").
 					build();
 			categoriaRepository.save(categoriaTragos);
 
-			Articulo categoriaPizzas = Articulo.builder().denominacion("Pizzas").
+			Categoria categoriaPizzas = Categoria.builder().denominacion("Pizzas").
 					build();
 
 
 
-			Articulo categoriaInsumos = Articulo.builder().denominacion("Insumos").
+			Categoria categoriaInsumos = Categoria.builder().denominacion("Insumos").
 					build();
 
 	// Grabo la categoría de insumos y de Manufacturados
@@ -557,7 +557,7 @@ public class BuensaborunoApplication {
 					.build();
 			empresaRepository.save(empresa);
 
-			Articulo categoria = Articulo.builder()
+			Categoria categoria = Categoria.builder()
 					.denominacion("Categoria de prueba")
 					.build();
 			categoriaRepository.save(categoria);

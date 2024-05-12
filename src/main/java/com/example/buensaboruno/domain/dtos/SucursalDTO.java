@@ -22,7 +22,7 @@ public class SucursalDTO extends BaseDTO{
     private boolean casaMatriz;
     private Domicilio domicilio;
     private Set<Promocion> promociones = new HashSet<>();
-    private Set<Articulo> categorias = new HashSet<>();
+    private Set<Categoria> categorias = new HashSet<>();
     private Set<Empleado> empleados = new HashSet<>();
     private Empresa empresa;
 }

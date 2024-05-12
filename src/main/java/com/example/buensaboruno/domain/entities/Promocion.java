@@ -1,6 +1,9 @@
 package com.example.buensaboruno.domain.entities;
 
 import com.example.buensaboruno.domain.enums.TipoPromocion;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.NotAudited;
@@ -17,6 +20,9 @@ import java.util.Set;
 @Getter
 @ToString
 @Builder
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 //@Audited
 public class Promocion  extends Base{
     private String denominacion;
@@ -48,6 +54,7 @@ public class Promocion  extends Base{
 
 
     @ManyToMany (mappedBy = "promociones")
+    @JsonBackReference
     private Set<Sucursal> sucursales = new HashSet<>();
 
 

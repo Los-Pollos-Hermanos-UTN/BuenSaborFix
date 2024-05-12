@@ -1,5 +1,9 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +18,9 @@ import java.util.Set;
 @Getter
 @ToString
 @Builder
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 //@Audited
 public class Sucursal extends  Base{
 
@@ -32,6 +39,7 @@ public class Sucursal extends  Base{
             inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
+    @JsonManagedReference
     private Set<Promocion> promociones = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -42,8 +50,8 @@ public class Sucursal extends  Base{
             joinColumns = @JoinColumn(name = "sucursal_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
- @Builder.Default
-    private Set<Articulo> categorias = new HashSet<>();
+    @Builder.Default
+    private Set<Categoria> categorias = new HashSet<>();
 
 
 
@@ -53,5 +61,6 @@ public class Sucursal extends  Base{
     private Set<Empleado> empleados = new HashSet<>();
 
     @ManyToOne
+    @JsonBackReference
     private Empresa empresa;
 }
