@@ -1,5 +1,6 @@
-package com.example.buensaboruno.domain.dtos;
+package com.example.buensaboruno.domain.dtos.articuloDTO;
 
+import com.example.buensaboruno.domain.dtos.BaseDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ArticuloManufacturadoDetalleDTO extends BaseDTO{
+public class ArticuloManufacturadoDetalleDTO extends BaseDTO {
 
     private Integer cantidad;
     private ArticuloInsumo articuloInsumo;

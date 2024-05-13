@@ -1,6 +1,6 @@
 package com.example.buensaboruno.business.mapper;
 
-import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDetalleDTO;
+import com.example.buensaboruno.domain.dtos.articuloDTO.ArticuloManufacturadoDetalleDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturadoDetalle;
 import org.mapstruct.Mapper;
 

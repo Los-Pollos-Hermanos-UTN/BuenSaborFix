@@ -4,7 +4,7 @@ import com.example.buensaboruno.business.facade.ArticuloManufacturadoFacade;
 import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
-import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
+import com.example.buensaboruno.domain.dtos.articuloDTO.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import org.springframework.stereotype.Service;
 

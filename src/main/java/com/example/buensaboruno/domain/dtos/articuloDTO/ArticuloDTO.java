@@ -1,5 +1,6 @@
-package com.example.buensaboruno.domain.dtos;
+package com.example.buensaboruno.domain.dtos.articuloDTO;
 
+import com.example.buensaboruno.domain.dtos.BaseDTO;
 import com.example.buensaboruno.domain.entities.ImagenArticulo;
 import com.example.buensaboruno.domain.entities.UnidadMedida;
 import lombok.*;
@@ -11,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ArticuloDTO extends BaseDTO{
+public class ArticuloDTO extends BaseDTO {
 
     protected String denominacion;
     protected Double precioVenta;

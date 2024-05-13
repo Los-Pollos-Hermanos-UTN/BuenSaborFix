@@ -37,6 +37,9 @@ dependencies {
 
 	annotationProcessor 'org.projectlombok:lombok', 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+	//SWAGGER
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
 	//OPEN API
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
