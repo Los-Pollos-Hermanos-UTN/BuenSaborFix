@@ -2,7 +2,7 @@ package com.example.buensaboruno.presentation.rest;
 
 
 import com.example.buensaboruno.business.facade.impl.ArticuloInsumoFacadeImpl;
-import com.example.buensaboruno.domain.dtos.articuloDTO.ArticuloInsumoDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import org.springframework.web.bind.annotation.CrossOrigin;
