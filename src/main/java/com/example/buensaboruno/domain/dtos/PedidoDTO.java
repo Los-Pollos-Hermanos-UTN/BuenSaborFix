@@ -1,6 +1,11 @@
 package com.example.buensaboruno.domain.dtos;
 
-import com.example.buensaboruno.domain.entities.*;
+import com.example.buensaboruno.domain.entities.Domicilio;
+import com.example.buensaboruno.domain.entities.Factura;
+import com.example.buensaboruno.domain.entities.Sucursal;
+import com.example.buensaboruno.domain.entities.Cliente;
+import com.example.buensaboruno.domain.entities.Empleado;
+import com.example.buensaboruno.domain.entities.DetallePedido;
 import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.FormaPago;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
