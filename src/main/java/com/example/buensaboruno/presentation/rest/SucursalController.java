@@ -6,6 +6,7 @@ import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/sucursal")
 public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO, Long, SucursalFacadeImpl> {
-    public SucursalController(SucursalFacadeImpl facade){
+    public SucursalController(SucursalFacadeImpl facade) {
         super(facade);
     }
 
@@ -28,7 +29,7 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
         }
     }
 
-    @PostMapping("/short")
+    @PostMapping(value = "/short", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SucursalShortDTO> createShort(@RequestBody SucursalShortDTO sucursalShortDTO) {
         try {
             return ResponseEntity.ok(facade.saveShort(sucursalShortDTO));
@@ -56,7 +57,7 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
         }
     }
 
-    @PutMapping("/{id}/short")
+    @PutMapping(value = "/{id}/short", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SucursalShortDTO> updateShort(@PathVariable Long id, @RequestBody SucursalShortDTO sucursalShortDTO) {
         try {
             return ResponseEntity.ok(facade.updateShort(id, sucursalShortDTO));
@@ -65,3 +66,4 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
         }
     }
 }
+

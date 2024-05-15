@@ -2,6 +2,7 @@ package com.example.buensaboruno.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @AllArgsConstructor
@@ -9,7 +10,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 //@Audited
 public class DetallePedido extends Base{
     private Integer cantidad;

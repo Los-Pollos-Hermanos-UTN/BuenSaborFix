@@ -2,6 +2,7 @@ package com.example.buensaboruno.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 //@Audited
 public class Categoria extends Base{
     private String denominacion;

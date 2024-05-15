@@ -17,17 +17,15 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString
-@Builder
-//@Audited
-public class Empresa extends Base{
+@SuperBuilder
+public class Empresa extends Base {
 
     private String nombre;
     private String razonSocial;
     private Long cuil;
 
-    @OneToMany(mappedBy = "empresa",cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "empresa")
     @Builder.Default
     @JsonManagedReference
-    private Set<Sucursal> sucursales= new HashSet<>();
+    private Set<Sucursal> sucursales = new HashSet<>();
 }

@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class EmpresaDTO extends BaseDTO{
-
+public class EmpresaDTO extends BaseDTO {
     private String nombre;
     private String razonSocial;
     private Long cuil;
-    private Set<Sucursal> sucursales= new HashSet<>();
+    private Set<SucursalShortDTO> sucursales = new HashSet<>();
 }

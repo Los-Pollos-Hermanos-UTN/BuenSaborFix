@@ -6,6 +6,7 @@ import com.example.buensaboruno.domain.enums.TipoEnvio;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 //@Audited
 public class Pedido extends Base{
 

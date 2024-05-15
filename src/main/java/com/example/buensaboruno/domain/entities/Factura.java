@@ -3,6 +3,7 @@ package com.example.buensaboruno.domain.entities;
 import com.example.buensaboruno.domain.enums.FormaPago;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 //@Audited
 public class Factura extends Base{
     private LocalDate fechaFcturacion;

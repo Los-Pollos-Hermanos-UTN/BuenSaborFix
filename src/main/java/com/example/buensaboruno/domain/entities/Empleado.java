@@ -5,6 +5,7 @@
     import com.fasterxml.jackson.annotation.JsonManagedReference;
     import jakarta.persistence.*;
     import lombok.*;
+    import lombok.experimental.SuperBuilder;
     import org.hibernate.envers.NotAudited;
 
     import java.time.LocalDate;
@@ -16,7 +17,7 @@
     @NoArgsConstructor
     @Setter
     @Getter
-    @Builder
+    @SuperBuilder
     //@Audited
     public class Empleado extends Base{
         private Rol tipoEmpleado;

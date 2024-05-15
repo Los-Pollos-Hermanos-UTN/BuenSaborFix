@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 //@Audited
 public class Cliente extends Base{
 
