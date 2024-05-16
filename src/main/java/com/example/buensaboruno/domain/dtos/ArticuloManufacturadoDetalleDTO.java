@@ -15,5 +15,5 @@ import lombok.Setter;
 public class ArticuloManufacturadoDetalleDTO extends BaseDTO {
 
     private Integer cantidad;
-    private ArticuloInsumo articuloInsumo;
+    private ArticuloInsumoDTO articuloInsumo;
 }

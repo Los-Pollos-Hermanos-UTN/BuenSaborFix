@@ -16,6 +16,6 @@ public class ArticuloDTO extends BaseDTO {
 
     protected String denominacion;
     protected Double precioVenta;
-    protected Set<ImagenArticulo> imagenes = new HashSet<>();
+    protected Set<ImagenArticuloDTO> imagenes = new HashSet<>();
     protected UnidadMedida unidadMedida;
 }
