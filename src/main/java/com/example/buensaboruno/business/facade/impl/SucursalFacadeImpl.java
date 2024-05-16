@@ -5,6 +5,7 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.mapper.SucursalMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.impl.SucursalServiceImpl;
 import com.example.buensaboruno.domain.dtos.SucursalDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
@@ -20,6 +21,9 @@ public class SucursalFacadeImpl extends BaseFacadeImpl<Sucursal, SucursalDTO, Lo
 
 
     private final SucursalMapper sucursalMapper;
+
+    @Autowired
+    private SucursalServiceImpl sucursalServiceImpl;
 
     public SucursalFacadeImpl(BaseService<Sucursal, Long> baseService, SucursalMapper sucursalMapper){
         super(baseService, sucursalMapper);
@@ -49,5 +53,9 @@ public class SucursalFacadeImpl extends BaseFacadeImpl<Sucursal, SucursalDTO, Lo
     public SucursalShortDTO updateShort(Long id, SucursalShortDTO sucursalShortDTO) throws Exception {
         Sucursal entity = sucursalMapper.toEntityFromShortDTO(sucursalShortDTO);
         return sucursalMapper.toShortDTO(baseService.update(id, entity));
+    }
+
+    public List<SucursalShortDTO> findAllShortByEmpresa(Long empresaId) throws Exception {
+        return sucursalServiceImpl.findAllShortByEmpresa(empresaId);
     }
 }

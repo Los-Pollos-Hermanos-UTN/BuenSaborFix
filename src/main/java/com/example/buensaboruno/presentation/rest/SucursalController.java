@@ -65,5 +65,15 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/short/empresa/{id}")
+    public ResponseEntity<List<SucursalShortDTO>> getAllShortByEmpresa(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(facade.findAllShortByEmpresa(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
 
