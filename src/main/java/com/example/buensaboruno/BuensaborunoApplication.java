@@ -18,10 +18,10 @@ public class BuensaborunoApplication {
 		logger.info("Estoy activo en el main");
 	}
 
-	@Bean
-	public CommandLineRunner init(DataLoader dataLoader) {
-		return args -> dataLoader.loadData().run(args);
-	}
+	//@Bean
+	//public CommandLineRunner init(DataLoader dataLoader) {
+	//	return args -> dataLoader.loadData().run(args);
+	//}
 }
 
 
