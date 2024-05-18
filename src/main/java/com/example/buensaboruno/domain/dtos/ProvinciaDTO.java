@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProvinciaDTO extends BaseDTO{
+public class ProvinciaDTO extends BaseDTO {
     private String nombre;
     private Pais pais;
 }

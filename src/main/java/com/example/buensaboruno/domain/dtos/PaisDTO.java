@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PaisDTO extends BaseDTO{
+public class PaisDTO extends BaseDTO {
     private String nombre;
 }

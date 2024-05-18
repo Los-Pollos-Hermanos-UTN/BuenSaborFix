@@ -1,8 +1,12 @@
 package com.example.buensaboruno.config;
 
+import com.example.buensaboruno.domain.dtos.LocalidadDTO;
+import com.example.buensaboruno.domain.dtos.ProvinciaDTO;
 import com.example.buensaboruno.domain.entities.Localidad;
 import com.example.buensaboruno.domain.entities.Pais;
 import com.example.buensaboruno.domain.entities.Provincia;
+import com.example.buensaboruno.domain.responses.LocalidadResponse;
+import com.example.buensaboruno.domain.responses.ProvinciaResponse;
 import com.example.buensaboruno.repositories.LocalidadRepository;
 import com.example.buensaboruno.repositories.PaisRepository;
 import com.example.buensaboruno.repositories.ProvinciaRepository;
@@ -12,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Configuration
 public class DataLoader {
@@ -34,7 +40,6 @@ public class DataLoader {
     @Bean
     public CommandLineRunner loadData() {
         return args -> {
-            // Consume la API y guarda los datos
             RestTemplate restTemplate = new RestTemplate();
 
             // Suponiendo que la API devuelve una lista de países (Argentina en este caso)
@@ -42,20 +47,28 @@ public class DataLoader {
             argentina.setNombre("Argentina");
             paisRepository.save(argentina);
 
-            ResponseEntity<Provincia[]> provinciasResponse = restTemplate.getForEntity(PROVINCIAS_API_URL, Provincia[].class);
-            Provincia[] provincias = provinciasResponse.getBody();
+            ResponseEntity<ProvinciaResponse> provinciasResponse = restTemplate.getForEntity(PROVINCIAS_API_URL, ProvinciaResponse.class);
+            ProvinciaResponse provinciaResponse = provinciasResponse.getBody();
 
-            if (provincias != null) {
-                for (Provincia provincia : provincias) {
+            if (provinciaResponse != null && provinciaResponse.getProvincias() != null) {
+                List<ProvinciaDTO> provinciaDTOs = provinciaResponse.getProvincias();
+
+                for (ProvinciaDTO provinciaDTO : provinciaDTOs) {
+                    Provincia provincia = new Provincia();
+                    provincia.setNombre(provinciaDTO.getNombre());
                     provincia.setPais(argentina);
                     provinciaRepository.save(provincia);
 
-                    String localidadesApiUrl = String.format(LOCALIDADES_API_URL, provincia.getId());
-                    ResponseEntity<Localidad[]> localidadesResponse = restTemplate.getForEntity(localidadesApiUrl, Localidad[].class);
-                    Localidad[] localidades = localidadesResponse.getBody();
+                    String localidadesApiUrl = String.format(LOCALIDADES_API_URL, provinciaDTO.getId());
+                    ResponseEntity<LocalidadResponse> localidadesResponse = restTemplate.getForEntity(localidadesApiUrl, LocalidadResponse.class);
+                    LocalidadResponse localidadResponse = localidadesResponse.getBody();
 
-                    if (localidades != null) {
-                        for (Localidad localidad : localidades) {
+                    if (localidadResponse != null && localidadResponse.getLocalidades() != null) {
+                        List<LocalidadDTO> localidadDTOs = localidadResponse.getLocalidades();
+
+                        for (LocalidadDTO localidadDTO : localidadDTOs) {
+                            Localidad localidad = new Localidad();
+                            localidad.setNombre(localidadDTO.getNombre());
                             localidad.setProvincia(provincia);
                             localidadRepository.save(localidad);
                         }

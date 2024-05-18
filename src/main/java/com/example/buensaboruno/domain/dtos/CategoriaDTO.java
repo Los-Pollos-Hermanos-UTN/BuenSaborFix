@@ -1,5 +1,8 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.shortDTO.ArticuloShortDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.CategoriaShortDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Articulo;
 import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.domain.entities.Sucursal;
@@ -18,7 +21,7 @@ import java.util.Set;
 public class CategoriaDTO extends BaseDTO{
 
     private String denominacion;
-    private Set<Sucursal> sucursales = new HashSet<>();
+    private Set<SucursalShortDTO> sucursales = new HashSet<>();
     private Set<Articulo> articulos = new HashSet<>();
-    private Set<Categoria> subCategorias = new HashSet<>();
+    private Set<CategoriaDTO> subCategorias = new HashSet<>();
 }
