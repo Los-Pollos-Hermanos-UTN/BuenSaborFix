@@ -1,5 +1,6 @@
 package com.example.buensaboruno;
 
+import com.example.buensaboruno.config.DataLoader;
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.domain.enums.*;
 import com.example.buensaboruno.domain.enums.*;
@@ -29,6 +30,10 @@ public class BuensaborunoApplication {
 		logger.info("Estoy activo en el main");
 	}
 
+	@Bean
+	public CommandLineRunner init(DataLoader dataLoader) {
+		return args -> dataLoader.loadData().run(args);
+	}
 }
 
 

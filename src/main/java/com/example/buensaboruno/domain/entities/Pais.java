@@ -17,6 +17,4 @@ import java.util.List;
 @SuperBuilder
 public class Pais extends Base{
     private String nombre;
-
-
 }

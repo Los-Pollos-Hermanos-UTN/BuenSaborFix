@@ -17,7 +17,6 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
-//@Audited
 public class Domicilio extends Base{
     private String calle;
     private Integer numero;
@@ -28,6 +27,4 @@ public class Domicilio extends Base{
     @ManyToOne
     @NotAudited
     private Localidad localidad;
-
-
 }

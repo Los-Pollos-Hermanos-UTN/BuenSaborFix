@@ -16,8 +16,6 @@ import java.util.List;
 public class Localidad extends Base{
     private String nombre;
 
-
-
     @ManyToOne
     private Provincia provincia;
 
