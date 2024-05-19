@@ -17,7 +17,10 @@ public class ArticuloInsumoServiceImpl extends BaseServiceImpl<ArticuloInsumo, L
     public ArticuloInsumoServiceImpl(BaseRepository<ArticuloInsumo, Long> baseRepository, ArticuloInsumoRepository articuloInsumoRepository){
         super(baseRepository);
         this.articuloInsumoRepository = articuloInsumoRepository;
-
     }
 
+    public ArticuloInsumo createArticuloInsumo(ArticuloInsumo articuloInsumo) {
+        // Aquí podrías agregar validaciones adicionales si es necesario
+        return articuloInsumoRepository.save(articuloInsumo);
+    }
 }

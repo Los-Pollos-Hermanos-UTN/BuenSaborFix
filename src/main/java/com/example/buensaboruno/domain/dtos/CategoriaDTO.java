@@ -18,10 +18,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CategoriaDTO extends BaseDTO{
-
+public class CategoriaDTO extends BaseDTO {
     private String denominacion;
     private Set<SucursalShortDTO> sucursales = new HashSet<>();
-    private Set<Articulo> articulos = new HashSet<>();
+    private Set<ArticuloDTO> articulos = new HashSet<>();
     private Set<CategoriaDTO> subCategorias = new HashSet<>();
+    private Long parentId; // Agregado para referenciar al padre
 }

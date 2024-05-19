@@ -18,7 +18,11 @@ public class ArticuloManufacturadoServiceImpl extends BaseServiceImpl<ArticuloMa
     public ArticuloManufacturadoServiceImpl(BaseRepository<ArticuloManufacturado, Long> baseRepository, ArticuloManufacturadoRepository articuloManufacturadoRepository){
         super(baseRepository);
         this.articuloManufacturadoRepository = articuloManufacturadoRepository;
+    }
 
+    public ArticuloManufacturado createArticuloManufacturado(ArticuloManufacturado articuloManufacturado) {
+        // Aquí podrías agregar validaciones adicionales si es necesario
+        return articuloManufacturadoRepository.save(articuloManufacturado);
     }
 
 }

@@ -21,7 +21,6 @@ public abstract class Articulo extends Base {
     protected String denominacion;
     protected Double precioVenta;
 
-
     @OneToMany
     @JoinColumn(name = "articulo_id")
     @Builder.Default
@@ -31,5 +30,8 @@ public abstract class Articulo extends Base {
     @ManyToOne
     protected UnidadMedida unidadMedida;
 
-
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 }
+

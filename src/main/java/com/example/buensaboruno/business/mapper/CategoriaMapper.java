@@ -1,6 +1,9 @@
 package com.example.buensaboruno.business.mapper;
 
 
+import com.example.buensaboruno.domain.dtos.ArticuloDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
 import com.example.buensaboruno.domain.entities.Articulo;
 import com.example.buensaboruno.domain.entities.Categoria;

@@ -5,9 +5,11 @@ import com.example.buensaboruno.business.facade.impl.ArticuloInsumoFacadeImpl;
 import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -15,5 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo, ArticuloInsumoDTO, Long, ArticuloInsumoFacadeImpl> {
     public ArticuloInsumoController(ArticuloInsumoFacadeImpl facade){
         super(facade);
+    }
+
+    @Autowired
+    private ArticuloInsumoFacadeImpl articuloInsumoFacadeImpl;
+
+    @PostMapping(value = "/save",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArticuloInsumoDTO> createArticuloInsumo(@RequestBody ArticuloInsumoDTO articuloInsumoDTO) {
+        ArticuloInsumoDTO createdArticulo = articuloInsumoFacadeImpl.createArticuloInsumo(articuloInsumoDTO);
+        return new ResponseEntity<>(createdArticulo, HttpStatus.CREATED);
     }
 }

@@ -13,9 +13,9 @@ import java.util.Set;
 @Getter
 @Setter
 public class ArticuloDTO extends BaseDTO {
-
     protected String denominacion;
     protected Double precioVenta;
     protected Set<ImagenArticuloDTO> imagenes = new HashSet<>();
     protected UnidadMedida unidadMedida;
+    private Long categoriaId; // Agregado para referenciar la categoría
 }
