@@ -1,12 +1,14 @@
-FROM gradle:jdk17-alpine AS build
+FROM alpine:latest as build
 
-COPY --chown=gradle:gradle . /home/gradle/project
-WORKDIR /home/gradle/project
+RUN apk update
+RUN apk add openjdk17
 
-RUN gradle bootJar --no-daemon
+COPY . .
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar --no-daemon
 
 FROM openjdk:17-alpine
 EXPOSE 8080
-COPY --from=build /home/gradle/project/build/libs/buensaboruno-0.0.1-SNAPSHOT.jar /app.jar
+COPY --from=build ./build/libs/buensaboruno-0.0.1-SNAPSHOT.jar ./app.jar
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
