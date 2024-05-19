@@ -55,7 +55,7 @@ tasks.named('test') {
 
 jar {
 	manifest {
-		attributes 'BuensaborunoApplication': 'com.example.buensaboruno.BuenSaborApplication'
+		attributes 'Main-Class': 'com.example.buensaboruno.BuenSaborApplication'
 	}
 }
 
