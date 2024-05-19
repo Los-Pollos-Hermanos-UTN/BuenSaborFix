@@ -29,20 +29,10 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
     @Autowired
     private ArticuloManufacturadoServiceImpl articuloManufacturadoService;
 
-
     public ArticuloManufacturadoDTO createArticuloManufacturado(ArticuloManufacturadoDTO articuloManufacturadoDTO) {
-        ArticuloManufacturado articuloManufacturado = new ArticuloManufacturado();
-
-        articuloManufacturado.setDenominacion(articuloManufacturadoDTO.getDenominacion());
-        articuloManufacturado.setPrecioVenta(articuloManufacturadoDTO.getPrecioVenta());
-
-        if (articuloManufacturadoDTO.getCategoriaId() != null) {
-            Categoria categoria = categoriaRepository.findById(articuloManufacturadoDTO.getCategoriaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Categoria not found"));
-            articuloManufacturado.setCategoria(categoria);
-        }
-
+        ArticuloManufacturado articuloManufacturado = articuloManufacturadoMapper.toEntityWithContextMapping(articuloManufacturadoDTO, categoriaRepository);
         articuloManufacturado = articuloManufacturadoService.createArticuloManufacturado(articuloManufacturado);
         return articuloManufacturadoMapper.toDTO(articuloManufacturado);
     }
 }
+

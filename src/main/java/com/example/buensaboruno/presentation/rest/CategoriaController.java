@@ -5,9 +5,11 @@ import com.example.buensaboruno.business.services.impl.CategoriaServiceImpl;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
 import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -15,5 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoriaController extends BaseControllerImpl<Categoria, CategoriaDTO, Long, CategoriaFacadeImpl> {
     public  CategoriaController(CategoriaFacadeImpl facade){
         super(facade);
+    }
+
+    @Autowired
+    private CategoriaFacadeImpl categoriaFacadeImpl;
+
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody CategoriaDTO categoriaDTO) {
+        CategoriaDTO createdCategoria = categoriaFacadeImpl.createCategoria(categoriaDTO);
+        return new ResponseEntity<>(createdCategoria, HttpStatus.CREATED);
     }
 }

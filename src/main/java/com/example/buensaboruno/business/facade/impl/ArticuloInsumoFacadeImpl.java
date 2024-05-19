@@ -21,31 +21,19 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
     }
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
-
-    @Autowired
     private ArticuloInsumoServiceImpl articuloInsumoService;
 
     @Autowired
     private ArticuloInsumoMapper articuloInsumoMapper;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     public ArticuloInsumoDTO createArticuloInsumo(ArticuloInsumoDTO articuloInsumoDTO) {
-        ArticuloInsumo articuloInsumo = new ArticuloInsumo();
-        // Asignar propiedades específicas de ArticuloInsumo
-
-        articuloInsumo.setDenominacion(articuloInsumoDTO.getDenominacion());
-        articuloInsumo.setPrecioVenta(articuloInsumoDTO.getPrecioVenta());
-
-        if (articuloInsumoDTO.getCategoriaId() != null) {
-            Categoria categoria = categoriaRepository.findById(articuloInsumoDTO.getCategoriaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Categoria not found"));
-            articuloInsumo.setCategoria(categoria);
-        }
-
+        ArticuloInsumo articuloInsumo = articuloInsumoMapper.toEntityWithContextMapping(articuloInsumoDTO, categoriaRepository);
         articuloInsumo = articuloInsumoService.createArticuloInsumo(articuloInsumo);
         return articuloInsumoMapper.toDTO(articuloInsumo);
     }
-
 }
+
 

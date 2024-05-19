@@ -27,7 +27,7 @@ public class Categoria extends Base {
     private Set<Articulo> articulos = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "padre_id")
     private Categoria padre;
 
     @OneToMany(mappedBy = "padre")

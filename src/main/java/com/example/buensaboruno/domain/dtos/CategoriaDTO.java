@@ -23,5 +23,5 @@ public class CategoriaDTO extends BaseDTO {
     private Set<SucursalShortDTO> sucursales = new HashSet<>();
     private Set<ArticuloDTO> articulos = new HashSet<>();
     private Set<CategoriaDTO> subCategorias = new HashSet<>();
-    private Long parentId; // Agregado para referenciar al padre
+    private Long padreId; // Agregado para referenciar al padre
 }
