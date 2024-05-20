@@ -11,11 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/categoria")
 public class CategoriaController extends BaseControllerImpl<Categoria, CategoriaDTO, Long, CategoriaFacadeImpl> {
-    public  CategoriaController(CategoriaFacadeImpl facade){
+    public CategoriaController(CategoriaFacadeImpl facade) {
         super(facade);
     }
 
@@ -27,4 +30,11 @@ public class CategoriaController extends BaseControllerImpl<Categoria, Categoria
         CategoriaDTO createdCategoria = categoriaFacadeImpl.createCategoria(categoriaDTO);
         return new ResponseEntity<>(createdCategoria, HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Set<CategoriaDTO>> getAllCategorias() {
+        Set<CategoriaDTO> categorias = categoriaFacadeImpl.getAll();
+        return new ResponseEntity<>(categorias, HttpStatus.OK);
+    }
 }
+

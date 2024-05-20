@@ -13,6 +13,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO, Long> implements CategoriaFacade {
     public CategoriaFacadeImpl(BaseService<Categoria, Long> baseService, BaseMapper<Categoria, CategoriaDTO> baseMapper) {
@@ -30,4 +34,15 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
         categoria = categoriaRepository.save(categoria);
         return categoriaMapper.toDTO(categoria);
     }
+
+    public Set<CategoriaDTO> getAll() {
+        List<Categoria> categorias = categoriaRepository.findAll();
+        // Filtrar solo las categorías que no tienen un padre (categorías principales)
+        Set<Categoria> categoriasPadre = categorias.stream()
+                .filter(categoria -> categoria.getPadre() == null)
+                .collect(Collectors.toSet());
+        return categoriaMapper.toDTOsList(categoriasPadre);
+    }
+
 }
+

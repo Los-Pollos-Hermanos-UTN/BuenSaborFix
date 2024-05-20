@@ -13,6 +13,7 @@ import com.example.buensaboruno.repositories.CategoriaRepository;
 import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = {SucursalMapper.class})
 public interface CategoriaMapper extends BaseMapper<Categoria, CategoriaDTO> {
@@ -42,6 +43,6 @@ public interface CategoriaMapper extends BaseMapper<Categoria, CategoriaDTO> {
 
     ArticuloManufacturado toArticuloManufacturado(ArticuloManufacturadoDTO source);
     ArticuloInsumo toArticuloInsumo(ArticuloInsumoDTO source);
-    List<CategoriaDTO> toDTOsList(List<Categoria> source);
+    Set<CategoriaDTO> toDTOsList(Set<Categoria> source);
     List<Categoria> toEntitiesList(List<CategoriaDTO> source);
 }
