@@ -27,4 +27,14 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
         ArticuloManufacturadoDTO createdArticulo = articuloManufacturadoFacadeImpl.createArticuloManufacturado(articuloManufacturadoDTO);
         return new ResponseEntity<>(createdArticulo, HttpStatus.CREATED);
     }
+
+    @PutMapping(value = "/edit/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArticuloManufacturadoDTO> editArticuloManufacturado(@PathVariable Long id, @RequestBody ArticuloManufacturadoDTO articuloManufacturadoDTO) {
+        ArticuloManufacturadoDTO editedArticulo = articuloManufacturadoFacadeImpl.editArticuloManufacturado(articuloManufacturadoDTO, id);
+        if(editedArticulo == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(editedArticulo, HttpStatus.OK);
+        }
+    }
 }

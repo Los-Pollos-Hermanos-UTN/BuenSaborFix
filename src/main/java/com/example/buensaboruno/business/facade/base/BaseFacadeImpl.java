@@ -76,9 +76,9 @@ public abstract class BaseFacadeImpl<E extends Base,D extends BaseDTO,ID extends
     @Transactional
     public boolean delete(ID id) throws Exception {
         try {
-            //Agregar estructura else-if como en el service
             var entity = baseService.findById(id);
-            baseService.delete(id);
+            entity.setEliminado(true);
+            baseService.update(id, entity);
             return true;
         } catch (Exception e){
             throw new Exception(e.getMessage());

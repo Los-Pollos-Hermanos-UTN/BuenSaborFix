@@ -3,6 +3,7 @@ package com.example.buensaboruno.presentation.rest;
 
 import com.example.buensaboruno.business.facade.impl.ArticuloInsumoFacadeImpl;
 import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,15 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     public ResponseEntity<ArticuloInsumoDTO> createArticuloInsumo(@RequestBody ArticuloInsumoDTO articuloInsumoDTO) {
         ArticuloInsumoDTO createdArticulo = articuloInsumoFacadeImpl.createArticuloInsumo(articuloInsumoDTO);
         return new ResponseEntity<>(createdArticulo, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/edit/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArticuloInsumoDTO> editArticuloInsumo(@PathVariable Long id, @RequestBody ArticuloInsumoDTO articuloInsumoDTO) {
+        ArticuloInsumoDTO editedArticulo = articuloInsumoFacadeImpl.editArticuloInsumo(articuloInsumoDTO, id);
+        if(editedArticulo == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(editedArticulo, HttpStatus.OK);
+        }
     }
 }

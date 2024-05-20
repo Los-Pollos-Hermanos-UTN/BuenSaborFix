@@ -3,6 +3,7 @@ package com.example.buensaboruno.business.services.impl;
 import com.example.buensaboruno.business.services.ArticuloInsumoService;
 import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
+import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class ArticuloInsumoServiceImpl extends BaseServiceImpl<ArticuloInsumo, L
     public ArticuloInsumo createArticuloInsumo(ArticuloInsumo articuloInsumo) {
         // Aquí podrías agregar validaciones adicionales si es necesario
         return articuloInsumoRepository.save(articuloInsumo);
+    }
+
+    public ArticuloInsumo editArticuloInsumo(ArticuloInsumo articuloInsumo, Long id) throws Exception {
+        return update(id, articuloInsumo);
     }
 }

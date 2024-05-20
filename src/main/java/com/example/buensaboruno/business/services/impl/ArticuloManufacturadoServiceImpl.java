@@ -25,4 +25,8 @@ public class ArticuloManufacturadoServiceImpl extends BaseServiceImpl<ArticuloMa
         return articuloManufacturadoRepository.save(articuloManufacturado);
     }
 
+    public ArticuloManufacturado editArticuloManufacturado(ArticuloManufacturado articuloManufacturado, Long id) throws Exception {
+        return update(id, articuloManufacturado);
+    }
+
 }

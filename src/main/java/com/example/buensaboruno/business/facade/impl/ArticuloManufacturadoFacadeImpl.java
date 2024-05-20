@@ -5,6 +5,7 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.ArticuloManufacturadoMapper;
 import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.business.services.impl.ArticuloManufacturadoServiceImpl;
 import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
@@ -33,6 +34,16 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
         ArticuloManufacturado articuloManufacturado = articuloManufacturadoMapper.toEntityWithContextMapping(articuloManufacturadoDTO, categoriaRepository);
         articuloManufacturado = articuloManufacturadoService.createArticuloManufacturado(articuloManufacturado);
         return articuloManufacturadoMapper.toDTO(articuloManufacturado);
+    }
+
+    public ArticuloManufacturadoDTO editArticuloManufacturado(ArticuloManufacturadoDTO articuloManufacturadoDTO, Long id){
+        ArticuloManufacturado articuloManufacturado = articuloManufacturadoMapper.toEntityWithContextMapping(articuloManufacturadoDTO, categoriaRepository);
+        try{
+            articuloManufacturado = articuloManufacturadoService.editArticuloManufacturado(articuloManufacturado, id);
+            return articuloManufacturadoMapper.toDTO(articuloManufacturado);
+        }catch (Exception e){
+            return null;
+        }
     }
 }
 

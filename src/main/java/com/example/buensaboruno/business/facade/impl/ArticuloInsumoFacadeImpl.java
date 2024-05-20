@@ -7,7 +7,9 @@ import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.ArticuloInsumoServiceImpl;
 import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
+import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.repositories.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,6 +35,16 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
         ArticuloInsumo articuloInsumo = articuloInsumoMapper.toEntityWithContextMapping(articuloInsumoDTO, categoriaRepository);
         articuloInsumo = articuloInsumoService.createArticuloInsumo(articuloInsumo);
         return articuloInsumoMapper.toDTO(articuloInsumo);
+    }
+
+    public ArticuloInsumoDTO editArticuloInsumo(ArticuloInsumoDTO articuloInsumoDTO, Long id){
+        ArticuloInsumo articuloInsumo = articuloInsumoMapper.toEntityWithContextMapping(articuloInsumoDTO, categoriaRepository);
+        try{
+            articuloInsumo = articuloInsumoService.editArticuloInsumo(articuloInsumo, id);
+            return articuloInsumoMapper.toDTO(articuloInsumo);
+        }catch (Exception e){
+            return null;
+        }
     }
 }
 
