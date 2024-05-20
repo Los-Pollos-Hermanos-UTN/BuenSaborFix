@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 public class DataLoader {
@@ -42,10 +43,17 @@ public class DataLoader {
         return args -> {
             RestTemplate restTemplate = new RestTemplate();
 
-            // Suponiendo que la API devuelve una lista de países (Argentina en este caso)
-            Pais argentina = new Pais();
-            argentina.setNombre("Argentina");
-            paisRepository.save(argentina);
+            // Verificar si el país ya existe en la base de datos
+            Optional<Pais> existingPais = paisRepository.findByNombre("Argentina");
+            Pais argentina;
+
+            if (existingPais.isPresent()) {
+                argentina = existingPais.get();
+            } else {
+                argentina = new Pais();
+                argentina.setNombre("Argentina");
+                paisRepository.save(argentina);
+            }
 
             ResponseEntity<ProvinciaResponse> provinciasResponse = restTemplate.getForEntity(PROVINCIAS_API_URL, ProvinciaResponse.class);
             ProvinciaResponse provinciaResponse = provinciasResponse.getBody();
@@ -78,4 +86,5 @@ public class DataLoader {
         };
     }
 }
+
 
