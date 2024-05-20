@@ -26,7 +26,7 @@ public class Sucursal extends Base {
     private LocalTime horarioCierre;
     private boolean casaMatriz;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
