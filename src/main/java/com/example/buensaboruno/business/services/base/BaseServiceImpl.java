@@ -77,4 +77,14 @@ public abstract class BaseServiceImpl<E extends Base,ID extends Serializable> im
             throw new Exception(e.getMessage());
         }
     }
+
+    @Override
+    public List<E> findAllNotDeleted() throws Exception {
+        try {
+            List<E> entities = baseRepository.findAllNotDeleted();
+            return entities;
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
 }

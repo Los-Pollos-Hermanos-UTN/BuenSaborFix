@@ -28,7 +28,7 @@ public abstract class BaseControllerImpl<E extends Base, D extends BaseDTO, ID e
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(facade.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(facade.findAllNotDeleted());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error, por favor intente mas tarde.\"}");
         }

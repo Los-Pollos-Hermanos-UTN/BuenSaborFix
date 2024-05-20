@@ -15,4 +15,6 @@ public interface BaseFacade <D extends BaseDTO, ID extends Serializable> {
     public D update(ID id, D request) throws Exception;
 
     public boolean delete(ID id) throws Exception;
+
+    public List<D> findAllNotDeleted() throws Exception;
 }

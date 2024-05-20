@@ -36,7 +36,7 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     }
 
     public Set<CategoriaDTO> getAll() {
-        List<Categoria> categorias = categoriaRepository.findAll();
+        List<Categoria> categorias = categoriaRepository.findAllNotDeleted();
         // Filtrar solo las categorías que no tienen un padre (categorías principales)
         Set<Categoria> categoriasPadre = categorias.stream()
                 .filter(categoria -> categoria.getPadre() == null)

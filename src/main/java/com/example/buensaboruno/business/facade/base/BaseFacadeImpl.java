@@ -32,7 +32,6 @@ public abstract class BaseFacadeImpl<E extends Base,D extends BaseDTO,ID extends
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
-
     }
 
     @Override
@@ -81,6 +80,20 @@ public abstract class BaseFacadeImpl<E extends Base,D extends BaseDTO,ID extends
             baseService.update(id, entity);
             return true;
         } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<D> findAllNotDeleted() throws Exception{
+        try{
+            var entities = baseService.findAllNotDeleted();
+            return entities
+                    .stream()
+                    .map(baseMapper::toDTO)
+                    .collect(Collectors.toList());
+        }catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
