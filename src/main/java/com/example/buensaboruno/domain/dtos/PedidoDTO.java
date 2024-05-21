@@ -1,5 +1,8 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.shortDTO.ClienteShortDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.EmpleadoShortDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Domicilio;
 import com.example.buensaboruno.domain.entities.Factura;
 import com.example.buensaboruno.domain.entities.Sucursal;
@@ -30,15 +33,15 @@ public class PedidoDTO extends BaseDTO{
     private FormaPago formaPago;
     private LocalDate fechaPedido;
 
-    private Domicilio domicilio;
+    private DomicilioDTO domicilio;
 
-    private Sucursal sucursal;
+    private SucursalShortDTO sucursal;
 
-    private Factura factura;
+    private FacturaDTO factura;
 
-    private Cliente cliente;
+    private ClienteShortDTO cliente;
 
-    private Set<DetallePedido> detallePedidos = new HashSet<>();
+    private Set<DetallePedidoDTO> detallePedidos = new HashSet<>();
 
-    private Empleado empleado;
+    private EmpleadoShortDTO empleado;
 }

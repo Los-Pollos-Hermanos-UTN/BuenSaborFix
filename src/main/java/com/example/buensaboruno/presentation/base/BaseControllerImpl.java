@@ -48,6 +48,7 @@ public abstract class BaseControllerImpl<E extends Base, D extends BaseDTO, ID e
         try {
             return ResponseEntity.status(HttpStatus.OK).body(facade.save(entity));
         } catch (Exception e) {
+            e.printStackTrace(); // Imprimir la pila de errores para diagnóstico
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, por favor intente mas tarde.\"}");
         }
     }
@@ -57,6 +58,7 @@ public abstract class BaseControllerImpl<E extends Base, D extends BaseDTO, ID e
         try {
             return ResponseEntity.status(HttpStatus.OK).body(facade.update(id, entity));
         } catch (Exception e) {
+            e.printStackTrace(); // Imprimir la pila de errores para diagnóstico
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, por favor intente mas tarde.\"}");
         }
     }
