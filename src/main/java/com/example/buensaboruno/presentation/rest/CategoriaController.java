@@ -32,6 +32,16 @@ public class CategoriaController extends BaseControllerImpl<Categoria, Categoria
         return new ResponseEntity<>(createdCategoria, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoriaDTO> editCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
+        CategoriaDTO editedCategoria = categoriaFacadeImpl.editCategoria(id, categoriaDTO);
+        if(editedCategoria != null){
+            return new ResponseEntity<>(editedCategoria, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Set<CategoriaDTO>> getAllCategorias() {
         Set<CategoriaDTO> categorias = categoriaFacadeImpl.getAll();

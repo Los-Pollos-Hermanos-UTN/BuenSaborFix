@@ -6,6 +6,7 @@ import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.mapper.CategoriaMapper;
 import com.example.buensaboruno.business.mapper.SucursalMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.impl.CategoriaServiceImpl;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
 import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.repositories.CategoriaRepository;
@@ -27,12 +28,25 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     private CategoriaRepository categoriaRepository;
 
     @Autowired
+    private CategoriaServiceImpl categoriaServiceImpl;
+
+    @Autowired
     private CategoriaMapper categoriaMapper;
 
     public CategoriaDTO createCategoria(CategoriaDTO categoriaDTO) {
         Categoria categoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
         categoria = categoriaRepository.save(categoria);
         return categoriaMapper.toDTO(categoria);
+    }
+
+    public CategoriaDTO editCategoria(Long id, CategoriaDTO categoriaDTO){
+        Categoria categoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
+        try {
+            categoria = categoriaServiceImpl.editCategoria(categoria, id);
+            return categoriaMapper.toDTO(categoria);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Set<CategoriaDTO> getAll() {
