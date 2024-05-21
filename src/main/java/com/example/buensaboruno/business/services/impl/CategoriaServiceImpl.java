@@ -20,4 +20,8 @@ public class CategoriaServiceImpl extends BaseServiceImpl<Categoria, Long> imple
         super(baseRepository);
         this.categoriaRepository = categoriaRepository;
     }
+
+    public Categoria editCategoria(Categoria categoria, Long id) throws Exception {
+        return update(id, categoria);
+    }
 }

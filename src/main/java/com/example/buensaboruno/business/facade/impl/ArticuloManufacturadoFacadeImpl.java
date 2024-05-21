@@ -10,10 +10,13 @@ import com.example.buensaboruno.business.services.impl.ArticuloManufacturadoServ
 import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.domain.entities.Categoria;
+import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
 import com.example.buensaboruno.repositories.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManufacturado, ArticuloManufacturadoDTO, Long> implements ArticuloManufacturadoFacade {
@@ -30,6 +33,9 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
     @Autowired
     private ArticuloManufacturadoServiceImpl articuloManufacturadoService;
 
+    @Autowired
+    private ArticuloManufacturadoRepository articuloManufacturadoRepository;
+
     public ArticuloManufacturadoDTO createArticuloManufacturado(ArticuloManufacturadoDTO articuloManufacturadoDTO) {
         ArticuloManufacturado articuloManufacturado = articuloManufacturadoMapper.toEntityWithContextMapping(articuloManufacturadoDTO, categoriaRepository);
         articuloManufacturado = articuloManufacturadoService.createArticuloManufacturado(articuloManufacturado);
@@ -44,6 +50,11 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
         }catch (Exception e){
             return null;
         }
+    }
+
+    public List<ArticuloManufacturadoDTO> findArticuloManufacturadosByEmpresaId(Long empresaId) {
+        List<ArticuloManufacturadoDTO> articuloManufacturadoDTOS = articuloManufacturadoMapper.toDTOsList(articuloManufacturadoRepository.findByEmpresaId(empresaId));
+        return articuloManufacturadoDTOS;
     }
 }
 
