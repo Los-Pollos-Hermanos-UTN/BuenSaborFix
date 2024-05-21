@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/articuloInsumo")
@@ -37,5 +39,11 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
         }else{
             return new ResponseEntity<>(editedArticulo, HttpStatus.OK);
         }
+    }
+
+    @GetMapping(value = "/listByEmpresa/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArticuloInsumoDTO>> listArticulosInsumoByEmpresa(@PathVariable Long id) {
+        List<ArticuloInsumoDTO> articuloInsumoDTOS = articuloInsumoFacadeImpl.findArticuloInsumosByEmpresaId(id);
+        return new ResponseEntity<>(articuloInsumoDTOS, HttpStatus.OK);
     }
 }

@@ -44,5 +44,13 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
         return categoriaMapper.toDTOsList(categoriasPadre);
     }
 
+    public Set<CategoriaDTO> listCategoriasByEmpresaId(Long id) {
+        List<Categoria> categorias = categoriaRepository.findByEmpresaId(id);
+        // Filtrar solo las categorías que no tienen un padre (categorías principales)
+        Set<Categoria> categoriasPadre = categorias.stream()
+                .filter(categoria -> categoria.getPadre() == null)
+                .collect(Collectors.toSet());
+        return categoriaMapper.toDTOsList(categoriasPadre);
+    }
 }
 

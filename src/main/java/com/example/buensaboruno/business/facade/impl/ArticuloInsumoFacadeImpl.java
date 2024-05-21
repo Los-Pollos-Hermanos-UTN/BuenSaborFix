@@ -11,10 +11,14 @@ import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.domain.entities.Categoria;
+import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
+import com.example.buensaboruno.repositories.ArticuloRepository;
 import com.example.buensaboruno.repositories.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, ArticuloInsumoDTO, Long> implements ArticuloInsumoFacade {
@@ -31,6 +35,9 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Autowired
+    private ArticuloInsumoRepository articuloInsumoRepository;
+
     public ArticuloInsumoDTO createArticuloInsumo(ArticuloInsumoDTO articuloInsumoDTO) {
         ArticuloInsumo articuloInsumo = articuloInsumoMapper.toEntityWithContextMapping(articuloInsumoDTO, categoriaRepository);
         articuloInsumo = articuloInsumoService.createArticuloInsumo(articuloInsumo);
@@ -45,6 +52,11 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
         }catch (Exception e){
             return null;
         }
+    }
+
+    public List<ArticuloInsumoDTO> findArticuloInsumosByEmpresaId(Long empresaId) {
+        List<ArticuloInsumoDTO> articuloInsumoDTOS = articuloInsumoMapper.toDTOsList(articuloInsumoRepository.findByEmpresaId(empresaId));
+        return articuloInsumoDTOS;
     }
 }
 
