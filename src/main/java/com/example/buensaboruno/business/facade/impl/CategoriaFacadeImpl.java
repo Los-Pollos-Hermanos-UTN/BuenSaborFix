@@ -9,7 +9,9 @@ import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.CategoriaServiceImpl;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
 import com.example.buensaboruno.domain.entities.Categoria;
+import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.repositories.CategoriaRepository;
+import com.example.buensaboruno.repositories.SucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +35,35 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     @Autowired
     private CategoriaMapper categoriaMapper;
 
+    @Autowired
+    private SucursalRepository sucursalRepository;
+
     public CategoriaDTO createCategoria(CategoriaDTO categoriaDTO) {
+        // Map DTO to Entity
         Categoria categoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
-        categoria = categoriaRepository.save(categoria);
-        return categoriaMapper.toDTO(categoria);
+
+        // Ensure sucursales are loaded from DB
+        Set<Sucursal> sucursales = categoria.getSucursales().stream()
+                .map(sucursal -> sucursalRepository.findById(sucursal.getId())
+                        .orElseThrow(() -> new RuntimeException("Sucursal not found: " + sucursal.getId())))
+                .collect(Collectors.toSet());
+
+        // Assign categoria to sucursales and sucursales to categoria
+        for (Sucursal sucursal : sucursales) {
+            sucursal.getCategorias().add(categoria);
+        }
+        categoria.setSucursales(sucursales);
+
+        // Save categoria
+        Categoria savedCategoria = categoriaRepository.save(categoria);
+
+        // Save sucursales to update the relationship in the database
+        sucursalRepository.saveAll(sucursales);
+
+        // Return DTO
+        return categoriaMapper.toDTO(savedCategoria);
     }
+
 
     public CategoriaDTO editCategoria(Long id, CategoriaDTO categoriaDTO){
         Categoria categoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
@@ -59,7 +85,7 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     }
 
     public Set<CategoriaDTO> listCategoriasByEmpresaId(Long id) {
-        List<Categoria> categorias = categoriaRepository.findByEmpresaId(id);
+        Set<Categoria> categorias = categoriaRepository.findCategoriasByEmpresaId(id);
         // Filtrar solo las categorías que no tienen un padre (categorías principales)
         Set<Categoria> categoriasPadre = categorias.stream()
                 .filter(categoria -> categoria.getPadre() == null)
