@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -12,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @SuperBuilder
 //@Audited
-public class UsuarioCliente extends Base{
+public class UsuarioCliente extends Base {
     private String auth0Id;
     private String userName;
 

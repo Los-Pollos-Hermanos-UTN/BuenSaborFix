@@ -1,16 +1,17 @@
 package com.example.buensaboruno.business.facade.impl;
 
 import com.example.buensaboruno.business.facade.ImagenArticuloFacade;
-import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
-import com.example.buensaboruno.business.mapper.BaseMapper;
-import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.facade.base.ImagenBaseFacadeImpl;
+import com.example.buensaboruno.business.mapper.ImagenArticuloMapper;
+import com.example.buensaboruno.business.services.ImagenArticuloService;
 import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 import com.example.buensaboruno.domain.entities.ImagenArticulo;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class ImagenArticuloFacadeImpl extends BaseFacadeImpl<ImagenArticulo, ImagenArticuloDTO, Long> implements ImagenArticuloFacade {
-    public ImagenArticuloFacadeImpl(BaseService<ImagenArticulo, Long> baseService, BaseMapper<ImagenArticulo, ImagenArticuloDTO> baseMapper){
-        super(baseService, baseMapper);
+@Component
+public class ImagenArticuloFacadeImpl extends ImagenBaseFacadeImpl<ImagenArticulo, ImagenArticuloDTO> implements ImagenArticuloFacade {
+
+    public ImagenArticuloFacadeImpl(ImagenArticuloService service, ImagenArticuloMapper mapper) {
+        super(service, mapper);
     }
 }

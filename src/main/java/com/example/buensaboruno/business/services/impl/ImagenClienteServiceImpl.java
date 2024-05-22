@@ -1,20 +1,29 @@
 package com.example.buensaboruno.business.services.impl;
 
 import com.example.buensaboruno.business.services.ImagenClienteService;
-import com.example.buensaboruno.business.services.base.BaseServiceImpl;
+import com.example.buensaboruno.business.services.base.ImagenBaseServiceImpl;
 import com.example.buensaboruno.domain.entities.ImagenCliente;
-import com.example.buensaboruno.repositories.BaseRepository;
 import com.example.buensaboruno.repositories.ImagenClienteRepository;
+import com.example.buensaboruno.repositories.base.ImagenBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class ImagenClienteServiceImpl extends BaseServiceImpl<ImagenCliente, Long> implements ImagenClienteService {
-    @Autowired
-    private ImagenClienteRepository imagenClienteRepository;
+import java.util.UUID;
 
-    public ImagenClienteServiceImpl(BaseRepository<ImagenCliente, Long> baseRepository, ImagenClienteRepository imagenClienteRepository) {
-        super(baseRepository);
-        this.imagenClienteRepository=imagenClienteRepository;
+@Service
+public class ImagenClienteServiceImpl extends ImagenBaseServiceImpl<ImagenCliente, UUID> implements ImagenClienteService {
+
+    private final ImagenClienteRepository imagenClienteRepository;
+
+    @Autowired
+    public ImagenClienteServiceImpl(ImagenBaseRepository<ImagenCliente, UUID> imagenBaseRepository, ImagenClienteRepository imagenClienteRepository) {
+        super(imagenBaseRepository);
+        this.imagenClienteRepository = imagenClienteRepository;
+    }
+
+    @Override
+    protected ImagenCliente createImageEntity() {
+        return new ImagenCliente();
     }
 }
+

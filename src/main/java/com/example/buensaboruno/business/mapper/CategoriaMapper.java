@@ -1,6 +1,7 @@
 package com.example.buensaboruno.business.mapper;
 
 
+import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.domain.dtos.ArticuloDTO;
 import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;

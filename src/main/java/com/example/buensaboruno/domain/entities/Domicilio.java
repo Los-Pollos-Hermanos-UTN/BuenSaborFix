@@ -1,14 +1,11 @@
 package com.example.buensaboruno.domain.entities;
 
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -17,7 +14,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
-public class Domicilio extends Base{
+public class Domicilio extends Base {
     private String calle;
     private Integer numero;
     private Integer cp;

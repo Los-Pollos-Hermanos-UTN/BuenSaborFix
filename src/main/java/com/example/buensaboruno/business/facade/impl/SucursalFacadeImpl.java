@@ -2,14 +2,11 @@ package com.example.buensaboruno.business.facade.impl;
 
 import com.example.buensaboruno.business.facade.SucursalFacade;
 import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
-import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.mapper.SucursalMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.SucursalServiceImpl;
 import com.example.buensaboruno.domain.dtos.SucursalDTO;
-import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
-import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

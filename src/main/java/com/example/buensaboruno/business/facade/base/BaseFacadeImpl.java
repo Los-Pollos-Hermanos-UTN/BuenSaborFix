@@ -1,9 +1,9 @@
 package com.example.buensaboruno.business.facade.base;
 
-import com.example.buensaboruno.business.mapper.BaseMapper;
+import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
-import com.example.buensaboruno.domain.dtos.BaseDTO;
-import com.example.buensaboruno.domain.entities.Base;
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
+import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.example.buensaboruno.domain.entities;
+package com.example.buensaboruno.domain.entities.base;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 

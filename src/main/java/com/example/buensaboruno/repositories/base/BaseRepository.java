@@ -1,6 +1,6 @@
-package com.example.buensaboruno.repositories;
+package com.example.buensaboruno.repositories.base;
 
-import com.example.buensaboruno.domain.entities.Base;
+import com.example.buensaboruno.domain.entities.base.Base;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;

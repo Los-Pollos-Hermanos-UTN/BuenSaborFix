@@ -5,7 +5,7 @@ import com.example.buensaboruno.business.services.SucursalService;
 import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Sucursal;
-import com.example.buensaboruno.repositories.BaseRepository;
+import com.example.buensaboruno.repositories.base.BaseRepository;
 import com.example.buensaboruno.repositories.SucursalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

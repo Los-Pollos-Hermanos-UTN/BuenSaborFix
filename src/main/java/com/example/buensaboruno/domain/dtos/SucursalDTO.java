@@ -1,10 +1,10 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.CategoriaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpleadoShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.PromocionShortDTO;
-import com.example.buensaboruno.domain.entities.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

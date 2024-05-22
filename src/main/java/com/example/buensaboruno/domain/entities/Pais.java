@@ -1,12 +1,9 @@
 package com.example.buensaboruno.domain.entities;
 
-import jakarta.persistence.CascadeType;
+import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -15,6 +12,6 @@ import java.util.List;
 @Getter
 @ToString
 @SuperBuilder
-public class Pais extends Base{
+public class Pais extends Base {
     private String nombre;
 }

@@ -1,7 +1,7 @@
 package com.example.buensaboruno.domain.dtos.shortDTO;
 
 
-import com.example.buensaboruno.domain.dtos.BaseDTO;
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

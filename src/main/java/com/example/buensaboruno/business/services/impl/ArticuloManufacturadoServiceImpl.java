@@ -4,7 +4,7 @@ import com.example.buensaboruno.business.services.ArticuloManufacturadoService;
 import com.example.buensaboruno.business.services.base.BaseServiceImpl;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
-import com.example.buensaboruno.repositories.BaseRepository;
+import com.example.buensaboruno.repositories.base.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

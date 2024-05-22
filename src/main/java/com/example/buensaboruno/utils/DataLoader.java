@@ -1,4 +1,4 @@
-package com.example.buensaboruno.config;
+package com.example.buensaboruno.utils;
 
 import com.example.buensaboruno.domain.dtos.LocalidadDTO;
 import com.example.buensaboruno.domain.dtos.ProvinciaDTO;

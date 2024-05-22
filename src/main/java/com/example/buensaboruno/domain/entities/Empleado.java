@@ -1,5 +1,6 @@
     package com.example.buensaboruno.domain.entities;
 
+    import com.example.buensaboruno.domain.entities.base.Base;
     import com.example.buensaboruno.domain.enums.Rol;
     import com.fasterxml.jackson.annotation.JsonBackReference;
     import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,7 +20,7 @@
     @Getter
     @SuperBuilder
     //@Audited
-    public class Empleado extends Base{
+    public class Empleado extends Base {
         private Rol tipoEmpleado;
         private String nombre;
         private String apellido;

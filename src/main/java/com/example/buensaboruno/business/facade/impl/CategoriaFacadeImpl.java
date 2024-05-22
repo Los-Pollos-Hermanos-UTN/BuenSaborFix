@@ -2,9 +2,8 @@ package com.example.buensaboruno.business.facade.impl;
 
 import com.example.buensaboruno.business.facade.CategoriaFacade;
 import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
-import com.example.buensaboruno.business.mapper.BaseMapper;
+import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.mapper.CategoriaMapper;
-import com.example.buensaboruno.business.mapper.SucursalMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.CategoriaServiceImpl;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
@@ -12,7 +11,6 @@ import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.repositories.CategoriaRepository;
 import com.example.buensaboruno.repositories.SucursalRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

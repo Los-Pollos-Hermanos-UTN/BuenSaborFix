@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -12,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @SuperBuilder
 //@Audited
-public class DetallePedido extends Base{
+public class DetallePedido extends Base {
     private Integer cantidad;
     private Double subTotal;
 

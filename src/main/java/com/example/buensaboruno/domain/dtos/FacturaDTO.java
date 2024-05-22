@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.enums.FormaPago;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FacturaDTO extends BaseDTO{
+public class FacturaDTO extends BaseDTO {
 
     private LocalDate fechaFcturacion;
     private Integer mpPaymentId;

@@ -1,7 +1,7 @@
 package com.example.buensaboruno.business.services.base;
 
-import com.example.buensaboruno.domain.entities.Base;
-import com.example.buensaboruno.repositories.BaseRepository;
+import com.example.buensaboruno.domain.entities.base.Base;
+import com.example.buensaboruno.repositories.base.BaseRepository;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;

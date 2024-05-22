@@ -1,14 +1,12 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.envers.Audited;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

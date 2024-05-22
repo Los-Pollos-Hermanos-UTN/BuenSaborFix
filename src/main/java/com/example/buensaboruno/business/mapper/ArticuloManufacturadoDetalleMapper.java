@@ -1,5 +1,6 @@
 package com.example.buensaboruno.business.mapper;
 
+import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDetalleDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturadoDetalle;
 import org.mapstruct.Mapper;
@@ -7,7 +8,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ArticuloManufacturadoDetalleMapper extends BaseMapper<ArticuloManufacturadoDetalle, ArticuloManufacturadoDetalleDTO>{
+public interface ArticuloManufacturadoDetalleMapper extends BaseMapper<ArticuloManufacturadoDetalle, ArticuloManufacturadoDetalleDTO> {
     ArticuloManufacturadoDetalleDTO toDTO(ArticuloManufacturadoDetalle source);
     ArticuloManufacturadoDetalle toEntity(ArticuloManufacturadoDetalleDTO source);
     List<ArticuloManufacturadoDetalleDTO> toDTOsList(List<ArticuloManufacturadoDetalle> source);

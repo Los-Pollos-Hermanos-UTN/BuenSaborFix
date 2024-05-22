@@ -1,15 +1,14 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,7 @@ import java.util.Set;
 @ToString
 @SuperBuilder
 //@Audited
-public class Cliente extends Base{
+public class Cliente extends Base {
 
     protected String nombre;
     protected String apellido;

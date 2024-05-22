@@ -1,7 +1,9 @@
 package com.example.buensaboruno.business.facade;
 
-import com.example.buensaboruno.business.facade.base.BaseFacade;
+import com.example.buensaboruno.business.facade.base.ImagenBaseFacade;
 import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 
-public interface ImagenArticuloFacade extends BaseFacade<ImagenArticuloDTO, Long> {
+import java.util.UUID;
+
+public interface ImagenArticuloFacade extends ImagenBaseFacade<ImagenArticuloDTO, UUID> {
 }

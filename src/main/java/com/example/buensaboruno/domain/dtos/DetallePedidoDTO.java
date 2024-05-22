@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.entities.Articulo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DetallePedidoDTO extends BaseDTO{
+public class DetallePedidoDTO extends BaseDTO {
 
     private Integer cantidad;
     private Double subTotal;

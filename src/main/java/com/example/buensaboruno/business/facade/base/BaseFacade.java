@@ -1,6 +1,6 @@
 package com.example.buensaboruno.business.facade.base;
 
-import com.example.buensaboruno.domain.dtos.BaseDTO;
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 
 import java.io.Serializable;
 import java.util.List;

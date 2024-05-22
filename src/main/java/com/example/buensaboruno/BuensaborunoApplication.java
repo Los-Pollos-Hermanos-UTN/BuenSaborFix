@@ -1,6 +1,6 @@
 package com.example.buensaboruno;
 
-import com.example.buensaboruno.config.DataLoader;
+import com.example.buensaboruno.utils.DataLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

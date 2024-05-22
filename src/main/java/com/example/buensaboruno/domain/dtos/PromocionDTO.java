@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.entities.ImagenPromocion;
 import com.example.buensaboruno.domain.entities.PromocionDetalle;
 import com.example.buensaboruno.domain.entities.Sucursal;
@@ -18,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PromocionDTO extends BaseDTO{
+public class PromocionDTO extends BaseDTO {
     private String denominacion;
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;

@@ -1,14 +1,12 @@
 package com.example.buensaboruno.domain.dtos;
 
-import lombok.AllArgsConstructor;
+import com.example.buensaboruno.domain.dtos.base.ImagenBaseDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class ImagenEmpleadoDTO extends BaseDTO{
-    private String url;
+public class ImagenEmpleadoDTO extends ImagenBaseDTO {
 }

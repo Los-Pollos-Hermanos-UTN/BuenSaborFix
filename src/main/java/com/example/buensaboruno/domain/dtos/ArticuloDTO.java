@@ -1,7 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
-import com.example.buensaboruno.domain.dtos.BaseDTO;
-import com.example.buensaboruno.domain.entities.ImagenArticulo;
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.entities.UnidadMedida;
 import lombok.*;
 

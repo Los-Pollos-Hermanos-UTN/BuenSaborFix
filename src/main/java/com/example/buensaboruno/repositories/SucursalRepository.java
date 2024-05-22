@@ -1,6 +1,7 @@
 package com.example.buensaboruno.repositories;
 
 import com.example.buensaboruno.domain.entities.Sucursal;
+import com.example.buensaboruno.repositories.base.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

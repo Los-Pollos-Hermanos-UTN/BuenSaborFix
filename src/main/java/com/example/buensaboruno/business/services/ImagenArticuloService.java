@@ -1,7 +1,9 @@
 package com.example.buensaboruno.business.services;
 
-import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.base.ImagenBaseService;
 import com.example.buensaboruno.domain.entities.ImagenArticulo;
 
-public interface ImagenArticuloService extends BaseService<ImagenArticulo, Long> {
+import java.util.UUID;
+
+public interface ImagenArticuloService extends ImagenBaseService<ImagenArticulo, UUID> {
 }

@@ -2,7 +2,6 @@ package com.example.buensaboruno.business.facade.impl;
 
 import com.example.buensaboruno.business.facade.EmpresaFacade;
 import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
-import com.example.buensaboruno.business.mapper.BaseMapper;
 import com.example.buensaboruno.business.mapper.EmpresaMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.domain.dtos.EmpresaDTO;

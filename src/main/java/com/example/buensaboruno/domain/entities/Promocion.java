@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.entities;
 
+import com.example.buensaboruno.domain.entities.base.Base;
 import com.example.buensaboruno.domain.enums.TipoPromocion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -25,7 +26,7 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 //@Audited
-public class Promocion  extends Base{
+public class Promocion  extends Base {
     private String denominacion;
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;

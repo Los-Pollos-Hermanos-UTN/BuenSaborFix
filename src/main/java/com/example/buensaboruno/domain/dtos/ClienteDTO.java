@@ -1,5 +1,6 @@
 package com.example.buensaboruno.domain.dtos;
 
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.entities.Domicilio;
 import com.example.buensaboruno.domain.entities.ImagenCliente;
 import com.example.buensaboruno.domain.entities.Pedido;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClienteDTO extends BaseDTO{
+public class ClienteDTO extends BaseDTO {
 
     protected String nombre;
     protected String apellido;

@@ -1,7 +1,6 @@
 package com.example.buensaboruno.presentation.base;
 
-import com.example.buensaboruno.domain.dtos.BaseDTO;
-import com.example.buensaboruno.domain.entities.Base;
+import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
