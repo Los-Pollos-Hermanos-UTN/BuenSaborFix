@@ -15,4 +15,8 @@ public class ImagenBaseDTO {
     private UUID id;
     private String name;
     private String url;
+
+    public ImagenBaseDTO(String url) {
+        this.url = url;
+    }
 }

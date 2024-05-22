@@ -10,9 +10,14 @@ import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.CategoriaRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -53,6 +58,19 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
         List<ArticuloInsumoDTO> articuloInsumoDTOS = articuloInsumoMapper.toDTOsList(articuloInsumoRepository.findByEmpresaId(empresaId));
         return articuloInsumoDTOS;
     }
+
+    public ArticuloInsumoDTO mapperJson(String articuloInsumoJson) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArticuloInsumoDTO articuloInsumoDTO;
+        try {
+            articuloInsumoDTO = objectMapper.readValue(articuloInsumoJson, ArticuloInsumoDTO.class);
+            return articuloInsumoDTO;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+
 }
 
 

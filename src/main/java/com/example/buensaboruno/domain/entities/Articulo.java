@@ -22,7 +22,7 @@ public abstract class Articulo extends Base {
     protected String denominacion;
     protected Double precioVenta;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "articulo_id")
     @Builder.Default
     @NotAudited

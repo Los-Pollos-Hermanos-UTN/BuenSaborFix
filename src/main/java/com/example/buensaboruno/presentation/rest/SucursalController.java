@@ -66,7 +66,7 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
         }
     }
 
-    @GetMapping("/short/empresa/{id}")
+    @GetMapping("/short/listByEmpresa/{id}")
     public ResponseEntity<List<SucursalShortDTO>> getAllShortByEmpresa(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(facade.findAllShortByEmpresa(id));
