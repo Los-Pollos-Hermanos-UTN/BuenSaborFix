@@ -112,20 +112,29 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     public Set<CategoriaDTO> listCategoriasByEmpresaId(Long id) {
         Set<Categoria> categorias = categoriaRepository.findCategoriasByEmpresaId(id);
 
-        // Filtrar categorías no eliminadas y sus subcategorías no eliminadas
+        // Filtrar categorías no eliminadas y principales (sin padre)
         Set<Categoria> categoriasFiltradas = categorias.stream()
                 .filter(categoria -> !categoria.isEliminado() && categoria.getPadre() == null)
                 .collect(Collectors.toSet());
 
-        // Filtrar subcategorías no eliminadas
+        // Filtrar subcategorías no eliminadas de manera recursiva
         for (Categoria categoria : categoriasFiltradas) {
-            Set<Categoria> subCategoriasNoEliminadas = categoria.getSubCategorias().stream()
-                    .filter(subCategoria -> !subCategoria.isEliminado())
-                    .collect(Collectors.toSet());
-            categoria.setSubCategorias(subCategoriasNoEliminadas);
+            filtrarSubCategoriasNoEliminadas(categoria);
         }
 
         return categoriaMapper.toDTOsList(categoriasFiltradas);
+    }
+
+    private void filtrarSubCategoriasNoEliminadas(Categoria categoria) {
+        Set<Categoria> subCategoriasNoEliminadas = categoria.getSubCategorias().stream()
+                .filter(subCategoria -> !subCategoria.isEliminado())
+                .collect(Collectors.toSet());
+
+        categoria.setSubCategorias(subCategoriasNoEliminadas);
+
+        for (Categoria subCategoria : subCategoriasNoEliminadas) {
+            filtrarSubCategoriasNoEliminadas(subCategoria);
+        }
     }
 }
 
