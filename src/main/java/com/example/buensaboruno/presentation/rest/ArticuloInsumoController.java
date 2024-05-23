@@ -48,7 +48,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
 
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ArticuloInsumoDTO> createArticuloInsumo(
-            @RequestPart("articuloInsumo") String articuloInsumoJson,
+            @RequestPart("data") String articuloInsumoJson,
             @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
@@ -69,7 +69,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ArticuloInsumoDTO> updateArticuloInsumo(
             @PathVariable Long id,
-            @RequestPart("articuloInsumo") String articuloInsumoJson,
+            @RequestPart("data") String articuloInsumoJson,
             @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO

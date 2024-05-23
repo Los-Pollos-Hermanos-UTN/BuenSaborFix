@@ -50,8 +50,8 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
     }
 
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ArticuloManufacturadoDTO> createArticuloInsumo(
-            @RequestPart("articuloManufacturado") String articuloManufacturadoJson,
+    public ResponseEntity<ArticuloManufacturadoDTO> createArticuloManufacturado(
+            @RequestPart("data") String articuloManufacturadoJson,
             @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
@@ -70,9 +70,9 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
     }
 
     @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ArticuloManufacturadoDTO> updateArticuloInsumo(
+    public ResponseEntity<ArticuloManufacturadoDTO> updateArticuloManufacturado(
             @PathVariable Long id,
-            @RequestPart("articuloManufacturado") String articuloManufacturadoJson,
+            @RequestPart("data") String articuloManufacturadoJson,
             @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
