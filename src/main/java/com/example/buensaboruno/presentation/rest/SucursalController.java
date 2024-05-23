@@ -75,5 +75,14 @@ public class SucursalController extends BaseControllerImpl<Sucursal, SucursalDTO
         }
     }
 
+    @GetMapping("/listByEmpresa/{id}")
+    public ResponseEntity<List<SucursalDTO>> getAllByEmpresa(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(facade.findAllByEmpresa(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
 

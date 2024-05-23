@@ -55,4 +55,8 @@ public class SucursalFacadeImpl extends BaseFacadeImpl<Sucursal, SucursalDTO, Lo
     public List<SucursalShortDTO> findAllShortByEmpresa(Long empresaId) throws Exception {
         return sucursalServiceImpl.findAllShortByEmpresa(empresaId);
     }
+
+    public List<SucursalDTO> findAllByEmpresa(Long empresaId) throws Exception {
+        return sucursalServiceImpl.findAllByEmpresa(empresaId);
+    }
 }

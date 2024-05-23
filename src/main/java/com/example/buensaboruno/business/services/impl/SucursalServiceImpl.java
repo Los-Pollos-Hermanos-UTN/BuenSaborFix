@@ -3,6 +3,7 @@ package com.example.buensaboruno.business.services.impl;
 import com.example.buensaboruno.business.mapper.SucursalMapper;
 import com.example.buensaboruno.business.services.SucursalService;
 import com.example.buensaboruno.business.services.base.BaseServiceImpl;
+import com.example.buensaboruno.domain.dtos.SucursalDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.repositories.base.BaseRepository;
@@ -29,5 +30,11 @@ public class SucursalServiceImpl extends BaseServiceImpl<Sucursal, Long> impleme
         List<Sucursal> entities = sucursalRepository.findAllByEmpresaId(empresaId);
         return sucursalMapper.toShortDTOsList(entities);
     }
+
+    public List<SucursalDTO> findAllByEmpresa(Long empresaId) throws Exception {
+        List<Sucursal> entities = sucursalRepository.findAllByEmpresaId(empresaId);
+        return sucursalMapper.toDTOsList(entities);
+    }
+
 
 }

@@ -63,15 +63,42 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
     }
 
 
-    public CategoriaDTO editCategoria(Long id, CategoriaDTO categoriaDTO){
-        Categoria categoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
-        try {
-            categoria = categoriaServiceImpl.editCategoria(categoria, id);
-            return categoriaMapper.toDTO(categoria);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public CategoriaDTO editCategoria(Long id, CategoriaDTO categoriaDTO) {
+        // Find existing categoria
+        Categoria existingCategoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria not found"));
+
+        // Convert DTO to Entity
+        Categoria updatedCategoria = categoriaMapper.toEntityWithContextMapping(categoriaDTO, categoriaRepository);
+
+        // Ensure sucursales are loaded from DB
+        Set<Sucursal> newSucursales = updatedCategoria.getSucursales().stream()
+                .map(sucursal -> sucursalRepository.findById(sucursal.getId())
+                        .orElseThrow(() -> new RuntimeException("Sucursal not found: " + sucursal.getId())))
+                .collect(Collectors.toSet());
+
+        // Clear existing relationships
+        existingCategoria.getSucursales().forEach(sucursal -> sucursal.getCategorias().remove(existingCategoria));
+        existingCategoria.getSucursales().clear();
+
+        // Update with new relationships
+        newSucursales.forEach(sucursal -> sucursal.getCategorias().add(existingCategoria));
+        existingCategoria.setSucursales(newSucursales);
+
+        // Update other fields if needed
+        existingCategoria.setDenominacion(updatedCategoria.getDenominacion());
+        existingCategoria.setPadre(updatedCategoria.getPadre());
+        existingCategoria.setSubCategorias(updatedCategoria.getSubCategorias());
+
+        // Save categoria
+        Categoria savedCategoria = categoriaRepository.save(existingCategoria);
+
+        // Save sucursales to update the relationship in the database
+        sucursalRepository.saveAll(newSucursales);
+
+        // Return DTO
+        return categoriaMapper.toDTO(savedCategoria);
     }
+
 
     public Set<CategoriaDTO> getAll() {
         List<Categoria> categorias = categoriaRepository.findAllNotDeleted();
