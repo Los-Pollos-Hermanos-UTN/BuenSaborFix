@@ -6,13 +6,16 @@ import com.example.buensaboruno.business.mapper.ArticuloManufacturadoMapper;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.ArticuloManufacturadoServiceImpl;
+import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
 import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
 import com.example.buensaboruno.repositories.CategoriaRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -45,6 +48,17 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
             articuloManufacturado = articuloManufacturadoService.editArticuloManufacturado(articuloManufacturado, id);
             return articuloManufacturadoMapper.toDTO(articuloManufacturado);
         }catch (Exception e){
+            return null;
+        }
+    }
+
+    public ArticuloManufacturadoDTO mapperJson(String articuloManufacturadoJson) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArticuloManufacturadoDTO articuloManufacturadoDTO;
+        try {
+            articuloManufacturadoDTO = objectMapper.readValue(articuloManufacturadoJson, ArticuloManufacturadoDTO.class);
+            return articuloManufacturadoDTO;
+        } catch (IOException e) {
             return null;
         }
     }

@@ -40,17 +40,6 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     private final ArticuloInsumoRepository articuloInsumoRepository;
 
 
-
-    @PutMapping(value = "/edit/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ArticuloInsumoDTO> editArticuloInsumo(@PathVariable Long id, @RequestBody ArticuloInsumoDTO articuloInsumoDTO) {
-        ArticuloInsumoDTO editedArticulo = articuloInsumoFacadeImpl.editArticuloInsumo(articuloInsumoDTO, id);
-        if(editedArticulo == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            return new ResponseEntity<>(editedArticulo, HttpStatus.OK);
-        }
-    }
-
     @GetMapping(value = "/listByEmpresa/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ArticuloInsumoDTO>> listArticulosInsumoByEmpresa(@PathVariable Long id) {
         List<ArticuloInsumoDTO> articuloInsumoDTOS = articuloInsumoFacadeImpl.findArticuloInsumosByEmpresaId(id);
@@ -75,6 +64,33 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
         ArticuloInsumoDTO createdArticulo = articuloInsumoFacadeImpl.createArticuloInsumo(articuloInsumoDTO);
 
         return new ResponseEntity<>(createdArticulo, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArticuloInsumoDTO> updateArticuloInsumo(
+            @PathVariable Long id,
+            @RequestPart("articuloInsumo") String articuloInsumoJson,
+            @RequestPart("imagen") MultipartFile[] files) {
+
+        // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
+        ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
+
+        // Subir las imágenes y obtener las URLs
+        List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
+
+        // Asignar las URLs de las imágenes al DTO
+        articuloInsumoDTO.setImagenes(imageUrls.stream()
+                .map(url -> new ImagenArticuloDTO(url))
+                .collect(Collectors.toSet()));
+
+        // Editar el ArticuloInsumo
+        ArticuloInsumoDTO updatedArticulo = articuloInsumoFacadeImpl.editArticuloInsumo(articuloInsumoDTO, id);
+
+        if (updatedArticulo != null) {
+            return new ResponseEntity<>(updatedArticulo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
