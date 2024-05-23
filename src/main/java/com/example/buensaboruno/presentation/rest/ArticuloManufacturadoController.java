@@ -52,7 +52,7 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ArticuloManufacturadoDTO> createArticuloInsumo(
             @RequestPart("articuloManufacturado") String articuloManufacturadoJson,
-            @RequestPart("imagen") MultipartFile[] files) {
+            @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloManufacturadoDTO articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.mapperJson(articuloManufacturadoJson);
@@ -73,7 +73,7 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
     public ResponseEntity<ArticuloManufacturadoDTO> updateArticuloInsumo(
             @PathVariable Long id,
             @RequestPart("articuloManufacturado") String articuloManufacturadoJson,
-            @RequestPart("imagen") MultipartFile[] files) {
+            @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloManufacturadoDTO articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.mapperJson(articuloManufacturadoJson);

@@ -49,7 +49,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ArticuloInsumoDTO> createArticuloInsumo(
             @RequestPart("articuloInsumo") String articuloInsumoJson,
-            @RequestPart("imagen") MultipartFile[] files) {
+            @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
@@ -70,7 +70,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     public ResponseEntity<ArticuloInsumoDTO> updateArticuloInsumo(
             @PathVariable Long id,
             @RequestPart("articuloInsumo") String articuloInsumoJson,
-            @RequestPart("imagen") MultipartFile[] files) {
+            @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
