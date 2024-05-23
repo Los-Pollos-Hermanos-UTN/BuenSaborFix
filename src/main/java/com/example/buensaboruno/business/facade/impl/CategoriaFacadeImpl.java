@@ -87,7 +87,7 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
 
         // Filtrar categorías no eliminadas y sus subcategorías no eliminadas
         Set<Categoria> categoriasFiltradas = categorias.stream()
-                .filter(categoria -> !categoria.isEliminado())
+                .filter(categoria -> !categoria.isEliminado() && categoria.getPadre() == null)
                 .collect(Collectors.toSet());
 
         // Filtrar subcategorías no eliminadas
