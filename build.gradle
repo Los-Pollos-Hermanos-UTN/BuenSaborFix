@@ -33,10 +33,9 @@ dependencies {
 	implementation 'com.cloudinary:cloudinary-taglib:1.36.0'
 	implementation 'io.github.cdimascio:dotenv-java:2.2.4'
 
-	//DATABASE
-	//runtimeOnly 'com.mysql:mysql-connector-j'
-	//runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql'
+	//H2 DATABASE
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	// runtimeOnly 'com.h2database:h2'
 
 	//SWAGGER
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
