@@ -15,37 +15,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ArticuloInsumoMapper.class, ArticuloManufacturadoMapper.class})
+@Mapper(componentModel = "spring", uses = {ArticuloMapper.class})
 public interface PromocionDetalleMapper  extends BaseMapper<PromocionDetalle, PromocionDetalleDTO> {
-    @Mapping(source = "articulo", target = "articulo")
-    PromocionDetalleDTO toDTO(PromocionDetalle source);
 
-    @Mapping(source = "articulo", target = "articulo")
-    PromocionDetalle toEntity(PromocionDetalleDTO source);
-
-    List<PromocionDetalleDTO> toDTOsList(List<PromocionDetalle> source);
-    List<PromocionDetalle> toEntitiesList(List<PromocionDetalleDTO> source);
-
-    default Articulo toEntity(ArticuloDTO articuloDTO) {
-        if (articuloDTO instanceof ArticuloInsumoDTO) {
-            return toArticuloInsumo((ArticuloInsumoDTO) articuloDTO);
-        } else if (articuloDTO instanceof ArticuloManufacturadoDTO) {
-            return toArticuloManufacturado((ArticuloManufacturadoDTO) articuloDTO);
-        } else {
-            throw new IllegalArgumentException("Tipo de ArticuloDTO no soportado: " + articuloDTO.getClass().getName());
-        }
-    }
-
-    default ArticuloDTO toDTO(Articulo articulo) {
-        if (articulo instanceof ArticuloInsumo) {
-            return new ArticuloInsumoMapperImpl().toDTO((ArticuloInsumo) articulo);
-        } else if (articulo instanceof ArticuloManufacturado) {
-            return new ArticuloManufacturadoMapperImpl().toDTO((ArticuloManufacturado) articulo);
-        } else {
-            throw new IllegalArgumentException("Tipo de Articulo no soportado: " + articulo.getClass().getName());
-        }
-    }
-
-    ArticuloManufacturado toArticuloManufacturado(ArticuloManufacturadoDTO source);
-    ArticuloInsumo toArticuloInsumo(ArticuloInsumoDTO source);
 }

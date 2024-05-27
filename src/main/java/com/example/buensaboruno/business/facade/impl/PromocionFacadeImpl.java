@@ -48,37 +48,8 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         // Map DTO to Entity
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
 
-        // Ensure sucursales are loaded from DB
-        Set<Sucursal> sucursales = promocion.getSucursales().stream()
-                .map(sucursal -> sucursalRepository.findById(sucursal.getId())
-                        .orElseThrow(() -> new RuntimeException("Sucursal not found: " + sucursal.getId())))
-                .collect(Collectors.toSet());
-
-        // Assign promocion to sucursales and sucursales to promocion
-        for (Sucursal sucursal : sucursales) {
-            sucursal.getPromociones().add(promocion);
-        }
-        promocion.setSucursales(sucursales);
-
-        // Ensure that Articulo entities in PromocionDetalle are loaded from DB
-        for (PromocionDetalle detalle : promocion.getPromocionDetalles()) {
-            Articulo articulo = detalle.getArticulo();
-            if (articulo instanceof ArticuloInsumo) {
-                detalle.setArticulo(articuloInsumoRepository.findById(articulo.getId())
-                        .orElseThrow(() -> new RuntimeException("ArticuloInsumo not found: " + articulo.getId())));
-            } else if (articulo instanceof ArticuloManufacturado) {
-                detalle.setArticulo(articuloManufacturadoRepository.findById(articulo.getId())
-                        .orElseThrow(() -> new RuntimeException("ArticuloManufacturado not found: " + articulo.getId())));
-            } else {
-                throw new RuntimeException("Unsupported Articulo type: " + articulo.getClass().getName());
-            }
-        }
-
         // Save promocion
         Promocion savedPromocion = promocionRepository.save(promocion);
-
-        // Save sucursales to update the relationship in the database
-        sucursalRepository.saveAll(sucursales);
 
         // Return DTO
         return promocionMapper.toDTO(savedPromocion);
@@ -89,37 +60,8 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
         promocion.setId(id);
 
-        // Ensure sucursales are loaded from DB
-        Set<Sucursal> sucursales = promocion.getSucursales().stream()
-                .map(sucursal -> sucursalRepository.findById(sucursal.getId())
-                        .orElseThrow(() -> new RuntimeException("Sucursal not found: " + sucursal.getId())))
-                .collect(Collectors.toSet());
-
-        // Assign promocion to sucursales and sucursales to promocion
-        for (Sucursal sucursal : sucursales) {
-            sucursal.getPromociones().add(promocion);
-        }
-        promocion.setSucursales(sucursales);
-
-        // Ensure that Articulo entities in PromocionDetalle are loaded from DB
-        for (PromocionDetalle detalle : promocion.getPromocionDetalles()) {
-            Articulo articulo = detalle.getArticulo();
-            if (articulo instanceof ArticuloInsumo) {
-                detalle.setArticulo(articuloInsumoRepository.findById(articulo.getId())
-                        .orElseThrow(() -> new RuntimeException("ArticuloInsumo not found: " + articulo.getId())));
-            } else if (articulo instanceof ArticuloManufacturado) {
-                detalle.setArticulo(articuloManufacturadoRepository.findById(articulo.getId())
-                        .orElseThrow(() -> new RuntimeException("ArticuloManufacturado not found: " + articulo.getId())));
-            } else {
-                throw new RuntimeException("Unsupported Articulo type: " + articulo.getClass().getName());
-            }
-        }
-
         // Update promocion
         Promocion updatedPromocion = promocionRepository.save(promocion);
-
-        // Save sucursales to update the relationship in the database
-        sucursalRepository.saveAll(sucursales);
 
         // Return DTO
         return promocionMapper.toDTO(updatedPromocion);

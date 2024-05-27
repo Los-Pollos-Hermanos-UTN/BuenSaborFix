@@ -14,15 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ArticuloInsumoDTO.class, name = "insumo"),
-        @JsonSubTypes.Type(value = ArticuloManufacturadoDTO.class, name = "manufacturado")
-})
 public class ArticuloDTO extends BaseDTO {
     protected String denominacion;
     protected Double precioVenta;
