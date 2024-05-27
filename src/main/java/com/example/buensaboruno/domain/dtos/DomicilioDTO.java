@@ -17,6 +17,6 @@ public class DomicilioDTO extends BaseDTO {
     private Integer numero;
     private Integer cp;
     private Integer piso;
-    private Integer nroDpto;
+    private Integer nroDepto;
     private Localidad localidad;
 }

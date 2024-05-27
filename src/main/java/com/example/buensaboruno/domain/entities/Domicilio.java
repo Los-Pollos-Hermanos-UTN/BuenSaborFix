@@ -19,7 +19,7 @@ public class Domicilio extends Base {
     private Integer numero;
     private Integer cp;
     private Integer piso;
-    private Integer nroDpto;
+    private Integer nroDepto;
 
     @ManyToOne
     @NotAudited
