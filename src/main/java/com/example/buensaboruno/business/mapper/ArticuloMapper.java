@@ -14,6 +14,7 @@ import java.util.List;
 public interface ArticuloMapper extends BaseMapper<Articulo, ArticuloDTO> {
 
     @Override
+    @Mapping(source = "categoriaId", target = "categoria.id")
     Articulo toEntity(ArticuloDTO source);
 
     @Override
@@ -22,5 +23,4 @@ public interface ArticuloMapper extends BaseMapper<Articulo, ArticuloDTO> {
     @Override
     List<Articulo> toEntitiesList(List<ArticuloDTO> source);
 
-    // Eliminamos el método toArticulo para evitar ambigüedad
 }

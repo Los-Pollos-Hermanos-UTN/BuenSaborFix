@@ -25,20 +25,10 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
     @Autowired
     private PromocionRepository promocionRepository;
 
-    @Autowired
-    private PromocionServiceImpl promocionServiceImpl;
 
     @Autowired
     private PromocionMapper promocionMapper;
 
-    @Autowired
-    private SucursalRepository sucursalRepository;
-
-    @Autowired
-    private ArticuloInsumoRepository articuloInsumoRepository;
-
-    @Autowired
-    private ArticuloManufacturadoRepository articuloManufacturadoRepository;
 
     public PromocionFacadeImpl(BaseService<Promocion, Long> baseService, BaseMapper<Promocion, PromocionDTO> baseMapper) {
         super(baseService, baseMapper);

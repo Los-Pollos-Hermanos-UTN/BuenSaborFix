@@ -14,7 +14,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ArticuloMapper.class, SucursalMapper.class})
+@Mapper(componentModel = "spring", uses = {PromocionDetalleMapper.class, ImagenPromocionMapper.class, SucursalMapper.class})
 public interface PromocionMapper extends BaseMapper<Promocion, PromocionDTO> {
     @Override
     Promocion toEntity(PromocionDTO source);

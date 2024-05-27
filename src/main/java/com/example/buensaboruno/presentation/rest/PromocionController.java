@@ -14,24 +14,23 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/promocion")
 public class PromocionController extends BaseControllerImpl<Promocion, PromocionDTO, Long, PromocionFacadeImpl> {
-    public PromocionController(PromocionFacadeImpl facade){
-        super(facade);
-    }
+
     @Autowired
     private PromocionFacadeImpl promocionFacadeImpl;
+
+    public PromocionController(PromocionFacadeImpl facade) {
+        super(facade);
+    }
+
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PromocionDTO> createPromocion(@RequestBody PromocionDTO promocionDTO) {
-
-            PromocionDTO createdPromocion = promocionFacadeImpl.createPromocion(promocionDTO);
-            return new ResponseEntity<>(createdPromocion, HttpStatus.CREATED);
-
+        PromocionDTO createdPromocion = promocionFacadeImpl.createPromocion(promocionDTO);
+        return new ResponseEntity<>(createdPromocion, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/edit/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PromocionDTO> editPromocion(@PathVariable Long id, @RequestBody PromocionDTO promocionDTO) {
-
-            PromocionDTO editedPromocion = promocionFacadeImpl.editPromocion(id, promocionDTO);
-            return new ResponseEntity<>(editedPromocion, HttpStatus.OK);
-
+        PromocionDTO editedPromocion = promocionFacadeImpl.editPromocion(id, promocionDTO);
+        return new ResponseEntity<>(editedPromocion, HttpStatus.OK);
     }
 }
