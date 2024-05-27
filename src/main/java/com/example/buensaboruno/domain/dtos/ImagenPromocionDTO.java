@@ -9,4 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ImagenPromocionDTO extends ImagenBaseDTO {
+    public ImagenPromocionDTO(String url) {
+        super(url);
+    }
 }

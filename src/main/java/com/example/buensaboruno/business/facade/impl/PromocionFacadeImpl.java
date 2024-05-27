@@ -7,15 +7,18 @@ import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.services.PromocionService;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.PromocionServiceImpl;
+import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
 import com.example.buensaboruno.domain.dtos.PromocionDTO;
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
 import com.example.buensaboruno.repositories.PromocionRepository;
 import com.example.buensaboruno.repositories.SucursalRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,9 +32,12 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
     @Autowired
     private PromocionMapper promocionMapper;
 
+    private final ObjectMapper objectMapper;
 
-    public PromocionFacadeImpl(BaseService<Promocion, Long> baseService, BaseMapper<Promocion, PromocionDTO> baseMapper) {
+
+    public PromocionFacadeImpl(BaseService<Promocion, Long> baseService, BaseMapper<Promocion, PromocionDTO> baseMapper, ObjectMapper objectMapper) {
         super(baseService, baseMapper);
+        this.objectMapper = objectMapper;
     }
 
     public PromocionDTO createPromocion(PromocionDTO promocionDTO) {
@@ -60,4 +66,14 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         Promocion updatedPromocion = promocionRepository.save(promocion);
         return promocionMapper.toDTO(updatedPromocion);
     }
+
+    public PromocionDTO mapperJson(String promocionJson) {
+        try {
+            return objectMapper.readValue(promocionJson, PromocionDTO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to map JSON to PromocionDTO", e);
+        }
+    }
+
 }
