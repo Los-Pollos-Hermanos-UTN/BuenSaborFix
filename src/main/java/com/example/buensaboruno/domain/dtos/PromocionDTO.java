@@ -1,6 +1,7 @@
 package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.dtos.base.BaseDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.ImagenPromocion;
 import com.example.buensaboruno.domain.entities.PromocionDetalle;
 import com.example.buensaboruno.domain.entities.Sucursal;
@@ -28,7 +29,7 @@ public class PromocionDTO extends BaseDTO {
     private String descripcionDescuento;
     private Double precioPromocional;
     private TipoPromocion tipoPromocion;
-    private Set<PromocionDetalle> promocionDetalles = new HashSet<>();
+    private Set<PromocionDetalleDTO> promocionDetalles = new HashSet<>();
     private Set<ImagenPromocion> imagenes = new HashSet<>();
-    private Set<Sucursal> sucursales = new HashSet<>();
+    private Set<SucursalShortDTO> sucursales = new HashSet<>();
 }
