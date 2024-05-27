@@ -1,6 +1,7 @@
 package com.example.buensaboruno.domain.dtos.shortDTO;
 
 import com.example.buensaboruno.domain.dtos.base.BaseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SucursalShortDTO extends BaseDTO {
     private String nombre;
     private LocalTime horarioApertura;
