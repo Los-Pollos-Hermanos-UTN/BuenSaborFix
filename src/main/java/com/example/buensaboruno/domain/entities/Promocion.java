@@ -33,10 +33,10 @@ public class Promocion extends Base {
     private Double precioPromocional;
     private TipoPromocion tipoPromocion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "promocion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<PromocionDetalle> promocionDetalles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ImagenPromocion> imagenes = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -45,3 +45,4 @@ public class Promocion extends Base {
             inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
     private Set<Sucursal> sucursales = new HashSet<>();
 }
+

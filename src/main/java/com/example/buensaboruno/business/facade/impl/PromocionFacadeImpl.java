@@ -35,25 +35,29 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
     }
 
     public PromocionDTO createPromocion(PromocionDTO promocionDTO) {
-        // Map DTO to Entity
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
 
-        // Save promocion
-        Promocion savedPromocion = promocionRepository.save(promocion);
+        // Establecer la relación de Promocion en cada PromocionDetalle
+        for (PromocionDetalle detalle : promocion.getPromocionDetalles()) {
+            detalle.setPromocion(promocion);
+        }
 
-        // Return DTO
+
+        Promocion savedPromocion = promocionRepository.save(promocion);
         return promocionMapper.toDTO(savedPromocion);
     }
 
     public PromocionDTO editPromocion(Long id, PromocionDTO promocionDTO) {
-        // Map DTO to Entity
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
         promocion.setId(id);
 
-        // Update promocion
-        Promocion updatedPromocion = promocionRepository.save(promocion);
+        // Establecer la relación de Promocion en cada PromocionDetalle
+        for (PromocionDetalle detalle : promocion.getPromocionDetalles()) {
+            detalle.setPromocion(promocion);
+        }
 
-        // Return DTO
+
+        Promocion updatedPromocion = promocionRepository.save(promocion);
         return promocionMapper.toDTO(updatedPromocion);
     }
 }
