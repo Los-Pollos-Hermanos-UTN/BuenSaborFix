@@ -44,7 +44,6 @@ public class ImagenArticuloServiceImpl extends ImagenBaseServiceImpl<ImagenArtic
             if (url != null) {
                 imageUrls.add(url);
             } else {
-                System.out.println("no xfavor");
                 return null;
             }
         }

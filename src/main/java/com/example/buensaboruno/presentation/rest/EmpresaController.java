@@ -1,12 +1,19 @@
 package com.example.buensaboruno.presentation.rest;
 
 import com.example.buensaboruno.business.facade.impl.EmpresaFacadeImpl;
+import com.example.buensaboruno.business.services.impl.ImagenEmpresaServiceImpl;
 import com.example.buensaboruno.domain.dtos.EmpresaDTO;
+import com.example.buensaboruno.domain.dtos.ImagenEmpresaDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
+import com.example.buensaboruno.repositories.EmpresaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,9 +21,18 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/empresa")
 public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, Long, EmpresaFacadeImpl> {
-    public EmpresaController(EmpresaFacadeImpl facade){
+    public EmpresaController(EmpresaFacadeImpl facade, EmpresaRepository empresaRepository){
         super(facade);
+        this.empresaRepository = empresaRepository;
     }
+
+    @Autowired
+    private EmpresaFacadeImpl empresaFacade;
+
+    @Autowired
+    private ImagenEmpresaServiceImpl imagenEmpresaService;
+
+    private final EmpresaRepository empresaRepository;
 
     @GetMapping("/{id}/short")
     public ResponseEntity<EmpresaShortDTO> getShort(@PathVariable Long id) {
@@ -61,6 +77,51 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
             return ResponseEntity.ok(facade.updateShort(id, empresaShortDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EmpresaDTO> createEmpresa(
+            @RequestPart("data") String empresaJson,
+            @RequestPart("imagenes") MultipartFile file) {
+
+        // Convertir el JSON de empresa a empresaDTO
+        EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
+
+        // Subir la imagen y obtener la URL
+        String imageUrl = imagenEmpresaService.saveImage(file);
+
+        // Verificar si la URL no es nula y asignarla al DTO
+        empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+
+        // Crear la Empresa
+        EmpresaDTO createdEmpresa = empresaFacade.createEmpresa(empresaDTO);
+
+        return new ResponseEntity<>(createdEmpresa, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EmpresaDTO> updateEmpresa(
+            @PathVariable Long id,
+            @RequestPart("data") String empresaJson,
+            @RequestPart("imagenes") MultipartFile file) {
+
+        // Convertir el JSON de empresa a empresaDTO
+        EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
+
+        // Subir la imagen y obtener la URL
+        String imageUrl = imagenEmpresaService.saveImage(file);
+
+        // Verificar si la URL no es nula y asignarla al DTO
+        empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+
+        // Editar la Empresa
+        EmpresaDTO updatedEmpresa = empresaFacade.editEmpresa(empresaDTO, id);
+
+        if (updatedEmpresa != null) {
+            return new ResponseEntity<>(updatedEmpresa, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

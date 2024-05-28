@@ -5,6 +5,7 @@ import com.example.buensaboruno.domain.dtos.shortDTO.CategoriaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpleadoShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.PromocionShortDTO;
+import com.example.buensaboruno.domain.entities.ImagenSucursal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,4 +29,5 @@ public class SucursalDTO extends BaseDTO {
     private Set<CategoriaShortDTO> categorias = new HashSet<>();
     private Set<EmpleadoShortDTO> empleados = new HashSet<>();
     private EmpresaShortDTO empresa;
+    protected ImagenSucursalDTO imagenSucursal;
 }

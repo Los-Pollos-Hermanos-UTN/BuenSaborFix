@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.NotAudited;
 
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -54,4 +55,8 @@ public class Sucursal extends Base {
     @ManyToOne
     @JsonBackReference
     private Empresa empresa;
+
+    @OneToOne (cascade=CascadeType.ALL)
+    @NotAudited
+    protected ImagenSucursal imagenSucursal;
 }

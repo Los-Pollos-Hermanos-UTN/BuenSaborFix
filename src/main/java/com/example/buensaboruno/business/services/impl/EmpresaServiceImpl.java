@@ -18,4 +18,12 @@ public class EmpresaServiceImpl extends BaseServiceImpl<Empresa, Long> implement
         super(baseRepository);
         this.empresaRepository=empresaRepository;
     }
+
+    public Empresa createEmpresa(Empresa empresa){
+        return empresaRepository.save(empresa);
+    }
+
+    public Empresa editEmpresa(Empresa empresa, Long id) throws Exception{
+        return update(id, empresa);
+    }
 }

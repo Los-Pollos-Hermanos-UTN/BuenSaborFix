@@ -2,6 +2,7 @@ package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.dtos.base.BaseDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
+import com.example.buensaboruno.domain.entities.ImagenEmpresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,5 @@ public class EmpresaDTO extends BaseDTO {
     private String razonSocial;
     private Long cuil;
     private Set<SucursalShortDTO> sucursales = new HashSet<>();
+    protected ImagenEmpresaDTO imagenEmpresa;
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.NotAudited;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,4 +27,8 @@ public class Empresa extends Base {
     @Builder.Default
     @JsonManagedReference
     private Set<Sucursal> sucursales = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @NotAudited
+    protected ImagenEmpresa imagenEmpresa;
 }
