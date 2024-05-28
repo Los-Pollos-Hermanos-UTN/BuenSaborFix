@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ArticuloDTO extends BaseDTO {
     protected String denominacion;
     protected Double precioVenta;

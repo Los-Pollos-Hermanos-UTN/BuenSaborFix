@@ -1,10 +1,7 @@
 package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.entities.ArticuloManufacturadoDetalle;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ArticuloManufacturadoDTO extends ArticuloDTO{
 
     private String descripcion;

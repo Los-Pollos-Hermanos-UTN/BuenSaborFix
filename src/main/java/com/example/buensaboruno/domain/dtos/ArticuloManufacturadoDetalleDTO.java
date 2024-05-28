@@ -1,15 +1,13 @@
 package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.dtos.base.BaseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ArticuloManufacturadoDetalleDTO extends BaseDTO {
 
     private Double cantidad;

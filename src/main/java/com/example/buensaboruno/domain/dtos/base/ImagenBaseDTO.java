@@ -1,9 +1,6 @@
 package com.example.buensaboruno.domain.dtos.base;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -11,6 +8,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ImagenBaseDTO {
     private UUID id;
     private String name;
