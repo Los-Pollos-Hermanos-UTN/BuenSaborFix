@@ -81,24 +81,7 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
         ArticuloManufacturadoDTO articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.mapperJson(articuloManufacturadoJson);
 
         // Verificar si hay archivos de imagen para subir
-        if (files != null && files.length > 0) {
-
-            // Subir las imágenes y obtener las URLs
-            List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
-
-            // Crear un conjunto de imágenes a partir de las URLs
-            Set<ImagenArticuloDTO> nuevasImagenes = imageUrls.stream()
-                    .map(url -> new ImagenArticuloDTO(url))
-                    .collect(Collectors.toSet());
-
-            // Verificar si articuloManufacturadoDTO ya tiene imágenes
-            if (articuloManufacturadoDTO.getImagenes() != null && !articuloManufacturadoDTO.getImagenes().isEmpty()) {
-                // Mantener las imágenes existentes y agregar las nuevas
-                articuloManufacturadoDTO.getImagenes().addAll(nuevasImagenes);
-            } else {
-                articuloManufacturadoDTO.setImagenes(nuevasImagenes);
-            }
-        }
+        articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.uploadImages(articuloManufacturadoDTO, files);
 
         // Editar el ArticuloInsumo
         ArticuloManufacturadoDTO updatedArticulo = articuloManufacturadoFacadeImpl.editArticuloManufacturado(articuloManufacturadoDTO, id);
@@ -109,6 +92,5 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }

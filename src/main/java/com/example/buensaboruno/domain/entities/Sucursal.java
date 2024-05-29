@@ -31,7 +31,7 @@ public class Sucursal extends Base {
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JoinTable(name = "sucursal_promocion",
+    @JoinTable(name = "promocion_sucursal",
             joinColumns = @JoinColumn(name = "promocion_id"),
             inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
     @Builder.Default

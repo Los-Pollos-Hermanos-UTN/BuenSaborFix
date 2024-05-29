@@ -6,7 +6,10 @@ import com.example.buensaboruno.business.mapper.ArticuloInsumoMapper;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.ArticuloInsumoServiceImpl;
+import com.example.buensaboruno.business.services.impl.ImagenArticuloServiceImpl;
 import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
+import com.example.buensaboruno.domain.dtos.ArticuloManufacturadoDTO;
+import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.CategoriaRepository;
@@ -15,10 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, ArticuloInsumoDTO, Long> implements ArticuloInsumoFacade {
@@ -37,6 +43,31 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
 
     @Autowired
     private ArticuloInsumoRepository articuloInsumoRepository;
+
+    @Autowired
+    private ImagenArticuloServiceImpl imagenArticuloServiceImpl;
+
+    public ArticuloInsumoDTO uploadImages(ArticuloInsumoDTO articuloInsumoDTO, MultipartFile[] files){
+        if (files != null && files.length > 0) {
+
+            // Subir las imágenes y obtener las URLs
+            List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
+
+            // Crear un conjunto de imágenes a partir de las URLs
+            Set<ImagenArticuloDTO> nuevasImagenes = imageUrls.stream()
+                    .map(url -> new ImagenArticuloDTO(url))
+                    .collect(Collectors.toSet());
+
+            // Verificar si articuloInsumoDTO ya tiene imágenes
+            if (articuloInsumoDTO.getImagenes() != null && !articuloInsumoDTO.getImagenes().isEmpty()) {
+                // Mantener las imágenes existentes y agregar las nuevas
+                articuloInsumoDTO.getImagenes().addAll(nuevasImagenes);
+            } else {
+                articuloInsumoDTO.setImagenes(nuevasImagenes);
+            }
+        }
+        return articuloInsumoDTO;
+    }
 
     public ArticuloInsumoDTO createArticuloInsumo(ArticuloInsumoDTO articuloInsumoDTO) {
         ArticuloInsumo articuloInsumo = articuloInsumoMapper.toEntityWithContextMapping(articuloInsumoDTO, categoriaRepository);

@@ -2,11 +2,8 @@ package com.example.buensaboruno.presentation.rest;
 
 import com.example.buensaboruno.business.facade.impl.PromocionFacadeImpl;
 import com.example.buensaboruno.business.services.impl.ImagenPromocionServiceImpl;
-import com.example.buensaboruno.domain.dtos.ArticuloInsumoDTO;
-import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 import com.example.buensaboruno.domain.dtos.ImagenPromocionDTO;
 import com.example.buensaboruno.domain.dtos.PromocionDTO;
-import com.example.buensaboruno.domain.entities.ImagenPromocion;
 import com.example.buensaboruno.domain.entities.Promocion;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,23 +62,18 @@ public class PromocionController extends BaseControllerImpl<Promocion, Promocion
     public ResponseEntity<PromocionDTO> editPromocion(
             @PathVariable Long id,
             @RequestPart("data") String promocionJson,
-            @RequestPart("imagenes") MultipartFile[] files) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile[] files) {
 
         // Convertir el JSON de promocion a PromocionDTO
         PromocionDTO promocionDTO = promocionFacadeImpl.mapperJson(promocionJson);
 
+        // Manejar el caso en que el mapeo falle
         if (promocionDTO == null) {
-            // Manejar el caso en que el mapeo falle
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        // Subir las imágenes y obtener las URLs
-        List<String> imageUrls = imagenPromocionServiceImpl.saveImages(files);
-
-        // Asignar las URLs de las imágenes al DTO
-        promocionDTO.setImagenes(imageUrls.stream()
-                .map(url -> new ImagenPromocionDTO(url))
-                .collect(Collectors.toSet()));
+        // Verificar si hay archivos de imagen para subir
+        promocionDTO = promocionFacadeImpl.uploadImages(promocionDTO, files);
 
         // Crear la Promocion
         PromocionDTO editedPromocion = promocionFacadeImpl.editPromocion(id, promocionDTO);

@@ -70,18 +70,13 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
     public ResponseEntity<ArticuloInsumoDTO> updateArticuloInsumo(
             @PathVariable Long id,
             @RequestPart("data") String articuloInsumoJson,
-            @RequestPart("imagenes") MultipartFile[] files) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
 
-        // Subir las imágenes y obtener las URLs
-        List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
-
-        // Asignar las URLs de las imágenes al DTO
-        articuloInsumoDTO.setImagenes(imageUrls.stream()
-                .map(url -> new ImagenArticuloDTO(url))
-                .collect(Collectors.toSet()));
+        // Verificar si hay archivos de imagen para subir
+        articuloInsumoDTO = articuloInsumoFacadeImpl.uploadImages(articuloInsumoDTO, files);
 
         // Editar el ArticuloInsumo
         ArticuloInsumoDTO updatedArticulo = articuloInsumoFacadeImpl.editArticuloInsumo(articuloInsumoDTO, id);
