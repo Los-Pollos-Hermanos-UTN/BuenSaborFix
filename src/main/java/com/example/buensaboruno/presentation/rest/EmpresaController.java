@@ -104,16 +104,18 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     public ResponseEntity<EmpresaDTO> updateEmpresa(
             @PathVariable Long id,
             @RequestPart("data") String empresaJson,
-            @RequestPart("imagenes") MultipartFile file) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile file) {
 
         // Convertir el JSON de empresa a empresaDTO
         EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
 
         // Subir la imagen y obtener la URL
-        String imageUrl = imagenEmpresaService.saveImage(file);
+        if(empresaDTO.getImagenEmpresa() != null || empresaDTO.getImagenEmpresa().getUrl().isEmpty()){
+            String imageUrl = imagenEmpresaService.saveImage(file);
 
-        // Verificar si la URL no es nula y asignarla al DTO
-        empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+            // Verificar si la URL no es nula y asignarla al DTO
+            empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+        }
 
         // Editar la Empresa
         EmpresaDTO updatedEmpresa = empresaFacade.editEmpresa(empresaDTO, id);
