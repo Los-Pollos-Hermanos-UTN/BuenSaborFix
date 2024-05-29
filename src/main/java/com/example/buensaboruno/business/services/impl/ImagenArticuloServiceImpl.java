@@ -36,11 +36,8 @@ public class ImagenArticuloServiceImpl extends ImagenBaseServiceImpl<ImagenArtic
 
     public List<String> saveImages(MultipartFile[] files){
         List<String> imageUrls = new ArrayList<>();
-        int i = 0;
         for (MultipartFile file : files) {
             String url = cloudinaryServiceImpl.uploadFile(file);
-            i++;
-            System.out.println(i);
             if (url != null) {
                 imageUrls.add(url);
             } else {
