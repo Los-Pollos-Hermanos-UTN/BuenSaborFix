@@ -26,8 +26,6 @@ public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long>
     @Autowired
     private EmpresaMapper empresaMapper;
 
-    @Autowired
-    private EmpresaRepository empresaRepository;
 
     private final ObjectMapper objectMapper;
 

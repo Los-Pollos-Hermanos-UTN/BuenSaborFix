@@ -30,7 +30,7 @@ public class Cliente extends Base {
     @OneToOne
     protected UsuarioCliente usuario;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotAudited
     protected ImagenCliente imagenCliente;
 

@@ -27,7 +27,7 @@ public class ClienteDTO extends BaseDTO {
     protected String email;
     protected LocalDate fechaNac;
     protected UsuarioCliente usuario;
-    protected ImagenCliente imagenCliente;
+    protected ImagenClienteDTO imagenCliente;
     protected Set<DomicilioDTO> domicilios = new HashSet<>();
     private Set<PedidoShortDTO> pedidos = new HashSet<>();
 }
