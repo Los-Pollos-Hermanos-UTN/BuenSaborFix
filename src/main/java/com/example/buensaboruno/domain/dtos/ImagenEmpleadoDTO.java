@@ -9,4 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ImagenEmpleadoDTO extends ImagenBaseDTO {
+
+    public ImagenEmpleadoDTO(String url){
+        super(url);
+    }
 }

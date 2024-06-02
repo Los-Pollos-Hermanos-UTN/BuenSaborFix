@@ -31,7 +31,7 @@
         @OneToOne
         private UsuarioEmpleado usuarioEmpleado;
 
-        @OneToOne
+        @OneToOne(cascade = CascadeType.ALL)
         @NotAudited
         private ImagenEmpleado imagenEmpleado;
 

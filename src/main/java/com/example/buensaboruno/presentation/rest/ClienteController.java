@@ -38,13 +38,12 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ClienteDTO clienteDTO = clienteFacadeImpl.mapperJson(clienteJson);
-        System.out.println(clienteDTO);
         // Subir las imágenes y obtener las URLs
         String imageUrl = imagenClienteServiceImpl.saveImage(file);
         // Asignar las URLs de las imágenes al DTO
         clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
 
-        // Crear el ArticuloInsumo
+        // Crear el Cliente
         ClienteDTO createdCliente = clienteFacadeImpl.createCliente(clienteDTO);
 
         return new ResponseEntity<>(createdCliente, HttpStatus.CREATED);
@@ -56,7 +55,7 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
             @RequestPart("data") String clienteJson,
             @RequestPart(value = "imagenes", required = false) MultipartFile file) {
 
-        // Convertir el JSON de empresa a empresaDTO
+        // Convertir el JSON de cliente a clienteDTO
         ClienteDTO clienteDTO = clienteFacadeImpl.mapperJson(clienteJson);
 
         // Subir la imagen y obtener la URL
@@ -67,7 +66,7 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
             clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
         }
 
-        // Editar la Empresa
+        // Editar el Cliente
         ClienteDTO updatedCliente = clienteFacadeImpl.editCliente(clienteDTO, id);
 
         if (updatedCliente != null) {
