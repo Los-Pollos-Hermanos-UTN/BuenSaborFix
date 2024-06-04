@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ArticuloInsumoDTO extends ArticuloDTO{
 
     private Double precioCompra;
-    private Integer stockActual;
-    private Integer stockMaximo;
+    private Double stockActual;
+    private Double stockMaximo;
     private Boolean esParaElaborar;
 }
