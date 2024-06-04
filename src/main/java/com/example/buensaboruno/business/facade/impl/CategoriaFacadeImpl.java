@@ -109,6 +109,22 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
         return categoriaMapper.toDTOsList(categoriasPadre);
     }
 
+    public Set<CategoriaDTO> listCategoriasBySucursal(Long id) {
+        Set<Categoria> categorias = categoriaRepository.findCategoriasBySucursalId(id);
+
+        // Filtrar categorías no eliminadas y principales (sin padre)
+        Set<Categoria> categoriasFiltradas = categorias.stream()
+                .filter(categoria -> !categoria.isEliminado() && categoria.getPadre() == null)
+                .collect(Collectors.toSet());
+
+        // Filtrar subcategorías no eliminadas de manera recursiva
+        for (Categoria categoria : categoriasFiltradas) {
+            filtrarSubCategoriasNoEliminadas(categoria);
+        }
+
+        return categoriaMapper.toDTOsList(categoriasFiltradas);
+    }
+
     public Set<CategoriaDTO> listCategoriasByEmpresaId(Long id) {
         Set<Categoria> categorias = categoriaRepository.findCategoriasByEmpresaId(id);
 
