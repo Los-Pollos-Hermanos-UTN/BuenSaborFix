@@ -39,10 +39,7 @@ public class Promocion extends Base {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<ImagenPromocion> imagenes = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "promocion_sucursal",
-            joinColumns = @JoinColumn(name = "promocion_id"),
-            inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
+    @ManyToMany (mappedBy = "promociones")
     private Set<Sucursal> sucursales = new HashSet<>();
 }
 
