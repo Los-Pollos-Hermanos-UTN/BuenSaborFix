@@ -6,6 +6,7 @@ import com.example.buensaboruno.domain.entities.ImagenPromocion;
 import com.example.buensaboruno.domain.entities.PromocionDetalle;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.domain.enums.TipoPromocion;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PromocionDTO extends BaseDTO {
     private String denominacion;
     private LocalDate fechaDesde;

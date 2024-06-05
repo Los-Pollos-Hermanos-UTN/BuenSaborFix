@@ -30,4 +30,25 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
         List<PedidoDTO> pedidoDTOS = pedidoFacadeImpl.findPedidosByEmpresaId(id);
         return new ResponseEntity<>(pedidoDTOS, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPedido(@RequestBody PedidoDTO pedidoDTO){
+        try{
+            PedidoDTO createdPedido = pedidoFacadeImpl.createPedido(pedidoDTO);
+            return new ResponseEntity<>(createdPedido, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping(value = "edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editPedido(@PathVariable Long id, @RequestBody PedidoDTO pedidoDTO){
+        try{
+            PedidoDTO editedPedidoDTO = pedidoFacadeImpl.editPedidoDTO(id, pedidoDTO);
+            return new ResponseEntity<>(editedPedidoDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        }
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.example.buensaboruno.business.services.impl;
 
-import com.example.buensaboruno.business.services.ImagenClienteService;
+import com.example.buensaboruno.business.services.ImagenSucursalService;
 import com.example.buensaboruno.business.services.base.ImagenBaseServiceImpl;
-import com.example.buensaboruno.domain.entities.ImagenCliente;
-import com.example.buensaboruno.repositories.ImagenClienteRepository;
+import com.example.buensaboruno.domain.entities.ImagenSucursal;
+import com.example.buensaboruno.repositories.ImagenSucursalRepository;
 import com.example.buensaboruno.repositories.base.ImagenBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,28 +12,27 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 @Service
-public class ImagenClienteServiceImpl extends ImagenBaseServiceImpl<ImagenCliente, UUID> implements ImagenClienteService {
+public class ImagenSucursalServiceImpl extends ImagenBaseServiceImpl<ImagenSucursal, UUID> implements ImagenSucursalService {
 
-    private final ImagenClienteRepository imagenClienteRepository;
+    private final ImagenSucursalRepository imagenSucursalRepository;
 
     @Autowired
     private CloudinaryServiceImpl cloudinaryServiceImpl;
 
     @Autowired
-    public ImagenClienteServiceImpl(ImagenBaseRepository<ImagenCliente, UUID> imagenBaseRepository, ImagenClienteRepository imagenClienteRepository) {
+    public ImagenSucursalServiceImpl(ImagenBaseRepository<ImagenSucursal, UUID> imagenBaseRepository, ImagenSucursalRepository imagenSucursalRepository){
         super(imagenBaseRepository);
-        this.imagenClienteRepository = imagenClienteRepository;
+        this.imagenSucursalRepository = imagenSucursalRepository;
     }
 
     @Override
-    protected ImagenCliente createImageEntity() {
-        return new ImagenCliente();
+    protected ImagenSucursal createImageEntity(){
+        return new ImagenSucursal();
     }
-
 
     public String saveImage(MultipartFile file) {
         String url = cloudinaryServiceImpl.uploadFile(file);
         return url != null ? url : null;
     }
-}
 
+}

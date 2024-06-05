@@ -36,5 +36,11 @@ public class SucursalServiceImpl extends BaseServiceImpl<Sucursal, Long> impleme
         return sucursalMapper.toDTOsList(entities);
     }
 
+    public Sucursal createSucursal(Sucursal sucursal){
+        return sucursalRepository.save(sucursal);
+    }
 
+    public Sucursal editSucursal(Sucursal sucursal, Long id) throws Exception{
+        return update(id, sucursal);
+    }
 }

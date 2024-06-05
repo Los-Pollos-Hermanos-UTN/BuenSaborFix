@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.NotAudited;
 
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class Sucursal extends Base {
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JoinTable(name = "sucursal_promocion",
+    @JoinTable(name = "promocion_sucursal",
             joinColumns = @JoinColumn(name = "promocion_id"),
             inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
     @Builder.Default
@@ -54,4 +55,8 @@ public class Sucursal extends Base {
     @ManyToOne
     @JsonBackReference
     private Empresa empresa;
+
+    @OneToOne (cascade=CascadeType.ALL)
+    @NotAudited
+    protected ImagenSucursal imagenSucursal;
 }

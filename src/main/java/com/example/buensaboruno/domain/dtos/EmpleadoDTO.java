@@ -1,6 +1,8 @@
 package com.example.buensaboruno.domain.dtos;
 
 import com.example.buensaboruno.domain.dtos.base.BaseDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.PedidoShortDTO;
+import com.example.buensaboruno.domain.dtos.shortDTO.SucursalShortDTO;
 import com.example.buensaboruno.domain.entities.ImagenEmpleado;
 import com.example.buensaboruno.domain.entities.Pedido;
 import com.example.buensaboruno.domain.entities.Sucursal;
@@ -28,7 +30,7 @@ public class EmpleadoDTO extends BaseDTO {
     private String email;
     private LocalDate fechaNacimiento;
     private UsuarioEmpleado usuarioEmpleado;
-    private ImagenEmpleado imagenEmpleado;
-    private Set<Pedido> pedidos= new HashSet<>();
-    private Sucursal sucursal;
+    private ImagenEmpleadoDTO imagenEmpleado;
+    private Set<PedidoShortDTO> pedidos= new HashSet<>();
+    private SucursalShortDTO sucursal;
 }

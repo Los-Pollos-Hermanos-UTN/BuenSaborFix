@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -73,18 +75,13 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
     public ResponseEntity<ArticuloManufacturadoDTO> updateArticuloManufacturado(
             @PathVariable Long id,
             @RequestPart("data") String articuloManufacturadoJson,
-            @RequestPart("imagenes") MultipartFile[] files) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile[] files) {
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloManufacturadoDTO articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.mapperJson(articuloManufacturadoJson);
 
-        // Subir las imágenes y obtener las URLs
-        List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
-
-        // Asignar las URLs de las imágenes al DTO
-        articuloManufacturadoDTO.setImagenes(imageUrls.stream()
-                .map(url -> new ImagenArticuloDTO(url))
-                .collect(Collectors.toSet()));
+        // Verificar si hay archivos de imagen para subir
+        articuloManufacturadoDTO = articuloManufacturadoFacadeImpl.uploadImages(articuloManufacturadoDTO, files);
 
         // Editar el ArticuloInsumo
         ArticuloManufacturadoDTO updatedArticulo = articuloManufacturadoFacadeImpl.editArticuloManufacturado(articuloManufacturadoDTO, id);
@@ -95,4 +92,5 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }

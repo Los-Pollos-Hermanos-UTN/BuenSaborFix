@@ -14,8 +14,8 @@ import lombok.experimental.SuperBuilder;
 //@Audited
 public class ArticuloInsumo extends Articulo{
     private Double precioCompra;
-    private Integer stockActual;
-    private Integer stockMaximo;
+    private Double stockActual;
+    private Double stockMaximo;
     private Boolean esParaElaborar;
 
 }

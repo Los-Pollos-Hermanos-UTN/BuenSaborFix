@@ -53,5 +53,11 @@ public class CategoriaController extends BaseControllerImpl<Categoria, Categoria
         Set<CategoriaDTO> categoriaDTOS = categoriaFacadeImpl.listCategoriasByEmpresaId(id);
         return new ResponseEntity<>(categoriaDTOS, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/listBySucursal/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Set<CategoriaDTO>> listCategoriasBySucursal(@PathVariable Long id) {
+        Set<CategoriaDTO> categoriaDTOS = categoriaFacadeImpl.listCategoriasBySucursal(id);
+        return new ResponseEntity<>(categoriaDTOS, HttpStatus.OK);
+    }
 }
 

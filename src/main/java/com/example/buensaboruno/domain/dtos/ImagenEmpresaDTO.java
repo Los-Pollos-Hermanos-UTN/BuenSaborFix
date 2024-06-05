@@ -8,9 +8,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ImagenClienteDTO extends ImagenBaseDTO {
+public class ImagenEmpresaDTO extends ImagenBaseDTO {
 
-    public ImagenClienteDTO(String url) {
+    public ImagenEmpresaDTO(String url){
         super(url);
     }
 }

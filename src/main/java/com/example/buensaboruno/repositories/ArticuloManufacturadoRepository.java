@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ArticuloManufacturadoRepository extends BaseRepository<ArticuloManufacturado,Long> {
 
-    @Query("SELECT am FROM ArticuloManufacturado am WHERE am.categoria IN (SELECT c FROM Categoria c JOIN c.sucursales s WHERE s.empresa.id = :empresaId)")
+    @Query("SELECT am FROM ArticuloManufacturado am WHERE am.eliminado = false AND am.categoria IN (SELECT c FROM Categoria c JOIN c.sucursales s WHERE s.empresa.id = :empresaId AND c.eliminado = false) AND am.eliminado = false")
     List<ArticuloManufacturado> findByEmpresaId(@Param("empresaId") Long empresaId);
 
 }
