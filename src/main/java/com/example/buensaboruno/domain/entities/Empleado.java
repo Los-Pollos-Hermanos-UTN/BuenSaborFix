@@ -40,7 +40,7 @@
         @ToString.Exclude
         @Builder.Default
         @JsonManagedReference
-        private Set<Pedido> pedidos= new HashSet<>();
+        private Set<Pedido> pedidos = new HashSet<>();
 
         @ManyToOne
         @ToString.Exclude

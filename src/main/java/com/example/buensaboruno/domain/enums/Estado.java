@@ -1,9 +1,10 @@
 package com.example.buensaboruno.domain.enums;
 
 public enum Estado {
-    PREPARACION,
     PENDIENTE,
+    PREPARACION,
     CANCELADO,
     RECHAZADO,
+    RETIRAR,
     ENTREGADO
 }

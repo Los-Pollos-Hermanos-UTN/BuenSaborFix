@@ -5,6 +5,7 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.mapper.PedidoMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.impl.PedidoServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
@@ -36,11 +37,22 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
     private ArticuloInsumoRepository articuloInsumoRepository;
 
     @Autowired
+    private PedidoServiceImpl pedidoServiceImpl;
+
+
+    @Autowired
     private PedidoMapper pedidoMapper;
 
     public List<PedidoDTO> findPedidosByEmpresaId(Long empresaId) {
         List<PedidoDTO> pedidoDTOS = pedidoMapper.toDTOsList(pedidoRepository.findByEmpresaId(empresaId));
         return pedidoDTOS;
+    }
+
+    @Transactional
+    public PedidoDTO editPedidoDTO(Long id, PedidoDTO pedidoDTO) throws Exception {
+        Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
+        pedido = pedidoServiceImpl.update(id, pedido);
+        return pedidoMapper.toDTO(pedido);
     }
 
     @Transactional
