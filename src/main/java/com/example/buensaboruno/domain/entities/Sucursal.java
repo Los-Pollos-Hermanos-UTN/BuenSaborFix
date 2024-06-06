@@ -31,11 +31,11 @@ public class Sucursal extends Base {
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JoinTable(name = "promocion_sucursal",
-            joinColumns = @JoinColumn(name = "promocion_id"),
-            inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
+    @JoinTable(name = "sucursal_promocion",
+            joinColumns = @JoinColumn(name = "sucursal_id"),
+            inverseJoinColumns = @JoinColumn(name = "promocion_id"))
+    //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
-    @JsonManagedReference
     private Set<Promocion> promociones = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

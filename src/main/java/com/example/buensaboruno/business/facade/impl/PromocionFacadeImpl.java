@@ -11,6 +11,7 @@ import com.example.buensaboruno.domain.dtos.PromocionDTO;
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.repositories.PromocionRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +64,7 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         return promocionDTO;
     }
 
+    @Transactional
     public PromocionDTO createPromocion(PromocionDTO promocionDTO) {
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
 
@@ -75,6 +77,7 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         return promocionMapper.toDTO(savedPromocion);
     }
 
+    @Transactional
     public PromocionDTO editPromocion(Long id, PromocionDTO promocionDTO) {
         Promocion promocion = promocionMapper.toEntity(promocionDTO);
         promocion.setId(id);
