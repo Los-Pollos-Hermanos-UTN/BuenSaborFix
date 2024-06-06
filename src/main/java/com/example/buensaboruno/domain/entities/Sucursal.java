@@ -58,4 +58,9 @@ public class Sucursal extends Base {
     @OneToOne (cascade=CascadeType.ALL)
     @NotAudited
     protected ImagenSucursal imagenSucursal;
+
+    @OneToMany
+    @JoinColumn(name = "sucursal_id")
+    @NotAudited
+    private Set<Articulo> articulos = new HashSet<>();
 }
