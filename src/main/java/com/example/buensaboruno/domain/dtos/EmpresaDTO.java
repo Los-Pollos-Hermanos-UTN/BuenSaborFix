@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -20,5 +21,5 @@ public class EmpresaDTO extends BaseDTO {
     private String razonSocial;
     private Long cuil;
     private Set<SucursalShortDTO> sucursales = new HashSet<>();
-    protected ImagenEmpresaDTO imagenes;
+    protected Set<ImagenEmpresaDTO> imagenes;
 }

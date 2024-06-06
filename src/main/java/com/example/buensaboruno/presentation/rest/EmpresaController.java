@@ -3,9 +3,11 @@ package com.example.buensaboruno.presentation.rest;
 import com.example.buensaboruno.business.facade.impl.EmpresaFacadeImpl;
 import com.example.buensaboruno.business.services.impl.ImagenEmpresaServiceImpl;
 import com.example.buensaboruno.domain.dtos.EmpresaDTO;
+import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 import com.example.buensaboruno.domain.dtos.ImagenEmpresaDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.entities.Empresa;
+import com.example.buensaboruno.domain.entities.ImagenEmpresa;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import com.example.buensaboruno.repositories.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -83,16 +86,18 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmpresaDTO> createEmpresa(
             @RequestPart("data") String empresaJson,
-            @RequestPart("imagenes") MultipartFile file) {
+            @RequestPart("imagenes") MultipartFile[] files) {
 
         // Convertir el JSON de empresa a empresaDTO
         EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
 
         // Subir la imagen y obtener la URL
-        String imageUrl = imagenEmpresaService.saveImage(file);
+        List<String> imageUrls = imagenEmpresaService.saveImages(files);
 
         // Verificar si la URL no es nula y asignarla al DTO
-        empresaDTO.setImagenes(new ImagenEmpresaDTO(imageUrl));
+        empresaDTO.setImagenes(imageUrls.stream()
+                .map(url -> new ImagenEmpresaDTO(url))
+                .collect(Collectors.toSet()));
 
         // Crear la Empresa
         EmpresaDTO createdEmpresa = empresaFacade.createEmpresa(empresaDTO);
@@ -104,18 +109,13 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     public ResponseEntity<EmpresaDTO> updateEmpresa(
             @PathVariable Long id,
             @RequestPart("data") String empresaJson,
-            @RequestPart(value = "imagenes", required = false) MultipartFile file) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile[] files) {
 
         // Convertir el JSON de empresa a empresaDTO
         EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
 
-        // Subir la imagen y obtener la URL
-        if(empresaDTO.getImagenes() != null || empresaDTO.getImagenes().getUrl().isEmpty()){
-            String imageUrl = imagenEmpresaService.saveImage(file);
-
-            // Verificar si la URL no es nula y asignarla al DTO
-            empresaDTO.setImagenes(new ImagenEmpresaDTO(imageUrl));
-        }
+        // Verificar si hay archivos de imagen para subir
+        empresaDTO = empresaFacade.uploadImages(empresaDTO, files);
 
         // Editar la Empresa
         EmpresaDTO updatedEmpresa = empresaFacade.editEmpresa(empresaDTO, id);

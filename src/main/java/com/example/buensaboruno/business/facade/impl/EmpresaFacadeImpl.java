@@ -5,17 +5,20 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.EmpresaMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.EmpresaServiceImpl;
-import com.example.buensaboruno.domain.dtos.EmpresaDTO;
-import com.example.buensaboruno.domain.dtos.SucursalDTO;
+import com.example.buensaboruno.business.services.impl.ImagenEmpresaServiceImpl;
+import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.repositories.EmpresaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long> implements EmpresaFacade {
@@ -26,6 +29,8 @@ public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long>
     @Autowired
     private EmpresaMapper empresaMapper;
 
+    @Autowired
+    private ImagenEmpresaServiceImpl imagenEmpresaServiceImpl;
 
     private final ObjectMapper objectMapper;
 
@@ -66,6 +71,28 @@ public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long>
             e.printStackTrace();
             throw new RuntimeException("Failed to map JSON to SucursalDTO", e);
         }
+    }
+
+    public EmpresaDTO uploadImages(EmpresaDTO empresaDTO, MultipartFile[] files){
+        if (files != null && files.length > 0) {
+
+            // Subir las imágenes y obtener las URLs
+            List<String> imageUrls = imagenEmpresaServiceImpl.saveImages(files);
+
+            // Crear un conjunto de imágenes a partir de las URLs
+            Set<ImagenEmpresaDTO> nuevasImagenes = imageUrls.stream()
+                    .map(url -> new ImagenEmpresaDTO(url))
+                    .collect(Collectors.toSet());
+
+            // Verificar si articuloInsumoDTO ya tiene imágenes
+            if (empresaDTO.getImagenes() != null && !empresaDTO.getImagenes().isEmpty()) {
+                // Mantener las imágenes existentes y agregar las nuevas
+                empresaDTO.getImagenes().addAll(nuevasImagenes);
+            } else {
+                empresaDTO.setImagenes(nuevasImagenes);
+            }
+        }
+        return empresaDTO;
     }
 
     public EmpresaDTO createEmpresa(EmpresaDTO empresaDTO){
