@@ -32,7 +32,7 @@ public class Pedido extends Base {
     private FormaPago formaPago;
     private LocalDate fechaPedido;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
 
     @ManyToOne
