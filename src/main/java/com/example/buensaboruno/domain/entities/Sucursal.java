@@ -29,12 +29,11 @@ public class Sucursal extends Base {
     @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany
     @ToString.Exclude
     @JoinTable(name = "sucursal_promocion",
             joinColumns = @JoinColumn(name = "sucursal_id"),
             inverseJoinColumns = @JoinColumn(name = "promocion_id"))
-    //SE AGREGA EL BUILDER.DEFAULT PARA QUE BUILDER NO SOBREESCRIBA LA INICIALIZACION DE LA LISTA
     @Builder.Default
     private Set<Promocion> promociones = new HashSet<>();
 
@@ -59,4 +58,9 @@ public class Sucursal extends Base {
     @OneToOne (cascade=CascadeType.ALL)
     @NotAudited
     protected ImagenSucursal imagenSucursal;
+
+    @OneToMany
+    @JoinColumn(name = "sucursal_id")
+    @NotAudited
+    private Set<Articulo> articulos = new HashSet<>();
 }
