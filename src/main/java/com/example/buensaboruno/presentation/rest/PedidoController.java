@@ -37,7 +37,7 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
             PedidoDTO createdPedido = pedidoFacadeImpl.createPedido(pedidoDTO);
             return new ResponseEntity<>(createdPedido, HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
