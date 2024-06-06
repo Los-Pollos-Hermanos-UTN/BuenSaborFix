@@ -20,5 +20,5 @@ public class EmpresaDTO extends BaseDTO {
     private String razonSocial;
     private Long cuil;
     private Set<SucursalShortDTO> sucursales = new HashSet<>();
-    protected ImagenEmpresaDTO imagenEmpresa;
+    protected ImagenEmpresaDTO imagenes;
 }

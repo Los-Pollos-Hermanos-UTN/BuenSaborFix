@@ -92,7 +92,7 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         String imageUrl = imagenEmpresaService.saveImage(file);
 
         // Verificar si la URL no es nula y asignarla al DTO
-        empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+        empresaDTO.setImagenes(new ImagenEmpresaDTO(imageUrl));
 
         // Crear la Empresa
         EmpresaDTO createdEmpresa = empresaFacade.createEmpresa(empresaDTO);
@@ -110,11 +110,11 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         EmpresaDTO empresaDTO = empresaFacade.mapperJson(empresaJson);
 
         // Subir la imagen y obtener la URL
-        if(empresaDTO.getImagenEmpresa() != null || empresaDTO.getImagenEmpresa().getUrl().isEmpty()){
+        if(empresaDTO.getImagenes() != null || empresaDTO.getImagenes().getUrl().isEmpty()){
             String imageUrl = imagenEmpresaService.saveImage(file);
 
             // Verificar si la URL no es nula y asignarla al DTO
-            empresaDTO.setImagenEmpresa(new ImagenEmpresaDTO(imageUrl));
+            empresaDTO.setImagenes(new ImagenEmpresaDTO(imageUrl));
         }
 
         // Editar la Empresa

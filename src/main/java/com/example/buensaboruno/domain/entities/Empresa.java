@@ -30,5 +30,5 @@ public class Empresa extends Base {
 
     @OneToOne(cascade = CascadeType.ALL)
     @NotAudited
-    protected ImagenEmpresa imagenEmpresa;
+    protected ImagenEmpresa imagenes;
 }
