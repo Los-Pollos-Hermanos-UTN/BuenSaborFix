@@ -29,13 +29,12 @@ public class Sucursal extends Base {
     @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany
     @ToString.Exclude
-    @JoinTable(name = "promocion_sucursal",
-            joinColumns = @JoinColumn(name = "promocion_id"),
-            inverseJoinColumns = @JoinColumn(name = "sucursal_id"))
+    @JoinTable(name = "sucursal_promocion",
+            joinColumns = @JoinColumn(name = "sucursal_id"),
+            inverseJoinColumns = @JoinColumn(name = "promocion_id"))
     @Builder.Default
-    @JsonManagedReference
     private Set<Promocion> promociones = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -59,4 +58,9 @@ public class Sucursal extends Base {
     @OneToOne (cascade=CascadeType.ALL)
     @NotAudited
     protected ImagenSucursal imagenSucursal;
+
+    @OneToMany
+    @JoinColumn(name = "sucursal_id")
+    @NotAudited
+    private Set<Articulo> articulos = new HashSet<>();
 }

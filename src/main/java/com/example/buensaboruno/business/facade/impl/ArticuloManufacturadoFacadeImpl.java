@@ -25,8 +25,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManufacturado, ArticuloManufacturadoDTO, Long> implements ArticuloManufacturadoFacade {
-    public ArticuloManufacturadoFacadeImpl(BaseService<ArticuloManufacturado, Long> baseService, BaseMapper<ArticuloManufacturado, ArticuloManufacturadoDTO> baseMapper){
+
+    private final ObjectMapper objectMapper;
+
+    public ArticuloManufacturadoFacadeImpl(BaseService<ArticuloManufacturado, Long> baseService, BaseMapper<ArticuloManufacturado, ArticuloManufacturadoDTO> baseMapper, ObjectMapper objectMapper){
         super(baseService, baseMapper);
+        this.objectMapper = objectMapper;
     }
 
     @Autowired
@@ -83,7 +87,6 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
     }
 
     public ArticuloManufacturadoDTO mapperJson(String articuloManufacturadoJson) {
-        ObjectMapper objectMapper = new ObjectMapper();
         ArticuloManufacturadoDTO articuloManufacturadoDTO;
         try {
             articuloManufacturadoDTO = objectMapper.readValue(articuloManufacturadoJson, ArticuloManufacturadoDTO.class);

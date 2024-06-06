@@ -28,8 +28,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, ArticuloInsumoDTO, Long> implements ArticuloInsumoFacade {
-    public ArticuloInsumoFacadeImpl(BaseService<ArticuloInsumo, Long> baseService, BaseMapper<ArticuloInsumo, ArticuloInsumoDTO> baseMapper){
+
+    private final ObjectMapper objectMapper;
+
+    public ArticuloInsumoFacadeImpl(BaseService<ArticuloInsumo, Long> baseService, BaseMapper<ArticuloInsumo, ArticuloInsumoDTO> baseMapper, ObjectMapper objectMapper){
         super(baseService, baseMapper);
+        this.objectMapper = objectMapper;
     }
 
     @Autowired
@@ -91,7 +95,6 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
     }
 
     public ArticuloInsumoDTO mapperJson(String articuloInsumoJson) {
-        ObjectMapper objectMapper = new ObjectMapper();
         ArticuloInsumoDTO articuloInsumoDTO;
         try {
             articuloInsumoDTO = objectMapper.readValue(articuloInsumoJson, ArticuloInsumoDTO.class);

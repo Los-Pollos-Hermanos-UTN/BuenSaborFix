@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.envers.NotAudited;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +29,7 @@ public class Empresa extends Base {
     @JsonManagedReference
     private Set<Sucursal> sucursales = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @NotAudited
-    protected ImagenEmpresa imagenEmpresa;
+    protected Set<ImagenEmpresa> imagenes;
 }
