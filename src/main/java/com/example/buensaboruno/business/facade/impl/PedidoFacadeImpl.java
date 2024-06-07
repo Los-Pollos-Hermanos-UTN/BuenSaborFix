@@ -64,6 +64,11 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         if(pedidoDTO.getTipoEnvio().equals(TipoEnvio.DELIVERY)){
             totalMinutes += 10;
         }
+
+        // Primero verifica si hay suficiente stock
+        verificarStock(pedidoDTO);
+
+        // Calcula el tiempo estimado y el costo total
         for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()){
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
             Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
@@ -80,36 +85,56 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
                 }
             }
         }
+
         LocalTime horaEstimadaFinalizacion = LocalTime.now().plusMinutes(totalMinutes);
         pedidoDTO.setHoraEstimadaFinalizacion(horaEstimadaFinalizacion);
         pedidoDTO.setTotalCosto(totalCost);
+
+        // Solo restar el stock después de la verificación
         restarStock(pedidoDTO);
+
         Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
         return pedidoMapper.toDTO(pedidoRepository.save(pedido));
     }
 
-    public void restarStock(PedidoDTO pedidoDTO) throws Exception {
+    private void verificarStock(PedidoDTO pedidoDTO) throws Exception {
         for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()){
-            double stock = 0D;
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
             Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
             Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
             if(articuloManufacturado.isPresent()){
                 for(ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()){
                     ArticuloInsumo articuloInsumo1 = articuloManufacturadoDetalle.getArticuloInsumo();
-                    stock = articuloInsumo1.getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
+                    double stock = articuloInsumo1.getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
                     if(stock < 0){
                         throw new Exception("El pedido no se puede hacer, falta: "+ articuloInsumo1.getDenominacion());
                     }
+                }
+            }
+            if(articuloInsumo.isPresent()){
+                double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
+                if(stock < 0){
+                    throw new Exception("El pedido no se puede hacer, falta: "+ articuloInsumo.get().getDenominacion());
+                }
+            }
+        }
+    }
+
+    private void restarStock(PedidoDTO pedidoDTO) throws Exception {
+        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()){
+            ArticuloDTO articulo = detallePedidoDTO.getArticulo();
+            Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
+            Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
+            if(articuloManufacturado.isPresent()){
+                for(ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()){
+                    ArticuloInsumo articuloInsumo1 = articuloManufacturadoDetalle.getArticuloInsumo();
+                    double stock = articuloInsumo1.getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
                     articuloInsumo1.setStockActual(stock);
                     articuloInsumoRepository.save(articuloInsumo1);
                 }
             }
             if(articuloInsumo.isPresent()){
-                stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
-                if(stock < 0){
-                    throw new Exception("El pedido no se puede hacer, falta: "+ articuloInsumo.get().getDenominacion());
-                }
+                double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
                 articuloInsumo.get().setStockActual(stock);
                 articuloInsumoRepository.save(articuloInsumo.get());
             }
