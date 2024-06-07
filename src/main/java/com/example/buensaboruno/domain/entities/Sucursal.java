@@ -59,8 +59,6 @@ public class Sucursal extends Base {
     @NotAudited
     protected ImagenSucursal imagenSucursal;
 
-    @OneToMany
-    @JoinColumn(name = "sucursal_id")
-    @NotAudited
+    @ManyToMany(mappedBy = "sucursales")
     private Set<Articulo> articulos = new HashSet<>();
 }

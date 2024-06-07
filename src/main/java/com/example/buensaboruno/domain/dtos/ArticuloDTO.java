@@ -24,5 +24,5 @@ public class ArticuloDTO extends BaseDTO {
     protected Set<ImagenArticuloDTO> imagenes = new HashSet<>();
     protected UnidadMedida unidadMedida;
     private Long categoriaId; // Agregado para referenciar la categoría
-    private SucursalShortDTO sucursal;
+    private Set<SucursalShortDTO> sucursales;
 }

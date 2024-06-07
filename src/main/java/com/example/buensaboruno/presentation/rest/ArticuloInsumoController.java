@@ -53,6 +53,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
+        System.out.println(articuloInsumoDTO);
         // Subir las imágenes y obtener las URLs
         List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
         // Asignar las URLs de las imágenes al DTO
