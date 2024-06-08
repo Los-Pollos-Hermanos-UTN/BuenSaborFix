@@ -4,13 +4,12 @@ import com.example.buensaboruno.domain.dtos.OrdersByCategoryDTO;
 import com.example.buensaboruno.domain.dtos.TopSellingProductDTO;
 import com.example.buensaboruno.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +22,9 @@ public class ReportController {
     private PedidoRepository pedidoRepository;
 
     @GetMapping(value = "/top-selling-products", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProducts() {
-        List<TopSellingProductDTO> topSellingProducts = pedidoRepository.findTopSellingProducts();
+    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProducts(@RequestParam(defaultValue = "5") int limit) {
+        Pageable pageable = PageRequest.of(0, limit); // Página 0, con el límite especificado
+        List<TopSellingProductDTO> topSellingProducts = pedidoRepository.findTopSellingProducts(pageable);
         return new ResponseEntity<>(topSellingProducts, HttpStatus.OK);
     }
 
