@@ -62,6 +62,4 @@ public class Sucursal extends Base {
     @NotAudited
     protected ImagenSucursal imagenSucursal;
 
-    @ManyToMany(mappedBy = "sucursales")
-    private Set<Articulo> articulos = new HashSet<>();
 }

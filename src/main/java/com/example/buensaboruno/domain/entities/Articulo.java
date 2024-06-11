@@ -38,12 +38,5 @@ public class Articulo extends Base {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST })
-    @JoinTable(
-            name = "articulo_sucursal",
-            joinColumns = @JoinColumn(name = "articulo_id"),
-            inverseJoinColumns = @JoinColumn(name = "sucursal_id")
-    )
-    private Set<Sucursal> sucursales = new HashSet<>();
 }
 
