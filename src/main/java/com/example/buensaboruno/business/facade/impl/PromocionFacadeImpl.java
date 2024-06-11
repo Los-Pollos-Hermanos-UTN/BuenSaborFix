@@ -133,6 +133,11 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
         return promocionMapper.toDTO(updatedPromocion);
     }
 
+    public List<PromocionDTO> getPromocionesBySucursalId(Long id){
+        List<Promocion> promociones = promocionRepository.findPromocionesBySucursalId(id);
+        return promocionMapper.toDTOsList(promociones);
+    }
+
     public PromocionDTO mapperJson(String promocionJson) {
         try {
             return objectMapper.readValue(promocionJson, PromocionDTO.class);

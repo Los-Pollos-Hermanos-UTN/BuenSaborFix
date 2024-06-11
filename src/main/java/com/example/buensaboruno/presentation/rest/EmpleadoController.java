@@ -42,7 +42,7 @@ public class EmpleadoController extends BaseControllerImpl<Empleado, EmpleadoDTO
         // Subir las imágenes y obtener las URLs
         String imageUrl = imagenEmpleadoServiceImpl.saveImage(file);
         // Asignar las URLs de las imágenes al DTO
-        empleadoDTO.setImagenEmpleado(new ImagenEmpleadoDTO(imageUrl));
+        empleadoDTO.setImagenes(new ImagenEmpleadoDTO(imageUrl));
 
         // Crear al empleado
         EmpleadoDTO createdEmpleado = empleadoFacadeImpl.createEmpleado(empleadoDTO);
@@ -60,11 +60,11 @@ public class EmpleadoController extends BaseControllerImpl<Empleado, EmpleadoDTO
         EmpleadoDTO empleadoDTO = empleadoFacadeImpl.mapperJson(empleadoJson);
 
         // Subir la imagen y obtener la URL
-        if(empleadoDTO.getImagenEmpleado() != null || empleadoDTO.getImagenEmpleado().getUrl().isEmpty()){
+        if(empleadoDTO.getImagenes() != null || empleadoDTO.getImagenes().getUrl().isEmpty()){
             String imageUrl = imagenEmpleadoServiceImpl.saveImage(file);
 
             // Verificar si la URL no es nula y asignarla al DTO
-            empleadoDTO.setImagenEmpleado(new ImagenEmpleadoDTO(imageUrl));
+            empleadoDTO.setImagenes(new ImagenEmpleadoDTO(imageUrl));
         }
 
         // Editar al Empleado

@@ -29,12 +29,12 @@ public class Empleado extends Base {
     private String email;
     private LocalDate fechaNacimiento;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UsuarioEmpleado usuarioEmpleado;
 
     @OneToOne(cascade = CascadeType.ALL)
     @NotAudited
-    private ImagenEmpleado imagenEmpleado;
+    private ImagenEmpleado imagenes;
 
 
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.REFRESH, orphanRemoval = true)

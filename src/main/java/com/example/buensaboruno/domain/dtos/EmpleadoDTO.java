@@ -30,7 +30,7 @@ public class EmpleadoDTO extends BaseDTO {
     private String email;
     private LocalDate fechaNacimiento;
     private UsuarioEmpleado usuarioEmpleado;
-    private ImagenEmpleadoDTO imagenEmpleado;
+    private ImagenEmpleadoDTO imagenes;
     private Set<PedidoShortDTO> pedidos= new HashSet<>();
     private SucursalShortDTO sucursal;
 }

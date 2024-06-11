@@ -65,7 +65,7 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     }
 
     @GetMapping("/short")
-    @PreAuthorize("hasAuthority('admin')")
+    @PreAuthorize("hasAuthority('admin') || hasAuthority('cocinero') || hasAuthority('cajero') || hasAuthority('delivery')")
     public ResponseEntity<List<EmpresaShortDTO>> getAllShort() {
         try {
             return ResponseEntity.ok(facade.findAllShort());
