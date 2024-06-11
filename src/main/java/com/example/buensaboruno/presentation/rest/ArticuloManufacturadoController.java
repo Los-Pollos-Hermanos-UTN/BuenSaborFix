@@ -93,4 +93,10 @@ public class ArticuloManufacturadoController extends BaseControllerImpl<Articulo
         }
     }
 
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<ArticuloManufacturadoDTO>> getArticulosManufacturadosByCategoriaId(@PathVariable Long categoriaId) {
+        List<ArticuloManufacturadoDTO> articulos = articuloManufacturadoFacadeImpl.getArticulosManufacturadosByCategoriaId(categoriaId);
+        return new ResponseEntity<>(articulos, HttpStatus.OK);
+    }
+
 }

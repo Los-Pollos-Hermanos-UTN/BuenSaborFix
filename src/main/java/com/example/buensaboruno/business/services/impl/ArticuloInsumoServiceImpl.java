@@ -8,6 +8,8 @@ import com.example.buensaboruno.repositories.base.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ArticuloInsumoServiceImpl extends BaseServiceImpl<ArticuloInsumo, Long> implements ArticuloInsumoService {
 
@@ -26,5 +28,9 @@ public class ArticuloInsumoServiceImpl extends BaseServiceImpl<ArticuloInsumo, L
 
     public ArticuloInsumo editArticuloInsumo(ArticuloInsumo articuloInsumo, Long id) throws Exception {
         return update(id, articuloInsumo);
+    }
+
+    public List<ArticuloInsumo> getArticulosInsumosByCategoriaId(Long categoriaId) {
+        return articuloInsumoRepository.findByCategoriaIdAndNotEliminadoAndNotParaElaborar(categoriaId);
     }
 }

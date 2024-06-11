@@ -3,11 +3,9 @@ package com.example.buensaboruno.presentation.rest;
 import com.example.buensaboruno.business.facade.impl.EmpresaFacadeImpl;
 import com.example.buensaboruno.business.services.impl.ImagenEmpresaServiceImpl;
 import com.example.buensaboruno.domain.dtos.EmpresaDTO;
-import com.example.buensaboruno.domain.dtos.ImagenArticuloDTO;
 import com.example.buensaboruno.domain.dtos.ImagenEmpresaDTO;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.entities.Empresa;
-import com.example.buensaboruno.domain.entities.ImagenEmpresa;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import com.example.buensaboruno.repositories.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,11 +67,6 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     @GetMapping("/short")
     @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<List<EmpresaShortDTO>> getAllShort() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            System.out.println("Authorities: " + authentication.getAuthorities());
-        }
-
         try {
             return ResponseEntity.ok(facade.findAllShort());
         } catch (Exception e) {

@@ -89,4 +89,10 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
         }
     }
 
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<ArticuloInsumoDTO>> getArticulosInsumosByCategoriaId(@PathVariable Long categoriaId) {
+        List<ArticuloInsumoDTO> articulos = articuloInsumoFacadeImpl.getArticulosInsumosByCategoriaId(categoriaId);
+        return new ResponseEntity<>(articulos, HttpStatus.OK);
+    }
+
 }

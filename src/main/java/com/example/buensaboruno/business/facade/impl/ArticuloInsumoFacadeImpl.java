@@ -104,6 +104,10 @@ public class ArticuloInsumoFacadeImpl extends BaseFacadeImpl<ArticuloInsumo, Art
         }
     }
 
+    public List<ArticuloInsumoDTO> getArticulosInsumosByCategoriaId(Long id){
+        return articuloInsumoMapper.toDTOsList(articuloInsumoService.getArticulosInsumosByCategoriaId(id));
+    }
+
 
 }
 

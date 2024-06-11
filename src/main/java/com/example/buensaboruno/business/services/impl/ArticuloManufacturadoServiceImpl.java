@@ -8,6 +8,8 @@ import com.example.buensaboruno.repositories.base.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ArticuloManufacturadoServiceImpl extends BaseServiceImpl<ArticuloManufacturado, Long> implements ArticuloManufacturadoService {
@@ -27,6 +29,10 @@ public class ArticuloManufacturadoServiceImpl extends BaseServiceImpl<ArticuloMa
 
     public ArticuloManufacturado editArticuloManufacturado(ArticuloManufacturado articuloManufacturado, Long id) throws Exception {
         return update(id, articuloManufacturado);
+    }
+
+    public List<ArticuloManufacturado> getArticulosManufacturadosByCategoriaId(Long categoriaId) {
+        return articuloManufacturadoRepository.findByCategoriaIdAndNotEliminadoAndNotArticuloInsumoEliminado(categoriaId);
     }
 
 }
