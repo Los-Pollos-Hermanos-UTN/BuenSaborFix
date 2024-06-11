@@ -49,7 +49,7 @@ dependencies {
 	//JSON
 	implementation 'org.json:json:20210307'
 
-	//MAPSTRUCT
+	//MAPSTRUCTE
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
 	//LOMBOK
@@ -58,6 +58,11 @@ dependencies {
 
 	//ENVERS
 	implementation 'org.hibernate.orm:hibernate-envers:6.4.4.Final'
+
+	//SECURITY
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import java.time.LocalTime;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
+@Audited
 public class Sucursal extends Base {
 
     private String nombre;
@@ -27,6 +29,7 @@ public class Sucursal extends Base {
     private boolean casaMatriz;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @NotAudited
     private Domicilio domicilio;
 
     @ManyToMany

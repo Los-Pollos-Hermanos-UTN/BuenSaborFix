@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
-//@Audited
+@Audited
 public class Cliente extends Base {
 
     protected String nombre;
@@ -40,6 +41,7 @@ public class Cliente extends Base {
             inverseJoinColumns = @JoinColumn(name = "domicilio_id"))
     @Builder.Default
     @JsonManagedReference
+    @NotAudited
     protected Set<Domicilio> domicilios = new HashSet<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
