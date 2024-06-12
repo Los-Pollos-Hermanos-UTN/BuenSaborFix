@@ -13,6 +13,7 @@ import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.repositories.PromocionRepository;
 import com.example.buensaboruno.repositories.SucursalRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,20 +103,31 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
 
     @Transactional
     public PromocionDTO editPromocion(Long id, PromocionDTO promocionDTO) {
-        Promocion promocion = promocionMapper.toEntity(promocionDTO);
+        // Recuperar la promoción existente
+        Promocion promocion = promocionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Promocion not found"));
 
+        // Recuperar las sucursales actuales
         Set<Sucursal> currentSucursales = promocion.getSucursales();
 
-        for(Sucursal sucursal: currentSucursales){
+        // Desvincular la promoción de las sucursales actuales
+        for (Sucursal sucursal : currentSucursales) {
             sucursal.getPromociones().remove(promocion);
-            sucursalRepository.save(sucursal);
+            sucursalRepository.save(sucursal);  // Guardar cambios
         }
 
-        Set<Sucursal> newSucursales = new HashSet<>();
+        // Mapear el DTO a la entidad
+        promocion = promocionMapper.toEntity(promocionDTO);
 
-        for(SucursalShortDTO sucursal: promocionDTO.getSucursales()){
-            Optional<Sucursal> sucursalOptional = sucursalRepository.findById(sucursal.getId());
+        // Recuperar y vincular las nuevas sucursales
+        Set<Sucursal> newSucursales = new HashSet<>();
+        for (SucursalShortDTO sucursalShortDTO : promocionDTO.getSucursales()) {
+            Optional<Sucursal> sucursalOptional = sucursalRepository.findById(sucursalShortDTO.getId());
             sucursalOptional.ifPresent(newSucursales::add);
+        }
+
+        // Vincular la promoción con las nuevas sucursales
+        if (!newSucursales.isEmpty()) {
+            promocion.setSucursales(newSucursales);
         }
 
         // Establecer la relación de Promocion en cada PromocionDetalle
@@ -123,15 +135,18 @@ public class PromocionFacadeImpl extends BaseFacadeImpl<Promocion, PromocionDTO,
             detalle.setPromocion(promocion);
         }
 
+        // Guardar la promoción actualizada
         Promocion updatedPromocion = promocionRepository.save(promocion);
 
-        for(Sucursal sucursal : newSucursales){
+        // Vincular la promoción con las nuevas sucursales y guardar cambios
+        for (Sucursal sucursal : newSucursales) {
             sucursal.getPromociones().add(updatedPromocion);
             sucursalRepository.save(sucursal);
         }
 
         return promocionMapper.toDTO(updatedPromocion);
     }
+
 
     public List<PromocionDTO> getPromocionesBySucursalId(Long id){
         List<Promocion> promociones = promocionRepository.findPromocionesBySucursalId(id);
