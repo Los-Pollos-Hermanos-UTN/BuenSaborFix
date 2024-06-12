@@ -28,6 +28,8 @@ public class Cliente extends Base {
     protected String email;
     protected LocalDate fechaNac;
 
+    protected String contrasenia;
+
     @OneToOne(cascade = CascadeType.ALL)
     protected UsuarioCliente usuario;
 

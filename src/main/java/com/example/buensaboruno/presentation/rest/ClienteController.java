@@ -30,10 +30,10 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
     @Autowired
     private ImagenClienteServiceImpl imagenClienteServiceImpl;
 
-    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClienteDTO> createCliente(
             @RequestPart("data") String clienteJson,
-            @RequestPart("imagenes") MultipartFile file) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile file) {
 
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
@@ -47,6 +47,15 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
         ClienteDTO createdCliente = clienteFacadeImpl.createCliente(clienteDTO);
 
         return new ResponseEntity<>(createdCliente, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/login", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> login(@RequestBody String email, @RequestBody String contrasenia) {
+        ClienteDTO clienteDTO = clienteFacadeImpl.login(email, contrasenia);
+        if(clienteDTO != null){
+            return new ResponseEntity<>(clienteDTO, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>("La contraseña o el mail son incorrectos", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
