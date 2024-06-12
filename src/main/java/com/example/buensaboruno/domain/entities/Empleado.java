@@ -32,9 +32,9 @@ public class Empleado extends Base {
     @OneToOne(cascade = CascadeType.ALL)
     private UsuarioEmpleado usuarioEmpleado;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @NotAudited
-    private ImagenEmpleado imagenes;
+    private Set<ImagenEmpleado> imagenes;
 
 
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.REFRESH, orphanRemoval = true)
