@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -74,21 +75,24 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
 
     public ClienteDTO login(String email, String contrasenia) throws NoSuchAlgorithmException {
         Optional<Cliente> cliente = clienteRepository.findByEmail(email);
-        if(cliente.isPresent()){
-            if(checkPassword(cliente.get(), contrasenia)){
+        if (cliente.isPresent()) {
+            if (checkPassword(cliente.get(), contrasenia)) {
                 return clienteMapper.toDTO(cliente.get());
+            } else {
+                throw new IllegalArgumentException("Contraseña incorrecta");
             }
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
         }
-        return null;
     }
 
     public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hash = md.digest(password.getBytes());
+        byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {
             String hex = Integer.toHexString(0xff & b);
-            if(hex.length() == 1) {
+            if (hex.length() == 1) {
                 hexString.append('0');
             }
             hexString.append(hex);

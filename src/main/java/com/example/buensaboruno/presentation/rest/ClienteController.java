@@ -40,9 +40,12 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ClienteDTO clienteDTO = clienteFacadeImpl.mapperJson(clienteJson);
         // Subir las imágenes y obtener las URLs
-        String imageUrl = imagenClienteServiceImpl.saveImage(file);
-        // Asignar las URLs de las imágenes al DTO
-        clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
+        if(file != null){
+            String imageUrl = imagenClienteServiceImpl.saveImage(file);
+            // Asignar las URLs de las imágenes al DTO
+            clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
+        }
+
 
         // Crear el Cliente
         ClienteDTO createdCliente = clienteFacadeImpl.createCliente(clienteDTO);

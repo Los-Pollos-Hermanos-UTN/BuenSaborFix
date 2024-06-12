@@ -26,4 +26,6 @@ public interface PedidoRepository extends BaseRepository<Pedido,Long> {
             "FROM Pedido p JOIN p.detallePedidos dp JOIN dp.articulo a JOIN a.categoria c " +
             "GROUP BY c.denominacion ORDER BY COUNT(p) DESC")
     List<OrdersByCategoryDTO> findOrdersByCategory();
+
+    List<Pedido> findByClienteIdAndEliminadoFalse(Long clienteId);
 }
