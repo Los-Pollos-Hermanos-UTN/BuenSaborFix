@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -37,7 +39,6 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
     @Autowired
     private ClienteServiceImpl clienteServiceImpl;
 
-    private PasswordEncoder passwordEncoder;
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -50,9 +51,9 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
         }
     }
 
-    public ClienteDTO createCliente(ClienteDTO clienteDTO){
+    public ClienteDTO createCliente(ClienteDTO clienteDTO) throws NoSuchAlgorithmException {
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
-        cliente.setContrasenia(passwordEncoder.encode(clienteDTO.getContrasenia()));
+        cliente.setContrasenia(encryptPassword(clienteDTO.getContrasenia()));
         cliente = clienteServiceImpl.createCliente(cliente);
         return clienteMapper.toDTO(cliente);
     }
@@ -67,11 +68,11 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
         }
     }
 
-    public boolean checkPassword(Cliente cliente, String contrasenia) {
-        return passwordEncoder.matches(contrasenia, cliente.getContrasenia());
+    public boolean checkPassword(Cliente cliente, String contrasenia) throws NoSuchAlgorithmException {
+        return cliente.getContrasenia().equals(encryptPassword(contrasenia));
     }
 
-    public ClienteDTO login(String email, String contrasenia) {
+    public ClienteDTO login(String email, String contrasenia) throws NoSuchAlgorithmException {
         Optional<Cliente> cliente = clienteRepository.findByEmail(email);
         if(cliente.isPresent()){
             if(checkPassword(cliente.get(), contrasenia)){
@@ -79,5 +80,19 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
             }
         }
         return null;
+    }
+
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes());
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 }

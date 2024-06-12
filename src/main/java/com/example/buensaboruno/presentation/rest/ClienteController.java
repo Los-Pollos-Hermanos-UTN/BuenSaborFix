@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
     @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClienteDTO> createCliente(
             @RequestPart("data") String clienteJson,
-            @RequestPart(value = "imagenes", required = false) MultipartFile file) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile file) throws NoSuchAlgorithmException {
 
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
@@ -50,7 +51,7 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
     }
 
     @PostMapping(value = "/login", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@RequestBody String email, @RequestBody String contrasenia) {
+    public ResponseEntity<?> login(@RequestBody String email, @RequestBody String contrasenia) throws NoSuchAlgorithmException {
         ClienteDTO clienteDTO = clienteFacadeImpl.login(email, contrasenia);
         if(clienteDTO != null){
             return new ResponseEntity<>(clienteDTO, HttpStatus.ACCEPTED);
