@@ -15,7 +15,6 @@ import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.repositories.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

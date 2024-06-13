@@ -8,17 +8,11 @@ import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
 import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import com.example.buensaboruno.repositories.EmpresaRepository;
-import com.example.buensaboruno.utils.Autenticator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -40,8 +34,6 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     @Autowired
     private ImagenEmpresaServiceImpl imagenEmpresaService;
 
-    @Autowired
-    private Autenticator autenticator;
 
     private final EmpresaRepository empresaRepository;
 
@@ -73,22 +65,6 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         }
     }
 
-    @GetMapping("/short")
-    @PreAuthorize("hasAuthority('admin') || hasAuthority('cocinero') || hasAuthority('cajero') || hasAuthority('delivery')")
-    public ResponseEntity<List<EmpresaShortDTO>> getAllShort() {
-
-        try {
-            String email = autenticator.getEmail();
-            String rol = autenticator.getRole();
-            if (!rol.equals("admin")) {
-                List<EmpresaShortDTO> empresas = facade.listEmpresasByEmpleadoEmail(email);
-                return new ResponseEntity<>(empresas, HttpStatus.OK);
-            }
-            return ResponseEntity.ok(facade.findAllShort());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     @PutMapping("/{id}/short")
     public ResponseEntity<EmpresaShortDTO> updateShort(@PathVariable Long id, @RequestBody EmpresaShortDTO empresaShortDTO) {
