@@ -8,7 +8,9 @@ import com.example.buensaboruno.business.services.impl.EmpresaServiceImpl;
 import com.example.buensaboruno.business.services.impl.ImagenEmpresaServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.dtos.shortDTO.EmpresaShortDTO;
+import com.example.buensaboruno.domain.entities.Empleado;
 import com.example.buensaboruno.domain.entities.Empresa;
+import com.example.buensaboruno.repositories.EmpleadoRepository;
 import com.example.buensaboruno.repositories.EmpresaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,10 @@ public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long>
     private ImagenEmpresaServiceImpl imagenEmpresaServiceImpl;
 
     private final ObjectMapper objectMapper;
+    @Autowired
+    private EmpleadoRepository empleadoRepository;
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     public EmpresaFacadeImpl(BaseService<Empresa, Long> baseService, EmpresaMapper empresaMapper, ObjectMapper objectMapper){
         super(baseService, empresaMapper);
@@ -109,6 +116,15 @@ public class EmpresaFacadeImpl extends BaseFacadeImpl<Empresa, EmpresaDTO, Long>
         }catch (Exception e){
             return null;
         }
+    }
+
+    public List<EmpresaShortDTO> listEmpresasByEmpleadoEmail(String email){
+        Optional<Empleado> empleado = empleadoRepository.findByEmail(email);
+        if(empleado.isPresent()){
+            List<Empresa> empresas = empresaRepository.findEmpresasByEmpleadoId(empleado.get().getId());
+            return empresaMapper.toShortDTOsList(empresas);
+        }
+        return null;
     }
 }
 
