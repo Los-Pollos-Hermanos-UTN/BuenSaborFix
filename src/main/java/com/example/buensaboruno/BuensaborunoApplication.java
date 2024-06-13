@@ -1,6 +1,7 @@
 package com.example.buensaboruno;
 
 
+import com.example.buensaboruno.utils.DataLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,11 +19,10 @@ public class BuensaborunoApplication {
 		logger.info("Estoy activo en el main");
 	}
 
-/*	@Bean
+	@Bean
 	public CommandLineRunner init(DataLoader dataLoader) {
 		return args -> dataLoader.loadData().run(args);
 	}
-	*/
 }
 
 

@@ -8,5 +8,4 @@ import com.example.buensaboruno.domain.entities.Provincia;
 import java.util.Optional;
 
 public interface LocalidadFacade extends BaseFacade<LocalidadDTO, Long> {
-    Optional<Localidad> findByNombreAndProvincia(String nombre, Provincia provincia);
 }
