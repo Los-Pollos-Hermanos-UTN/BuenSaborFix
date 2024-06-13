@@ -62,10 +62,17 @@ public class DataLoader {
                 List<ProvinciaDTO> provinciaDTOs = provinciaResponse.getProvincias();
 
                 for (ProvinciaDTO provinciaDTO : provinciaDTOs) {
-                    Provincia provincia = new Provincia();
-                    provincia.setNombre(provinciaDTO.getNombre());
-                    provincia.setPais(argentina);
-                    provinciaRepository.save(provincia);
+                    Optional<Provincia> existingProvincia = provinciaRepository.findByNombreAndPais(provinciaDTO.getNombre(), argentina);
+                    Provincia provincia;
+
+                    if (existingProvincia.isPresent()) {
+                        provincia = existingProvincia.get();
+                    } else {
+                        provincia = new Provincia();
+                        provincia.setNombre(provinciaDTO.getNombre());
+                        provincia.setPais(argentina);
+                        provinciaRepository.save(provincia);
+                    }
 
                     String localidadesApiUrl = String.format(LOCALIDADES_API_URL, provinciaDTO.getId());
                     ResponseEntity<LocalidadResponse> localidadesResponse = restTemplate.getForEntity(localidadesApiUrl, LocalidadResponse.class);
@@ -75,10 +82,14 @@ public class DataLoader {
                         List<LocalidadDTO> localidadDTOs = localidadResponse.getLocalidades();
 
                         for (LocalidadDTO localidadDTO : localidadDTOs) {
-                            Localidad localidad = new Localidad();
-                            localidad.setNombre(localidadDTO.getNombre());
-                            localidad.setProvincia(provincia);
-                            localidadRepository.save(localidad);
+                            Optional<Localidad> existingLocalidad = localidadRepository.findByNombreAndProvincia(localidadDTO.getNombre(), provincia);
+
+                            if (existingLocalidad.isEmpty()) {
+                                Localidad localidad = new Localidad();
+                                localidad.setNombre(localidadDTO.getNombre());
+                                localidad.setProvincia(provincia);
+                                localidadRepository.save(localidad);
+                            }
                         }
                     }
                 }
