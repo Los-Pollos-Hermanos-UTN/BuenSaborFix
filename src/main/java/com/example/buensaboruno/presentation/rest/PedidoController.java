@@ -51,4 +51,14 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
         }
     }
 
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<PedidoDTO>> getPedidosByClienteId(@PathVariable Long clienteId) {
+        List<PedidoDTO> pedidos = pedidoFacadeImpl.listPedidosByCliente(clienteId);
+        if (pedidos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(pedidos);
+        }
+    }
+
 }

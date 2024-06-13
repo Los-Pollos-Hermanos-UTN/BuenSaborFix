@@ -25,6 +25,7 @@ public class ClienteDTO extends BaseDTO {
     protected String apellido;
     protected String telefono;
     protected String email;
+    protected String contrasenia;
     protected LocalDate fechaNac;
     protected UsuarioCliente usuario;
     protected ImagenClienteDTO imagenCliente;

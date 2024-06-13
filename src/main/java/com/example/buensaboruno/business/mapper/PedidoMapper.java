@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ArticuloMapper.class})
 public interface PedidoMapper  extends BaseMapper<Pedido, PedidoDTO> {
     PedidoDTO toDTO(Pedido source);
     Pedido toEntity(PedidoDTO source);

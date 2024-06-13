@@ -1,6 +1,7 @@
 package com.example.buensaboruno.repositories;
 
 import com.example.buensaboruno.domain.entities.ArticuloInsumo;
+import com.example.buensaboruno.domain.entities.ArticuloManufacturado;
 import com.example.buensaboruno.repositories.base.BaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +15,6 @@ public interface ArticuloInsumoRepository extends BaseRepository<ArticuloInsumo,
     @Query("SELECT ai FROM ArticuloInsumo ai WHERE ai.eliminado = false AND ai.categoria IN (SELECT c FROM Categoria c JOIN c.sucursales s WHERE s.empresa.id = :empresaId AND c.eliminado = false) AND ai.eliminado = false")
     List<ArticuloInsumo> findByEmpresaId(@Param("empresaId") Long empresaId);
 
+    @Query("SELECT a FROM ArticuloInsumo a WHERE a.categoria.id = :categoriaId AND a.eliminado = false AND a.esParaElaborar = false")
+    List<ArticuloInsumo> findByCategoriaIdAndNotEliminadoAndNotParaElaborar(@Param("categoriaId") Long categoriaId);
 }

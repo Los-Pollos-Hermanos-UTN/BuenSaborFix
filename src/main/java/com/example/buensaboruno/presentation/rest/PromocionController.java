@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -79,6 +80,12 @@ public class PromocionController extends BaseControllerImpl<Promocion, Promocion
         PromocionDTO editedPromocion = promocionFacadeImpl.editPromocion(id, promocionDTO);
 
         return new ResponseEntity<>(editedPromocion, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/sucursal/{sucursalId}")
+    public ResponseEntity<List<PromocionDTO>> getPromocionesBySucursalId(@PathVariable Long sucursalId) {
+        List<PromocionDTO> promociones = promocionFacadeImpl.getPromocionesBySucursalId(sucursalId);
+        return new ResponseEntity<>(promociones, HttpStatus.OK);
     }
 
 }

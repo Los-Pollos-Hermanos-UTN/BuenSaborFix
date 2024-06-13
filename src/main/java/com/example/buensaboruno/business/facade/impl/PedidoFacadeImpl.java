@@ -8,6 +8,7 @@ import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.PedidoServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.entities.*;
+import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
@@ -57,63 +58,81 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
 
     @Transactional
     public PedidoDTO createPedido(PedidoDTO pedidoDTO) throws Exception {
-        // Buscar articulos que sean manufacturados y su tiempo de preparacion para ir sumando
-        // + 10 min x envio
         int totalMinutes = 0;
         double totalCost = 0D;
-        if(pedidoDTO.getTipoEnvio().equals(TipoEnvio.DELIVERY)){
+
+        if (pedidoDTO.getTipoEnvio().equals(TipoEnvio.DELIVERY)) {
             totalMinutes += 10;
         }
-        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()){
+
+        boolean stockSuficiente = true;
+
+        // Verificar stock y calcular tiempo estimado y costo total
+        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()) {
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
             Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
             Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
-            if(articuloManufacturado.isPresent()){
+
+            if (articuloManufacturado.isPresent()) {
                 totalMinutes += articuloManufacturado.get().getTiempoEstimadoMinutos();
-                for(ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()){
-                    totalCost += articuloManufacturadoDetalle.getArticuloInsumo().getPrecioCompra();
+                for (ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()) {
+                    totalCost += articuloManufacturadoDetalle.getArticuloInsumo().getPrecioCompra() * articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
+                    double stock = articuloManufacturadoDetalle.getArticuloInsumo().getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
+                    if (stock <= 0) {
+                        stockSuficiente = false;
+                    }
                 }
             }
-            if(articuloInsumo.isPresent()){
-                if(!articuloInsumo.get().getEsParaElaborar()){
-                    totalCost += articuloInsumo.get().getPrecioCompra();
+
+            if (articuloInsumo.isPresent() && !articuloInsumo.get().getEsParaElaborar()) {
+                totalCost += articuloInsumo.get().getPrecioCompra() * detallePedidoDTO.getCantidad();
+                double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
+                if (stock <= 0) {
+                    stockSuficiente = false;
                 }
             }
         }
+
         LocalTime horaEstimadaFinalizacion = LocalTime.now().plusMinutes(totalMinutes);
         pedidoDTO.setHoraEstimadaFinalizacion(horaEstimadaFinalizacion);
         pedidoDTO.setTotalCosto(totalCost);
-        restarStock(pedidoDTO);
+
+        if (stockSuficiente) {
+            restarStock(pedidoDTO);
+            pedidoDTO.setEstado(Estado.PENDIENTE);
+        } else {
+            pedidoDTO.setEstado(Estado.RECHAZADO);
+        }
+
         Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
         return pedidoMapper.toDTO(pedidoRepository.save(pedido));
     }
 
-    public void restarStock(PedidoDTO pedidoDTO) throws Exception {
-        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()){
-            double stock = 0D;
+    private void restarStock(PedidoDTO pedidoDTO) {
+        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()) {
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
             Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
             Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
-            if(articuloManufacturado.isPresent()){
-                for(ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()){
+
+            if (articuloManufacturado.isPresent()) {
+                for (ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()) {
                     ArticuloInsumo articuloInsumo1 = articuloManufacturadoDetalle.getArticuloInsumo();
-                    stock = articuloInsumo1.getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
-                    if(stock < 0){
-                        throw new Exception("El pedido no se puede hacer, falta: "+ articuloInsumo1.getDenominacion());
-                    }
+                    double stock = articuloInsumo1.getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
                     articuloInsumo1.setStockActual(stock);
                     articuloInsumoRepository.save(articuloInsumo1);
                 }
             }
-            if(articuloInsumo.isPresent()){
-                stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
-                if(stock < 0){
-                    throw new Exception("El pedido no se puede hacer, falta: "+ articuloInsumo.get().getDenominacion());
-                }
+
+            if (articuloInsumo.isPresent() && !articuloInsumo.get().getEsParaElaborar()) {
+                double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
                 articuloInsumo.get().setStockActual(stock);
                 articuloInsumoRepository.save(articuloInsumo.get());
             }
         }
+    }
+
+    public List<PedidoDTO> listPedidosByCliente(Long id){
+        return pedidoMapper.toDTOsList(pedidoRepository.findByClienteIdAndEliminadoFalse(id));
     }
 
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @SuperBuilder
 @Entity
-//@Audited
+@Audited
 public class ArticuloManufacturadoDetalle extends Base {
     private Double cantidad;
 

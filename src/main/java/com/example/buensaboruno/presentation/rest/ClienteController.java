@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,23 +31,35 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
     @Autowired
     private ImagenClienteServiceImpl imagenClienteServiceImpl;
 
-    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClienteDTO> createCliente(
             @RequestPart("data") String clienteJson,
-            @RequestPart("imagenes") MultipartFile file) {
+            @RequestPart(value = "imagenes", required = false) MultipartFile file) throws NoSuchAlgorithmException {
 
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ClienteDTO clienteDTO = clienteFacadeImpl.mapperJson(clienteJson);
         // Subir las imágenes y obtener las URLs
-        String imageUrl = imagenClienteServiceImpl.saveImage(file);
-        // Asignar las URLs de las imágenes al DTO
-        clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
+        if(file != null){
+            String imageUrl = imagenClienteServiceImpl.saveImage(file);
+            // Asignar las URLs de las imágenes al DTO
+            clienteDTO.setImagenCliente(new ImagenClienteDTO(imageUrl));
+        }
+
 
         // Crear el Cliente
         ClienteDTO createdCliente = clienteFacadeImpl.createCliente(clienteDTO);
 
         return new ResponseEntity<>(createdCliente, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/login", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> login(@RequestBody String email, @RequestBody String contrasenia) throws NoSuchAlgorithmException {
+        ClienteDTO clienteDTO = clienteFacadeImpl.login(email, contrasenia);
+        if(clienteDTO != null){
+            return new ResponseEntity<>(clienteDTO, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>("La contraseña o el mail son incorrectos", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)

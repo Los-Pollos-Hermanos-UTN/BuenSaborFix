@@ -77,9 +77,9 @@ public abstract class BaseFacadeImpl<E extends Base,D extends BaseDTO,ID extends
         try {
             var entity = baseService.findById(id);
             entity.setEliminado(true);
-            baseService.update(id, entity);
+            baseService.update(id, entity); // Esto debería disparar la auditoría
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }

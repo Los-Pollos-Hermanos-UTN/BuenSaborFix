@@ -100,5 +100,9 @@ public class ArticuloManufacturadoFacadeImpl extends BaseFacadeImpl<ArticuloManu
         List<ArticuloManufacturadoDTO> articuloManufacturadoDTOS = articuloManufacturadoMapper.toDTOsList(articuloManufacturadoRepository.findByEmpresaId(empresaId));
         return articuloManufacturadoDTOS;
     }
+
+    public List<ArticuloManufacturadoDTO> getArticulosManufacturadosByCategoriaId(Long id){
+        return articuloManufacturadoMapper.toDTOsList(articuloManufacturadoService.getArticulosManufacturadosByCategoriaId(id));
+    }
 }
 

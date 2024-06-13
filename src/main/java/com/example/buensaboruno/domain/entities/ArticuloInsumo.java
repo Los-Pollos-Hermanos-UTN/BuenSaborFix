@@ -3,6 +3,7 @@ package com.example.buensaboruno.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 
 @Entity
 @AllArgsConstructor
@@ -11,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @ToString
 @SuperBuilder
-//@Audited
+@Audited
 public class ArticuloInsumo extends Articulo{
     private Double precioCompra;
     private Double stockActual;

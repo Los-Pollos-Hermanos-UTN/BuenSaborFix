@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
+@Audited
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Promocion extends Base {
     private String denominacion;
@@ -37,6 +39,7 @@ public class Promocion extends Base {
     private Set<PromocionDetalle> promocionDetalles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @NotAudited
     private Set<ImagenPromocion> imagenes = new HashSet<>();
 
     @ManyToMany (mappedBy = "promociones")

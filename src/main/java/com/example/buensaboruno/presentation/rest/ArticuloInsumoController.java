@@ -53,6 +53,7 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
 
         // Convertir el JSON de articuloInsumo a ArticuloInsumoDTO
         ArticuloInsumoDTO articuloInsumoDTO = articuloInsumoFacadeImpl.mapperJson(articuloInsumoJson);
+        System.out.println(articuloInsumoDTO);
         // Subir las imágenes y obtener las URLs
         List<String> imageUrls = imagenArticuloServiceImpl.saveImages(files);
         // Asignar las URLs de las imágenes al DTO
@@ -86,6 +87,12 @@ public class ArticuloInsumoController extends BaseControllerImpl<ArticuloInsumo,
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<ArticuloInsumoDTO>> getArticulosInsumosByCategoriaId(@PathVariable Long categoriaId) {
+        List<ArticuloInsumoDTO> articulos = articuloInsumoFacadeImpl.getArticulosInsumosByCategoriaId(categoriaId);
+        return new ResponseEntity<>(articulos, HttpStatus.OK);
     }
 
 }

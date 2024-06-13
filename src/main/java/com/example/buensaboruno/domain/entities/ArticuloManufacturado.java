@@ -3,6 +3,7 @@ package com.example.buensaboruno.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
-//@Audited
+@Audited
 public class ArticuloManufacturado  extends Articulo{
 
     private String descripcion;
@@ -26,6 +27,5 @@ public class ArticuloManufacturado  extends Articulo{
     @JoinColumn(name = "articuloManufacturado_id")
     @Builder.Default
     private Set<ArticuloManufacturadoDetalle> articuloManufacturadoDetalles = new HashSet<>();
-
 
 }

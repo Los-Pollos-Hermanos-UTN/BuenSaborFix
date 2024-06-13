@@ -20,6 +20,5 @@ public class EmpresaShortDTO extends BaseDTO {
     private String nombre;
     private String razonSocial;
     private Long cuil;
-
     private Set<ImagenEmpleadoDTO> imagenes;
 }

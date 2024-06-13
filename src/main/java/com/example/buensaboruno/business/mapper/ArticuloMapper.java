@@ -16,6 +16,9 @@ public interface ArticuloMapper extends BaseMapper<Articulo, ArticuloDTO> {
     @Override
     @Mapping(source = "categoriaId", target = "categoria.id")
     Articulo toEntity(ArticuloDTO source);
+    @Override
+    @Mapping(source = "categoria.id", target = "categoriaId") // Agrega este mapeo
+    ArticuloDTO toDTO(Articulo source);
 
     @Override
     List<ArticuloDTO> toDTOsList(List<Articulo> source);

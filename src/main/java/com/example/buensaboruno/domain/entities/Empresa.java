@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @ToString
 @SuperBuilder
+@Audited
 public class Empresa extends Base {
 
     private String nombre;

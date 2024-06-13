@@ -4,6 +4,7 @@ import com.example.buensaboruno.domain.entities.base.Base;
 import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 
 @Entity
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @ToString
 @SuperBuilder
-//@Audited
+@Audited
 public class UnidadMedida extends Base {
 
     private String denominacion;
