@@ -74,12 +74,13 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
     }
 
     @GetMapping("/short")
-    @PreAuthorize("hasAuthority('admin') || hasAuthority('cocinero') || hasAuthority('cajero') || hasAuthority('delivery')")
+    @PreAuthorize("hasAnyAuthority('admin', 'cocinero', 'cajero', 'delivery')")
     public ResponseEntity<List<EmpresaShortDTO>> getAllShort() {
 
         try {
             String email = autenticator.getEmail();
             String rol = autenticator.getRole();
+            System.out.println("Ingresando al sistema: " + email + " rol: " + rol);
             if (!rol.equals("admin")) {
                 List<EmpresaShortDTO> empresas = facade.listEmpresasByEmpleadoEmail(email);
                 return new ResponseEntity<>(empresas, HttpStatus.OK);
@@ -99,6 +100,7 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         }
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmpresaDTO> createEmpresa(
             @RequestPart("data") String empresaJson,
@@ -121,6 +123,7 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         return new ResponseEntity<>(createdEmpresa, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/edit/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmpresaDTO> updateEmpresa(
             @PathVariable Long id,

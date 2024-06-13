@@ -54,7 +54,7 @@ public class ClienteController extends BaseControllerImpl<Cliente, ClienteDTO, L
     }
 
     @PostMapping(value = "/login", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@RequestBody String email, @RequestBody String contrasenia) throws NoSuchAlgorithmException {
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String contrasenia) throws NoSuchAlgorithmException {
         ClienteDTO clienteDTO = clienteFacadeImpl.login(email, contrasenia);
         if(clienteDTO != null){
             return new ResponseEntity<>(clienteDTO, HttpStatus.ACCEPTED);
