@@ -7,6 +7,7 @@ import com.example.buensaboruno.business.mapper.CategoriaMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.CategoriaServiceImpl;
 import com.example.buensaboruno.domain.dtos.CategoriaDTO;
+import com.example.buensaboruno.domain.entities.Articulo;
 import com.example.buensaboruno.domain.entities.Categoria;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.repositories.CategoriaRepository;
@@ -119,10 +120,29 @@ public class CategoriaFacadeImpl extends BaseFacadeImpl<Categoria, CategoriaDTO,
 
         // Filtrar subcategorías no eliminadas de manera recursiva
         for (Categoria categoria : categoriasFiltradas) {
-            filtrarSubCategoriasNoEliminadas(categoria);
+            filtrarSubCategoriasYArticulosNoEliminados(categoria);
         }
 
         return categoriaMapper.toDTOsList(categoriasFiltradas);
+    }
+
+    private void filtrarSubCategoriasYArticulosNoEliminados(Categoria categoria) {
+        Set<Categoria> subCategoriasNoEliminadas = categoria.getSubCategorias().stream()
+                .filter(subCategoria -> !subCategoria.isEliminado())
+                .collect(Collectors.toSet());
+
+        categoria.setSubCategorias(subCategoriasNoEliminadas);
+
+        for (Categoria subCategoria : subCategoriasNoEliminadas) {
+            filtrarSubCategoriasYArticulosNoEliminados(subCategoria);
+        }
+
+        // Filtrar artículos no eliminados y con precio de venta mayor que 0
+        Set<Articulo> articulosFiltrados = categoria.getArticulos().stream()
+                .filter(articulo -> !articulo.isEliminado() && articulo.getPrecioVenta() > 0)
+                .collect(Collectors.toSet());
+
+        categoria.setArticulos(articulosFiltrados);
     }
 
     public Set<CategoriaDTO> listCategoriasByEmpresaId(Long id) {

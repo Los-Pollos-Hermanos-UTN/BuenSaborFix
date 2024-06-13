@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -97,15 +98,27 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         pedidoDTO.setHoraEstimadaFinalizacion(horaEstimadaFinalizacion);
         pedidoDTO.setTotalCosto(totalCost);
 
+        Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
+
         if (stockSuficiente) {
             restarStock(pedidoDTO);
-            pedidoDTO.setEstado(Estado.PENDIENTE);
+            pedido.setEstado(Estado.PENDIENTE);
+
+            // Crear la factura
+            Factura factura = Factura.builder()
+                    .fechaFcturacion(LocalDate.now())
+                    .formaPago(pedidoDTO.getFormaPago())
+                    .totalVenta(pedidoDTO.getTotal())
+                    .build();
+
+            // Asociar la factura con el pedido
+            pedido.setFactura(factura);
         } else {
-            pedidoDTO.setEstado(Estado.RECHAZADO);
+            pedido.setEstado(Estado.RECHAZADO);
         }
 
-        Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
-        return pedidoMapper.toDTO(pedidoRepository.save(pedido));
+        pedido = pedidoRepository.save(pedido);
+        return pedidoMapper.toDTO(pedido);
     }
 
     private void restarStock(PedidoDTO pedidoDTO) {
@@ -131,7 +144,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         }
     }
 
-    public List<PedidoDTO> listPedidosByCliente(Long id){
+    public List<PedidoDTO> listPedidosByCliente(Long id) {
         return pedidoMapper.toDTOsList(pedidoRepository.findByClienteIdAndEliminadoFalse(id));
     }
 
