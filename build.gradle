@@ -28,6 +28,11 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	implementation 'com.itextpdf:itext7-core:7.1.15'
+
+	//MERCADOPAGO
+	implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.1.24'
+
 	//CLOUDINARY
 	// https://mvnrepository.com/artifact/com.cloudinary/cloudinary
 	implementation 'com.cloudinary:cloudinary-http44:1.36.0'

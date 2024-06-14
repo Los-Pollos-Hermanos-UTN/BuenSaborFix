@@ -7,10 +7,11 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository <E extends Base, ID extends Serializable> extends JpaRepository<E, ID> {
     @Query("SELECT e FROM #{#entityName} e WHERE e.eliminado = false")
     List<E> findAllNotDeleted();
-
+    Optional<E> findById(ID id);
 }

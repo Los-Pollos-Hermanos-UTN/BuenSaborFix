@@ -50,6 +50,15 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         return pedidoDTOS;
     }
 
+    public PedidoDTO findById(Long id) throws Exception {
+        try {
+            Pedido pedido = baseService.findById(id);
+            return pedidoMapper.toDTO(pedido);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
     @Transactional
     public PedidoDTO editPedidoDTO(Long id, PedidoDTO pedidoDTO) throws Exception {
         Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
