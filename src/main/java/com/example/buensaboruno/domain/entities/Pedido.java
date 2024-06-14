@@ -49,7 +49,7 @@ public class Pedido extends Base {
     @JsonBackReference
     private Cliente cliente;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pedido_id")
     @Builder.Default
     private Set<DetallePedido> detallePedidos = new HashSet<>();

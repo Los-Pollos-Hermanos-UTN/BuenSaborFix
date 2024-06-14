@@ -12,7 +12,9 @@ import com.example.buensaboruno.domain.dtos.EmpresaDTO;
 import com.example.buensaboruno.domain.dtos.PromocionDTO;
 import com.example.buensaboruno.domain.entities.Cliente;
 import com.example.buensaboruno.domain.entities.Empresa;
+import com.example.buensaboruno.domain.entities.Pedido;
 import com.example.buensaboruno.repositories.ClienteRepository;
+import com.example.buensaboruno.repositories.PedidoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long> implements ClienteFacade {
@@ -41,6 +45,8 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public ClienteDTO mapperJson(String clienteJson) {
         try {
@@ -60,6 +66,8 @@ public class ClienteFacadeImpl extends BaseFacadeImpl<Cliente, ClienteDTO, Long>
 
     public ClienteDTO editCliente(ClienteDTO clienteDTO, Long id){
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
+        List<Pedido> pedidos = pedidoRepository.findByClienteIdAndEliminadoFalse(cliente.getId());
+        cliente.setPedidos(pedidos.stream().collect(Collectors.toSet()));
         try {
             cliente = clienteServiceImpl.editCliente(cliente, id);
             return clienteMapper.toDTO(cliente);
