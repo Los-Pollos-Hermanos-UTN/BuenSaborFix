@@ -48,7 +48,7 @@ public class Cliente extends Base {
     @NotAudited
     protected Set<Domicilio> domicilios = new HashSet<>();
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @Builder.Default
     @JsonManagedReference
     private Set<Pedido> pedidos = new HashSet<>();
