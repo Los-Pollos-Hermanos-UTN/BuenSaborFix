@@ -25,6 +25,8 @@ public class Cliente extends Base {
     protected String nombre;
     protected String apellido;
     protected String telefono;
+
+    @Column(unique = true, nullable = false)
     protected String email;
     protected LocalDate fechaNac;
 
