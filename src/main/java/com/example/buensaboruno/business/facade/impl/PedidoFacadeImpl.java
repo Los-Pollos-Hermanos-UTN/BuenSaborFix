@@ -5,6 +5,7 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.mapper.PedidoMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
+import com.example.buensaboruno.business.services.impl.PdfService;
 import com.example.buensaboruno.business.services.impl.PedidoServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.entities.*;
@@ -16,6 +17,10 @@ import com.example.buensaboruno.repositories.ArticuloRepository;
 import com.example.buensaboruno.repositories.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,6 +45,11 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
 
     @Autowired
     private PedidoServiceImpl pedidoServiceImpl;
+
+    @Autowired
+    private PdfService pdfService;
+
+    private JavaMailSender mailSender;
 
 
     @Autowired
@@ -113,6 +123,11 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
 
             // Asociar la factura con el pedido
             pedido.setFactura(factura);
+            // Generar el PDF
+            byte[] pdfBytes = pdfService.generateInvoicePdf(pedido);
+
+            // Enviar el correo electrónico con el PDF adjunto
+            sendInvoiceEmail(pedido.getCliente().getEmail(), pdfBytes);
         } else {
             pedido.setEstado(Estado.RECHAZADO);
         }
@@ -142,6 +157,17 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
                 articuloInsumoRepository.save(articuloInsumo.get());
             }
         }
+    }
+
+    private void sendInvoiceEmail(String to, byte[] pdfBytes) {
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+            message.setTo(to);
+            message.setSubject("Factura de su Pedido");
+            message.setText("Adjunto encontrará la factura de su pedido.");
+            message.addAttachment("Factura.pdf", new ByteArrayResource(pdfBytes));
+        };
+        mailSender.send(preparator);
     }
 
     public List<PedidoDTO> listPedidosByCliente(Long id) {
