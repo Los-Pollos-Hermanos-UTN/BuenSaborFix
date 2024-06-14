@@ -5,7 +5,6 @@ import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.mapper.PedidoMapper;
 import com.example.buensaboruno.business.services.base.BaseService;
-import com.example.buensaboruno.business.services.impl.PdfService;
 import com.example.buensaboruno.business.services.impl.PedidoServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
 import com.example.buensaboruno.domain.entities.*;
@@ -13,14 +12,9 @@ import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
-import com.example.buensaboruno.repositories.ArticuloRepository;
 import com.example.buensaboruno.repositories.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,6 +24,7 @@ import java.util.Optional;
 
 @Service
 public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> implements PedidoFacade {
+
     public PedidoFacadeImpl(BaseService<Pedido, Long> baseService, BaseMapper<Pedido, PedidoDTO> baseMapper){
         super(baseService, baseMapper);
     }
@@ -47,21 +42,24 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
     private PedidoServiceImpl pedidoServiceImpl;
 
     @Autowired
-    private PdfService pdfService;
-
-    private JavaMailSender mailSender;
-
-
-    @Autowired
     private PedidoMapper pedidoMapper;
 
     public List<PedidoDTO> findPedidosByEmpresaId(Long empresaId) {
-        List<PedidoDTO> pedidoDTOS = pedidoMapper.toDTOsList(pedidoRepository.findByEmpresaId(empresaId));
-        return pedidoDTOS;
+        return pedidoMapper.toDTOsList(pedidoRepository.findByEmpresaId(empresaId));
     }
 
     @Transactional
     public PedidoDTO editPedidoDTO(Long id, PedidoDTO pedidoDTO) throws Exception {
+        Pedido existingPedido = pedidoRepository.findById(id).orElseThrow(() -> new Exception("Pedido no encontrado"));
+
+        if (pedidoDTO.getEstado() == Estado.CANCELADO || pedidoDTO.getEstado() == Estado.RECHAZADO) {
+            if (existingPedido.getEstado() == Estado.PENDIENTE) {
+                sumarStock(existingPedido);
+            } else if (existingPedido.getEstado() == Estado.PREPARACION) {
+                throw new Exception("No se puede cancelar o rechazar un pedido en preparación");
+            }
+        }
+
         Pedido pedido = pedidoMapper.toEntity(pedidoDTO);
         pedido = pedidoServiceImpl.update(id, pedido);
         return pedidoMapper.toDTO(pedido);
@@ -71,14 +69,12 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
     public PedidoDTO createPedido(PedidoDTO pedidoDTO) throws Exception {
         int totalMinutes = 0;
         double totalCost = 0D;
+        boolean stockSuficiente = true;
 
         if (pedidoDTO.getTipoEnvio().equals(TipoEnvio.DELIVERY)) {
             totalMinutes += 10;
         }
 
-        boolean stockSuficiente = true;
-
-        // Verificar stock y calcular tiempo estimado y costo total
         for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()) {
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
             Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
@@ -89,7 +85,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
                 for (ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()) {
                     totalCost += articuloManufacturadoDetalle.getArticuloInsumo().getPrecioCompra() * articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
                     double stock = articuloManufacturadoDetalle.getArticuloInsumo().getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
-                    if (stock <= 0) {
+                    if (stock < 0) {
                         stockSuficiente = false;
                     }
                 }
@@ -98,7 +94,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
             if (articuloInsumo.isPresent() && !articuloInsumo.get().getEsParaElaborar()) {
                 totalCost += articuloInsumo.get().getPrecioCompra() * detallePedidoDTO.getCantidad();
                 double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
-                if (stock <= 0) {
+                if (stock < 0) {
                     stockSuficiente = false;
                 }
             }
@@ -114,20 +110,13 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
             restarStock(pedidoDTO);
             pedido.setEstado(Estado.PENDIENTE);
 
-            // Crear la factura
             Factura factura = Factura.builder()
                     .fechaFcturacion(LocalDate.now())
                     .formaPago(pedidoDTO.getFormaPago())
                     .totalVenta(pedidoDTO.getTotal())
                     .build();
 
-            // Asociar la factura con el pedido
             pedido.setFactura(factura);
-            // Generar el PDF
-            byte[] pdfBytes = pdfService.generateInvoicePdf(pedido);
-
-            // Enviar el correo electrónico con el PDF adjunto
-            sendInvoiceEmail(pedido.getCliente().getEmail(), pdfBytes);
         } else {
             pedido.setEstado(Estado.RECHAZADO);
         }
@@ -159,19 +148,30 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         }
     }
 
-    private void sendInvoiceEmail(String to, byte[] pdfBytes) {
-        MimeMessagePreparator preparator = mimeMessage -> {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
-            message.setTo(to);
-            message.setSubject("Factura de su Pedido");
-            message.setText("Adjunto encontrará la factura de su pedido.");
-            message.addAttachment("Factura.pdf", new ByteArrayResource(pdfBytes));
-        };
-        mailSender.send(preparator);
+    private void sumarStock(Pedido pedido) {
+        for (DetallePedido detallePedido : pedido.getDetallePedidos()) {
+            Articulo articulo = detallePedido.getArticulo();
+            Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
+            Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
+
+            if (articuloManufacturado.isPresent()) {
+                for (ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()) {
+                    ArticuloInsumo articuloInsumo1 = articuloManufacturadoDetalle.getArticuloInsumo();
+                    double stock = articuloInsumo1.getStockActual() + articuloManufacturadoDetalle.getCantidad() * detallePedido.getCantidad();
+                    articuloInsumo1.setStockActual(stock);
+                    articuloInsumoRepository.save(articuloInsumo1);
+                }
+            }
+
+            if (articuloInsumo.isPresent() && !articuloInsumo.get().getEsParaElaborar()) {
+                double stock = articuloInsumo.get().getStockActual() + detallePedido.getCantidad();
+                articuloInsumo.get().setStockActual(stock);
+                articuloInsumoRepository.save(articuloInsumo.get());
+            }
+        }
     }
 
     public List<PedidoDTO> listPedidosByCliente(Long id) {
         return pedidoMapper.toDTOsList(pedidoRepository.findByClienteIdAndEliminadoFalse(id));
     }
-
 }
