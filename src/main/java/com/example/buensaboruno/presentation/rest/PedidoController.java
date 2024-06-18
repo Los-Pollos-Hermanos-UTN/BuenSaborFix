@@ -62,9 +62,9 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
         }
     }
 
-    @GetMapping(value = "/listByDay", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PedidoDTO>> listPedidosByDay(@RequestParam LocalDate fecha){
-        List<PedidoDTO> pedidos = pedidoFacadeImpl.listPedidosByDay(fecha);
+    @GetMapping(value = "/empresa/{id}/listByDay", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PedidoDTO>> listPedidosByDay(@RequestParam LocalDate fecha, @PathVariable Long id){
+        List<PedidoDTO> pedidos = pedidoFacadeImpl.listPedidosByDay(fecha, id);
         if(pedidos.isEmpty()){
             return new ResponseEntity<>(pedidos, HttpStatus.NO_CONTENT);
         }else{

@@ -30,5 +30,6 @@ public interface PedidoRepository extends BaseRepository<Pedido,Long> {
 
     List<Pedido> findByClienteIdAndEliminadoFalse(Long clienteId);
 
-    List<Pedido> findByFechaPedido(LocalDate fecha);
+    @Query("SELECT p FROM Pedido p WHERE p.fechaPedido = :fechaPedido AND p.sucursal.empresa.id = :empresaId")
+    List<Pedido> findByFechaPedidoAndEmpresaId(@Param("fechaPedido") LocalDate fechaPedido, @Param("empresaId") Long empresaId);
 }

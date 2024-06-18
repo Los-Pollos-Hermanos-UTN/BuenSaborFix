@@ -176,7 +176,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         return pedidoMapper.toDTOsList(pedidoRepository.findByClienteIdAndEliminadoFalse(id));
     }
 
-    public List<PedidoDTO> listPedidosByDay(LocalDate fecha){
-        return pedidoMapper.toDTOsList(pedidoRepository.findByFechaPedido(fecha));
+    public List<PedidoDTO> listPedidosByDay(LocalDate fecha, Long id){
+        return pedidoMapper.toDTOsList(pedidoRepository.findByFechaPedidoAndEmpresaId(fecha, id));
     }
 }
