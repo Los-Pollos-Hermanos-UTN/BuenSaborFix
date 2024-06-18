@@ -58,6 +58,18 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         return pedidoMapper.toDTOsList(pedidoRepository.findByEmpresaId(empresaId));
     }
 
+    @Transactional
+    public boolean cancelarPedido(Long id){
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        if(pedido.isPresent()){
+            pedido.get().setEstado(Estado.CANCELADO);
+            sumarStock(pedido.get());
+            pedidoRepository.save(pedido.get());
+            return true;
+        }
+        return false;
+    }
+
     public PedidoDTO findById(Long id) throws Exception {
         try {
             Pedido pedido = baseService.findById(id);
@@ -157,6 +169,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         return pedidoMapper.toDTO(pedido);
     }
 
+    @Transactional
     private void restarStock(PedidoDTO pedidoDTO) {
         for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()) {
             ArticuloDTO articulo = detallePedidoDTO.getArticulo();
@@ -180,6 +193,7 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         }
     }
 
+    @Transactional
     private void sumarStock(Pedido pedido) {
         for (DetallePedido detallePedido : pedido.getDetallePedidos()) {
             Articulo articulo = detallePedido.getArticulo();

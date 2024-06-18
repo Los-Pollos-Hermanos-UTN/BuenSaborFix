@@ -33,6 +33,9 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
     private PedidoFacadeImpl pedidoFacadeImpl;
 
     @Autowired
+    private FacturaFacadeImpl facturaFacadeImpl;
+
+    @Autowired
     private PdfService pdfService;
 
     @GetMapping(value = "/listByEmpresa/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,12 +74,15 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
         }
     }
 
-
-    @Autowired
-    private FacturaFacadeImpl facturaFacadeImpl; // Inyecta el Facade de Factura
-
-
-
+    @PutMapping(value = "/cancelar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> cancelar(@PathVariable Long id) {
+        boolean cancelar = pedidoFacadeImpl.cancelarPedido(id);
+        if(cancelar){
+            return new ResponseEntity<>("Pedido cancelado con exito", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Hubo un problema a la hora de cancelar el pedido", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping(value = "/{id}/factura", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FacturaDTO> getFacturaByPedidoId(@PathVariable Long id) {
