@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
         }
     }
 
-    @PutMapping(value = "edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/edit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> editPedido(@PathVariable Long id, @RequestBody PedidoDTO pedidoDTO){
         try{
             PedidoDTO editedPedidoDTO = pedidoFacadeImpl.editPedidoDTO(id, pedidoDTO);
@@ -54,11 +55,22 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
     @GetMapping("/cliente/{clienteId}")
     public ResponseEntity<List<PedidoDTO>> getPedidosByClienteId(@PathVariable Long clienteId) {
         List<PedidoDTO> pedidos = pedidoFacadeImpl.listPedidosByCliente(clienteId);
-        if (pedidos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(pedidos);
+        if(pedidos.isEmpty()){
+            return new ResponseEntity<>(pedidos, HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(pedidos, HttpStatus.OK);
         }
     }
+
+    @GetMapping(value = "/listByDay", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PedidoDTO>> listPedidosByDay(@RequestParam LocalDate fecha){
+        List<PedidoDTO> pedidos = pedidoFacadeImpl.listPedidosByDay(fecha);
+        if(pedidos.isEmpty()){
+            return new ResponseEntity<>(pedidos, HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(pedidos, HttpStatus.OK);
+        }
+    }
+
 
 }
