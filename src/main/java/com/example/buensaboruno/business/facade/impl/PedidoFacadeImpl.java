@@ -4,9 +4,12 @@ import com.example.buensaboruno.business.facade.PedidoFacade;
 import com.example.buensaboruno.business.facade.base.BaseFacadeImpl;
 import com.example.buensaboruno.business.mapper.base.BaseMapper;
 import com.example.buensaboruno.business.mapper.PedidoMapper;
+import com.example.buensaboruno.business.services.EmailService;
+import com.example.buensaboruno.business.services.PdfService;
 import com.example.buensaboruno.business.services.base.BaseService;
 import com.example.buensaboruno.business.services.impl.PedidoServiceImpl;
 import com.example.buensaboruno.domain.dtos.*;
+import com.example.buensaboruno.domain.dtos.shortDTO.ClienteShortDTO;
 import com.example.buensaboruno.domain.entities.*;
 import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
@@ -17,6 +20,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -43,6 +47,12 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
 
     @Autowired
     private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private PdfService pdfService;
+
+    @Autowired
+    private EmailService emailService;
 
     public List<PedidoDTO> findPedidosByEmpresaId(Long empresaId) {
         return pedidoMapper.toDTOsList(pedidoRepository.findByEmpresaId(empresaId));
@@ -126,11 +136,24 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
                     .build();
 
             pedido.setFactura(factura);
+
+            // Guardar el pedido y generar el PDF de la factura
+            pedido = pedidoRepository.save(pedido);
+            FacturaDTO facturaDTO = new FacturaDTO();
+            facturaDTO.setFechaFcturacion(LocalDate.now());
+            facturaDTO.setFormaPago(pedidoDTO.getFormaPago());
+            facturaDTO.setTotalVenta(pedidoDTO.getTotal());
+
+            ByteArrayInputStream pdfStream = pdfService.generateFacturaPDF(facturaDTO, pedidoMapper.toDTO(pedido));
+
+            // Enviar el correo con la factura en PDF
+            ClienteShortDTO clienteDTO = pedidoDTO.getCliente();
+            emailService.sendEmailWithAttachment(clienteDTO.getEmail(), "Factura de su pedido", "Adjunto encontrará la factura de su pedido.", pdfStream, "factura_" + pedido.getId() + ".pdf");
+
         } else {
             pedido.setEstado(Estado.RECHAZADO);
         }
 
-        pedido = pedidoRepository.save(pedido);
         return pedidoMapper.toDTO(pedido);
     }
 
