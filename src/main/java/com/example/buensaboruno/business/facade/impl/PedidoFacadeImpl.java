@@ -60,6 +60,8 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
             if (existingPedido.getEstado() == Estado.CANCELADO || existingPedido.getEstado() == Estado.RECHAZADO) {
                 if(isStockSufficient(pedidoMapper.toDTO(existingPedido))){
                     restarStock(pedidoMapper.toDTO(existingPedido));
+                }else{
+                    pedidoDTO.setEstado(Estado.RECHAZADO);
                 }
             }
         }
