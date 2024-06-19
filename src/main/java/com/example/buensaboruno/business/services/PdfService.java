@@ -67,7 +67,7 @@ public class PdfService {
                     .setBorder(Border.NO_BORDER);
             table.addCell(cell);
 
-            cell = new Cell().add(new Paragraph("")
+            cell = new Cell().add(new Paragraph("FORMA DE PAGO")
                             .setBold())
                     .setBorder(Border.NO_BORDER);
             table.addCell(cell);
@@ -81,7 +81,7 @@ public class PdfService {
                     .setBorder(Border.NO_BORDER);
             table.addCell(cell);
 
-            cell = new Cell().add(new Paragraph("").setMarginBottom(20))
+            cell = new Cell().add(new Paragraph(String.valueOf(pedido.getFormaPago())).setMarginBottom(20))
                     .setBorder(Border.NO_BORDER);
             table.addCell(cell);
 
@@ -119,14 +119,23 @@ public class PdfService {
             table.addHeaderCell(new Cell().add(new Paragraph("PRECIO UNITARIO").setBold()));
             table.addHeaderCell(new Cell().add(new Paragraph("IMPORTE").setBold()));
 
+
+            double suma = 0;
             for (DetallePedidoDTO detalle : pedido.getDetallePedidos()) {
                 table.addCell(new Cell().add(new Paragraph(String.valueOf(detalle.getCantidad()))));
                 table.addCell(new Cell().add(new Paragraph(detalle.getArticulo().getDenominacion())));
                 table.addCell(new Cell().add(new Paragraph(String.valueOf(detalle.getArticulo().getPrecioVenta()))));
                 table.addCell(new Cell().add(new Paragraph(String.valueOf(detalle.getArticulo().getPrecioVenta() * detalle.getCantidad()))));
+                suma += detalle.getArticulo().getPrecioVenta() * detalle.getCantidad();
             }
 
-            table.addCell(new Cell(1, 3).add(new Paragraph("TOTAL")).setBold().setTextAlignment(TextAlignment.RIGHT));
+            if (suma > factura.getTotalVenta()){
+                table.addCell(new Cell(1, 3).add(new Paragraph("TOTAL (Incluye Descuentos)")).setBold().setTextAlignment(TextAlignment.RIGHT));
+
+            } else {
+                table.addCell(new Cell(1, 3).add(new Paragraph("TOTAL")).setBold().setTextAlignment(TextAlignment.RIGHT));
+
+            }
             table.addCell(new Cell().add(new Paragraph(String.valueOf(factura.getTotalVenta()))));
 
             document.add(table);
