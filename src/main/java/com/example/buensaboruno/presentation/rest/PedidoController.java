@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -48,7 +49,7 @@ public class PedidoController extends BaseControllerImpl<Pedido, PedidoDTO, Long
             PedidoDTO editedPedidoDTO = pedidoFacadeImpl.editPedidoDTO(id, pedidoDTO);
             return new ResponseEntity<>(editedPedidoDTO, HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\" "+ e.getMessage() + "\"}");
         }
     }
 

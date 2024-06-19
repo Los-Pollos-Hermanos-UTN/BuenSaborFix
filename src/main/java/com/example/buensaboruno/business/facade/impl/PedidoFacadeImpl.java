@@ -12,7 +12,6 @@ import com.example.buensaboruno.domain.enums.Estado;
 import com.example.buensaboruno.domain.enums.TipoEnvio;
 import com.example.buensaboruno.repositories.ArticuloInsumoRepository;
 import com.example.buensaboruno.repositories.ArticuloManufacturadoRepository;
-import com.example.buensaboruno.repositories.ArticuloRepository;
 import com.example.buensaboruno.repositories.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import java.util.Optional;
 @Service
 public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> implements PedidoFacade {
 
-    public PedidoFacadeImpl(BaseService<Pedido, Long> baseService, BaseMapper<Pedido, PedidoDTO> baseMapper){
+    public PedidoFacadeImpl(BaseService<Pedido, Long> baseService, BaseMapper<Pedido, PedidoDTO> baseMapper) {
         super(baseService, baseMapper);
     }
 
@@ -56,8 +55,12 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         if (pedidoDTO.getEstado() == Estado.CANCELADO || pedidoDTO.getEstado() == Estado.RECHAZADO) {
             if (existingPedido.getEstado() == Estado.PENDIENTE) {
                 sumarStock(existingPedido);
-            } else if (existingPedido.getEstado() == Estado.PREPARACION) {
-                throw new Exception("No se puede cancelar o rechazar un pedido en preparación");
+            }
+        } else if (pedidoDTO.getEstado() == Estado.PENDIENTE) {
+            if (existingPedido.getEstado() == Estado.CANCELADO || existingPedido.getEstado() == Estado.RECHAZADO) {
+                if(isStockSufficient(pedidoMapper.toDTO(existingPedido))){
+                    restarStock(pedidoMapper.toDTO(existingPedido));
+                }
             }
         }
 
@@ -172,11 +175,36 @@ public class PedidoFacadeImpl extends BaseFacadeImpl<Pedido, PedidoDTO, Long> im
         }
     }
 
+    private boolean isStockSufficient(PedidoDTO pedidoDTO) {
+        for (DetallePedidoDTO detallePedidoDTO : pedidoDTO.getDetallePedidos()) {
+            ArticuloDTO articulo = detallePedidoDTO.getArticulo();
+            Optional<ArticuloManufacturado> articuloManufacturado = articuloManufacturadoRepository.findById(articulo.getId());
+            Optional<ArticuloInsumo> articuloInsumo = articuloInsumoRepository.findById(articulo.getId());
+
+            if (articuloManufacturado.isPresent()) {
+                for (ArticuloManufacturadoDetalle articuloManufacturadoDetalle : articuloManufacturado.get().getArticuloManufacturadoDetalles()) {
+                    double stock = articuloManufacturadoDetalle.getArticuloInsumo().getStockActual() - articuloManufacturadoDetalle.getCantidad() * detallePedidoDTO.getCantidad();
+                    if (stock < 0) {
+                        return false;
+                    }
+                }
+            }
+
+            if (articuloInsumo.isPresent() && !articuloInsumo.get().getEsParaElaborar()) {
+                double stock = articuloInsumo.get().getStockActual() - detallePedidoDTO.getCantidad();
+                if (stock < 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public List<PedidoDTO> listPedidosByCliente(Long id) {
         return pedidoMapper.toDTOsList(pedidoRepository.findByClienteIdAndEliminadoFalse(id));
     }
 
-    public List<PedidoDTO> listPedidosByDay(LocalDate fecha, Long id){
+    public List<PedidoDTO> listPedidosByDay(LocalDate fecha, Long id) {
         return pedidoMapper.toDTOsList(pedidoRepository.findByFechaPedidoAndEmpresaId(fecha, id));
     }
 }
