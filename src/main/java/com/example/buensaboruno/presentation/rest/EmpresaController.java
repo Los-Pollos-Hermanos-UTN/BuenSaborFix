@@ -9,6 +9,7 @@ import com.example.buensaboruno.domain.entities.Empresa;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import com.example.buensaboruno.repositories.EmpresaRepository;
 import com.example.buensaboruno.utils.Autenticator;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -68,6 +69,16 @@ public class EmpresaController extends BaseControllerImpl<Empresa, EmpresaDTO, L
         try {
             facade.deleteShort(id);
             return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/short/cliente")
+    @PermitAll
+    public ResponseEntity<List<EmpresaShortDTO>> getAllShortCliente() {
+        try {
+            return ResponseEntity.ok(facade.findAllShort());
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

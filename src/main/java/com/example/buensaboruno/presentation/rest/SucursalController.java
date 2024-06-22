@@ -11,6 +11,7 @@ import com.example.buensaboruno.domain.entities.ImagenSucursal;
 import com.example.buensaboruno.domain.entities.Sucursal;
 import com.example.buensaboruno.presentation.base.BaseControllerImpl;
 import com.example.buensaboruno.repositories.SucursalRepository;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
