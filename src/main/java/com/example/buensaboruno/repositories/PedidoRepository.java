@@ -20,13 +20,16 @@ public interface PedidoRepository extends BaseRepository<Pedido,Long> {
 
     @Query("SELECT new com.example.buensaboruno.domain.dtos.TopSellingProductDTO(a.denominacion, SUM(dp.cantidad)) " +
             "FROM Pedido p JOIN p.detallePedidos dp JOIN dp.articulo a " +
+            "WHERE p.sucursal.empresa.id = :empresaId " +
             "GROUP BY a.denominacion ORDER BY SUM(dp.cantidad) DESC")
-    List<TopSellingProductDTO> findTopSellingProducts(Pageable pageable);
+    List<TopSellingProductDTO> findTopSellingProducts(@Param("empresaId") Long empresaId, Pageable pageable);
 
     @Query("SELECT new com.example.buensaboruno.domain.dtos.OrdersByCategoryDTO(c.denominacion, COUNT(p)) " +
             "FROM Pedido p JOIN p.detallePedidos dp JOIN dp.articulo a JOIN a.categoria c " +
+            "WHERE p.sucursal.empresa.id = :empresaId " +
             "GROUP BY c.denominacion ORDER BY COUNT(p) DESC")
-    List<OrdersByCategoryDTO> findOrdersByCategory();
+    List<OrdersByCategoryDTO> findOrdersByCategory(@Param("empresaId") Long empresaId);
+
 
     List<Pedido> findByClienteIdAndEliminadoFalse(Long clienteId);
 

@@ -25,16 +25,19 @@ public class ReportController {
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
 
-    @GetMapping(value = "/top-selling-products", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProducts(@RequestParam(defaultValue = "5") int limit) {
+    @GetMapping(value = "/empresa/{id}/top-selling-products", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TopSellingProductDTO>> getTopSellingProducts(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "5") int limit) {
         Pageable pageable = PageRequest.of(0, limit); // Página 0, con el límite especificado
-        List<TopSellingProductDTO> topSellingProducts = pedidoRepository.findTopSellingProducts(pageable);
+        List<TopSellingProductDTO> topSellingProducts = pedidoRepository.findTopSellingProducts(id, pageable);
         return new ResponseEntity<>(topSellingProducts, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/orders-by-category", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<OrdersByCategoryDTO>> getOrdersByCategory() {
-        List<OrdersByCategoryDTO> ordersByCategory = pedidoRepository.findOrdersByCategory();
+    @GetMapping(value = "/empresa/{id}/orders-by-category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<OrdersByCategoryDTO>> getOrdersByCategory(
+            @PathVariable Long id) {
+        List<OrdersByCategoryDTO> ordersByCategory = pedidoRepository.findOrdersByCategory(id);
         logger.info("Orders by category: {}", ordersByCategory); // Log the result
         return new ResponseEntity<>(ordersByCategory, HttpStatus.OK);
     }
